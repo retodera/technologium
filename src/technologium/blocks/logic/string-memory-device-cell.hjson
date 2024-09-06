@@ -1,0 +1,11 @@
+type: StringMemoryBlock
+name: Строчное запоминающее устройство
+description: Хранит в себе текст для передачи между процессорами.
+details: "это издавна было моей мечтой. и вот, я наконец сделал это. Я ВОПЛОТИЛ СВОЮ МЕЧТУ В ЖИЗНЬ!!! (с) [#af]retodera"
+size: 1
+StringMemoryCapacity: 128
+requirements: [
+ dark-metal/25
+ aluminium/10
+]
+category: logic

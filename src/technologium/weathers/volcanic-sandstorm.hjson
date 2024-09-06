@@ -1,0 +1,18 @@
+type: ParticleWeather
+name: Вулканический песчаный шторм
+color: 2e1919
+noiseColor: 2e1919
+drawNoise: true
+particleRegion: particle
+useWindVector: true
+sizeMax: 150
+sizeMin: 75
+minAlpha: 0
+maxAlpha: 0.3
+density: 2100
+baseSpeed: 7
+opacityMultiplier: 0.35
+force: 0.1
+sound: wind
+soundVol: 0.8
+duration: 4200

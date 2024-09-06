@@ -1,0 +1,10 @@
+type: MemoryBlock
+name: Запоминающее устройство
+description: Хранит в себе численные значения. Способ обмена данных между процессорами.
+size: 1
+memoryCapacity: 128
+requirements: [
+ dark-metal/25
+ aluminium/10
+]
+category: logic

@@ -1,0 +1,14 @@
+type: LiquidRouter
+name: Усовершенствованный жидкостный резервуар
+description: Хранит большое количество жидкости. Может принимать и выводить жидкости со всех сторон.
+size: 2
+requirements: [
+ dark-metal/24
+ aluminium/12
+ gold-glass/40
+]
+solid: true
+health: 250
+liquidCapacity: 2000
+research: improved-liquid-router
+category: liquid

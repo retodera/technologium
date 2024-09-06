@@ -1,0 +1,14 @@
+type: LiquidRouter
+name: Усовершенствованный жидкостный маршрутизатор
+description: Равномерно распределяет входящие жидкости в 3 выхода.
+size: 1
+requirements: [
+ dark-metal/8
+ gold-glass/4
+]
+solid: false
+underBullets: true
+health: 75
+liquidCapacity: 15
+research: improved-pipe
+category: liquid

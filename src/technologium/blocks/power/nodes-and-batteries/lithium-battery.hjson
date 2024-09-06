@@ -1,0 +1,13 @@
+type: battery
+name: Литиевая батарея
+description: Небольшая батарея, хранящая немало энергии.
+size: 1
+research: dark-power-node
+researchCostMultiplier: 2
+health: 140
+requirements: [
+ hematite/20
+ lithium/10
+]
+consumes: { powerBuffered: 7500 }
+category: power

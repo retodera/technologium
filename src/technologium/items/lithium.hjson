@@ -1,0 +1,11 @@
+name: Литий
+description: Этот материал является основой улучшенных энергетических блоков.
+details: Хорошо справляется с хранением энергии, но не рекомендуется помещать в воду.
+charge: 0.55
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+hardness: 2
+color: ff0099
+cost: 2
+research: nickel

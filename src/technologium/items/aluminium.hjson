@@ -1,0 +1,9 @@
+name: Алюминий
+description: Переплавленный боксит. Лёгкий и прочный материал.
+details: Алюминий крайне полезен в авиации. Рекомендуется создавать воздушные единицы именно из него.
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+color: DEDEDEFF
+cost: 3
+research: bauxite

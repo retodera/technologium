@@ -1,0 +1,17 @@
+type: LogicBlock
+name: Плазменный процессор
+description: Выполняет логические инструкции. Требует энергию для работы. Быстрее энергетического процессора.
+instructionsPerTick: 35
+size: 2
+squareSprite: false
+hasEnergy: true
+consumes: {
+ power: 1.5
+}
+requirements: [
+ dark-metal/40
+ aluminium/55
+ lithium/24
+ trained-neoplasm/1
+]
+category: logic 

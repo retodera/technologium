@@ -1,0 +1,12 @@
+type: Unloader
+name: Тёмный разгрузчик
+description: Извлекает предметы из близлежащих построек. Может хранить предметы.
+size: 1
+itemCapacity: 10
+speed: 1
+research: dark-container
+requirements: [
+ dark-metal/10
+ aluminium/20
+]
+category: effect

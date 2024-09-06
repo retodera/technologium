@@ -1,0 +1,10 @@
+name: Боксит
+description: Сырой алюминий. Можно переплавить при помощи Алюминиевой кузни для получения Алюминия.
+details: Неизвестно, как этот материал тут появился. Возможно, астероиды?
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+hardness: 3
+color: 703A23FF
+cost: 2
+research: tin

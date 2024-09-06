@@ -1,0 +1,14 @@
+type: StorageBlock
+name: Тёмный контейнер
+description: Хранит немалое количество предметов любого типа. Может расширять вместительность ядра, если поставить рядом с ним. Предметы можно извлекать разгрузчиком.
+size: 2
+hasItems: true
+itemCapacity: 600
+health: 500
+coreMerge: true
+research: dark-conveyor
+requirements: [
+ dark-metal/40
+ aluminium/75
+]
+category: effect

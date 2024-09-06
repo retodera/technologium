@@ -1,0 +1,18 @@
+type: LogicBlock
+name: Энергетический процессор
+description: Выполняет логические инструкции. Требует энергию для работы.
+details: Управляется неоплазмой, но требует энергию... серьёзно?
+instructionsPerTick: 10
+size: 1
+squareSprite: false
+hasEnergy: true
+consumes: {
+ power: 0.5
+}
+requirements: [
+ dark-metal/20
+ aluminium/25
+ lithium/8
+ trained-neoplasm/1
+]
+category: logic 

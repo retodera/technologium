@@ -1,0 +1,95 @@
+generator: ErekirPlanetGenerator
+localizedName: "Венжер"
+description: "Планета, полная опасностей. Крайне не рекомендуется сажаться сюда."
+parent: beled
+solarSystem: beled
+orbitRadius: 25
+hasAtmosphere: true
+defaultEnv: 17
+iconColor: 00ff00
+updateLighting: false
+atmosphereRadIn: 0.02
+atmosphereRadOut: 0.3
+atmosphereColor: 99ff00
+landCloudColor: 99ff00
+drawOrbit: false
+accessible: true
+alwaysUnlocked: true
+visible: true
+minZoom: 1.1
+defaultCore: core-torch
+prebuildBase: false
+allowLaunchSchematics: false
+allowLaunchLoadout: false
+launchCandidates: []
+sectorSeed: 69420
+startSector: 0
+sectorSize: 1
+clearSectorOnLose: true
+allowSectorInvasion: false
+allowLaunchToNumbered: false
+cloudMesh: {
+  type: HexSkyMesh
+  planet: venjer
+  seed: 3
+  speed: 1
+  radius: 0.05
+  divisions: 5
+  color: 99ff00
+  octaves: 2
+  persistence: 1
+  scl: 2
+  thresh: 0.45
+}
+mesh: {
+    type: NoiseMesh
+    planet: kudol
+    seed: 562697
+    color1: 00ff00
+    color2: 00cc00
+    divisions: 5
+    radius: 0.9
+    octaves: 7
+    persistence: 1
+    scl: 0.75
+    mag: 1.2
+}
+hiddenItems: [
+    "copper"
+    "lead"
+    "scrap"
+    "graphite"
+    "coal"
+    "titanium"
+    "thorium"
+    "silicon"
+    "plastanium"
+    "phase-fabric"
+    "surge-alloy"
+    "spore-pod"
+    "blast-compound"
+    "pyratite"
+    "metaglass"
+    "beryllium"
+    "oxide"
+    "tungsten"
+    "carbide"
+    "fissile-matter"
+    "dormant-cyst"
+]
+ruleSetter(venjer): {
+ waveTeam: green
+ placeRangeCheck: false
+ lighting: false
+ fog: true
+ staticFog: true
+ coreDestroyClear: true
+}
+unlockedOnLand(venjer): [
+ core-torch
+]
+research: {
+ planet: venjer
+ root: true
+ name: Венжер
+}

@@ -1,0 +1,9 @@
+type: SwitchBlock
+name: Кнопка
+description: Можно переключать нажатием на блок. Используется в логике.
+size: 1
+requirements: [
+ dark-metal/15
+ tin/25
+]
+category: logic

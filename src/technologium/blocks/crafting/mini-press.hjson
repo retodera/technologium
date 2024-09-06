@@ -1,0 +1,41 @@
+type: GenericCrafter
+name: Мини-пресс
+description: Прессирует золото и алюминий для получения золотого стекла.
+size: 2
+health: 175
+hasPower: true
+hasItems: true
+craftEffect: formsmoke
+consumes: {
+ power: 1.5
+ items: {
+  items: [
+   gold/2
+   aluminium/2
+  ]
+ }
+}
+outputItems: [ gold-glass/1 ]
+craftTime: 120
+drawer: {
+ type: DrawMulti
+ drawers: [
+  {
+   type: DrawRegion
+   suffix: -bottom
+  },
+  {
+   type: DrawPistons
+  },
+  {
+   type: DrawDefault
+  }
+ ]
+}
+requirements: [
+ dark-metal/50
+ aluminium/35
+ lithium/20
+]
+research: small-arc-furnace
+category: crafting

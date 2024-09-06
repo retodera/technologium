@@ -1,0 +1,14 @@
+type: Conduit
+name: Усовершенствованный трубопровод
+description: Транспортирует жидкости в сторону, которую указывает стрелка сверху. Можно размещать поверх глубоких вод.
+health: 60
+requirements: [
+ dark-metal/6
+ gold-glass/4
+]
+leaks: true
+junctionReplacement: improved-liquid-junction
+bridgeReplacement: improved-liquid-bridge
+underBullet: true
+research: core-torch
+category: liquid

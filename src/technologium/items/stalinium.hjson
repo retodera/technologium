@@ -1,0 +1,10 @@
+﻿localizedName: Сталиний
+name: Сталиний
+description: Экстремально прочный материал. Кажется, ничто не сможет его уничтожить...
+details: Был выплавлен во время Второй Кудольской Войны.
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+color: ffffff
+cost: 10
+research: aluminium

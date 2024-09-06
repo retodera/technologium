@@ -1,0 +1,13 @@
+type: LogicDisplay
+name: Устройство цифрового вывода
+description: Выводит на экран всю вводимую информацию. Используется в логике.
+details: Да, для вывода информации на дисплей тоже используется неоплазма.
+size: 4
+displaySize: 112
+requirements: [
+ dark-metal/40
+ aluminium/50
+ lithium/20
+ trained-neoplasm/2
+]
+category: logic

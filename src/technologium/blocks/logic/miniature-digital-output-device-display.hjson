@@ -1,0 +1,13 @@
+type: LogicDisplay
+name: Миниатюрное устройство цифрового вывода
+description: Выводит на экран все вводимые данные. Вводить данные можно при помощи процессора. Миниатюрная версия.
+details: Да, для вывода информации на дисплей тоже используется неоплазма.
+size: 2
+displaySize: 48
+requirements: [
+ dark-metal/20
+ aluminium/25
+ lithium/8
+ trained-neoplasm/1
+]
+category: logic

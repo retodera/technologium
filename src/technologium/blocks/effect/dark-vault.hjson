@@ -1,0 +1,14 @@
+type: StorageBlock
+name: Тёмное хранилище
+description: Хранит большое количество предметов любого типа. Может расширять вместительность ядра, если поставить рядом с ним. Предметы можно извлекать разгрузчиком.
+size: 3
+hasItems: true
+itemCapacity: 1250
+health: 1500
+coreMerge: true
+research: aluminium-container
+requirements: [
+ dark-metal/100
+ aluminium/150
+]
+category: effect

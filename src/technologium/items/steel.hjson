@@ -1,0 +1,10 @@
+﻿localizedName: Сталь
+name: Сталь
+description: Прочный и эластичный материал, способный выдержать длительное воздействие сильных кислот.
+details: ...но настолько ли он прочен?
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+color: ACACAC
+cost: 3
+research: venjer

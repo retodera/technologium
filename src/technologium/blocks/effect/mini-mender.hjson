@@ -1,0 +1,25 @@
+type: MendProjector
+name: Мини-регенератор
+description: Лечит близлежащие блоки при подаче энергии. Может быть ускорен подачей лития.
+health: 150
+size: 1
+range: 20
+reload: 120
+consumes: {
+ power: 1
+ items: {
+  items: [
+   lithium/1
+  ]
+  booster: true
+  optional: true
+ }
+}
+healPercent: 5
+research: lithium-battery
+requirements: [
+ dark-metal/25
+ tin/15
+ lithium/5
+]
+category: effect

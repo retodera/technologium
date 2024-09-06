@@ -1,0 +1,10 @@
+displayName: "[[]#aaccdd]Technologium"
+name: "technologium"
+author: "[[]#ff]retodera"
+main: "technologium.TModLoader"
+description: "<RU>\n[[]#ff]<<Мод требует MultiCrafter Lib!>>[[]]\nОгромный мод, добавляющий большое количество блоков, предметов и юнитов.\nВ моде есть:\n- Новая солнечная система - Белед (Голубой гигант)\n- Кудол (Планета, подобная Эрекиру)\n- Венжер (Кислотная планета) ([[]#ff]WIP!)[[]]\n- Нобата (Газовый гигант) ([[]#ff]WIP!)[[]]\n- Itinbu (Небольшой спутник) ([[]#ff]WIP!)[[]]\n\n<EN>\n[[]#ff]<<Mod requires MultiCrafter Lib!>>[[]]\nA very huge mod that adds lots of blocks, items and units.\nThe mod has:\n- New solar system - Beled (Cyan giant)\n- Kudol (Erekir-like planet)\n- Venjer (Acid planet) ([[]#ff]WIP!)[[]]\n- Nobata (Gas giant) ([[]#ff]WIP!)[[]]\n- Itinbu (Small sattelite) ([[]#ff]WIP!)[[]]"
+subtitle: "let it grow..."
+version: 0.3
+minGameVersion: 145
+dependencies: ["multi-crafter"]
+java: true

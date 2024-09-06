@@ -1,0 +1,71 @@
+type: multicraft.MultiCrafter
+name: Малая дуговая печь
+description: Может переплавлять боксит и гематит в соответствующие металлы.
+size: 2
+health: 180
+itemCapacity: 20
+squareSprite: false
+requirements: [
+ hematite/40
+ tin/55
+ lithium/25
+]
+recipes: [
+ {
+  input: {
+   power: 1
+   items: technologium-bauxite/5
+  }
+  output: {
+   items: technologium-aluminium/2
+  }
+  craftTime: 90
+ }
+ {
+  input: {
+   power: 1
+   items: technologium-hematite/5
+  }
+  output: {
+   items: technologium-dark-metal/2
+  }
+  craftTime: 90
+ }
+]
+drawer: {
+ type: multicraft.DrawRecipe
+ drawers: [
+  {
+   type: DrawMulti
+   drawers: [
+    {
+     type: DrawRegion
+     suffix: -bottom
+    }
+    {
+     type: DrawArcSmelt
+    }
+    {
+     type: DrawDefault
+    }
+   ]
+  }
+  {
+   type: DrawMulti
+   drawers: [
+    {
+     type: DrawRegion
+     suffix: -bottom
+    }
+    {
+     type: DrawArcSmelt
+    }
+    {
+     type: DrawDefault
+    }
+   ]
+  }
+ ]
+}
+research: dark-node
+category: crafting

@@ -1,0 +1,11 @@
+type: LiquidBridge
+name: Усовершенствованный жидкостный мост
+description: Используется для транспортирования жидкостей над поверхностью и блоками.
+requirements: [
+ dark-metal/10
+ gold-glass/8
+]
+fadeIn: false
+moveArrows: false
+range: 5
+category: liquid

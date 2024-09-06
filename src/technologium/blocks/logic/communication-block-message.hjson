@@ -1,0 +1,9 @@
+type: MessageBlock
+name: Коммуникационный блок
+description: Хранит в себе текст для общения между игроками. Используется в логике.
+size: 1
+requirements: [
+ dark-metal/20
+ tin/15
+]
+category: logic

@@ -1,0 +1,10 @@
+name: Олово
+description: Не самый прочный, но очень полезный металл.
+details: Была бы медь на Кудоле...
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+hardness: 1
+color: cccccc
+cost: 1
+research: hematite

@@ -1,0 +1,9 @@
+name: Золото
+description: Очень плотный, но очень мягкий металл.
+details: ЗОЛОТО!!! Я НАШЁЛ ЗОЛОТО!!!
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+color: dddd00
+cost: 3
+research: aluminium

@@ -1,0 +1,44 @@
+type: unitFactory
+name: Фабрикатор юнитов
+description: Производит боевые единицы.
+size: 2
+consumes: {
+ power: 0.5
+}
+plans: [
+ {
+  unit: cobra
+  requirements: [
+   dark-metal/20
+   tin/15
+   lithium/5
+  ]
+  time: 600
+ }
+ {
+  unit: lonter
+  requirements: [
+   dark-metal/40
+   tin/25
+   lithium/10
+  ]
+  time: 900
+ }
+ {
+  unit: blade
+  requirements: [
+   dark-metal/60
+   tin/30
+   lithium/25
+   gold/5
+  ]
+  time: 1500
+ }
+]
+requirements: [
+ dark-metal/100
+ tin/40
+ lithium/25
+]
+category: units
+research: core-torch

@@ -1,0 +1,51 @@
+type: GenericCrafter
+name: Обучающий центр
+description: Обучает неоплазму для контроля блоков и единиц.
+itemCapacity: 10
+health: 400
+size: 3
+hasPower: true
+hasItems: true
+craftTime: 600
+drawer: {
+ type: DrawMulti
+ drawers: [
+  {
+   type: DrawRegion
+   suffix: -bottom
+  },
+  {
+   type: DrawRegion
+   suffix: -spin
+   spinSprite: true
+   rotateSpeed: 1
+  },
+  {
+   type: DrawDefault
+  },
+  {
+   type: DrawGlowRegion
+   suffix: -glow
+  }
+ ]
+}
+buildCostMultiplier: 0.5
+consumes: {
+  power: 3
+  items: {
+    items: [
+      canned-neoplasm/1
+    ]
+  }
+}
+requirements: [
+  dark-metal/200
+  aluminium/120
+  tin/60
+]
+category: crafting
+loopSound: machine
+loopSoundVolume: 0.95
+ambientSound: respawning
+ambientSoundVolume: 0.5
+outputItem: trained-neoplasm/1

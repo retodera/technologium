@@ -1,0 +1,11 @@
+name: Графен
+description: Прочный материал, полученный путём заморозки углерода.
+details: Очень гибок и отлично справляется с хранением энергии.
+charge: 1.5
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+hardness: 1
+color: 505050
+cost: 1
+research: carbon

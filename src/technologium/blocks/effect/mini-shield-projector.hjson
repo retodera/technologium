@@ -1,0 +1,26 @@
+type: ForceProjector
+name: Мини-проектор щита
+description: Защищает близлежащие постройки, генерируя щит при помощи энергии. Принимает охлаждающие жидкости и литий в качестве ускорителей.
+health: 200
+size: 2
+radius: 50
+shieldHealth: 400
+cooldownNormal: 1.5
+cooldownBrokenBase: 0.9
+consumes: {
+ power: 1
+ items: {
+  items: [
+   lithium/1
+  ]
+  booster: true
+  optional: true
+ }
+}
+research: lithium-battery
+requirements: [
+ dark-metal/25
+ tin/15
+ lithium/5
+]
+category: effect

@@ -1,0 +1,16 @@
+  localizedName: Начальный путь
+  description: Начальный путь этой планеты. Малое вражеское присутствие и наличие ресурсов делают его идеальным для первоначального развития.
+  captureWave: 5
+  difficulty: 1
+  alwaysUnlocked: true
+  addStartingItems: false
+  startWaveTimeMultiplier: 3
+  useAI: false
+  showSectorLandInfo: false
+  planet: kudol
+  name: beginning of the way
+  sector: 0
+
+  research: {
+    parent: "core-lumi"
+  }

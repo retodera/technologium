@@ -1,0 +1,96 @@
+generator: ErekirPlanetGenerator
+localizedName: "Нобата"
+description: "Газовая планета."
+parent: beled
+solarSystem: beled
+orbitRadius: 55
+orbitSpacing: 12
+radius: 5
+hasAtmosphere: true
+defaultEnv: 17
+iconColor: bf0000
+updateLighting: false
+atmosphereRadIn: 0.02
+atmosphereRadOut: 0.3
+atmosphereColor: ad5c23
+landCloudColor: ad5c23
+drawOrbit: false
+accessible: true
+alwaysUnlocked: true
+visible: true
+minZoom: 1.1
+defaultCore: core-torch
+prebuildBase: false
+allowLaunchSchematics: false
+allowLaunchLoadout: false
+launchCandidates: []
+sectorSeed: 1111
+sectorSize: 1
+clearSectorOnLose: true
+allowSectorInvasion: false
+allowLaunchToNumbered: false
+cloudMesh: {
+  type: HexSkyMesh
+  planet: nobata
+  seed: 3
+  speed: 1
+  radius: 0.05
+  divisions: 5
+  color: ad5c23
+  octaves: 2
+  persistence: 1
+  scl: 2
+  thresh: 0.45
+}
+mesh: {
+    type: NoiseMesh
+    planet: kudol
+    seed: 562697
+    color1: b30000
+    color2: 990000
+    divisions: 5
+    radius: 5
+    octaves: 7
+    persistence: 1
+    scl: 0
+    mag: 0
+}
+hiddenItems: [
+    "copper"
+    "lead"
+    "scrap"
+    "graphite"
+    "coal"
+    "titanium"
+    "thorium"
+    "silicon"
+    "plastanium"
+    "phase-fabric"
+    "surge-alloy"
+    "spore-pod"
+    "blast-compound"
+    "pyratite"
+    "metaglass"
+    "beryllium"
+    "oxide"
+    "tungsten"
+    "carbide"
+    "fissile-matter"
+    "dormant-cyst"
+]
+ruleSetter(nobata): {
+ waveTeam: green
+ placeRangeCheck: false
+ lighting: false
+ fog: true
+ staticFog: true
+ coreDestroyClear: true
+}
+unlockedOnLand(nobata): [
+ core-torch
+]
+research: {
+ planet: nobata
+ root: true
+ name: Нобата
+}

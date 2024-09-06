@@ -1,0 +1,9 @@
+name: Консервированная неоплазма
+description: Неоплазма, закрытая в герметизированной банке.
+details: "Неоплазма - буквально жидкий рак, и рак - всё ещё организм, верно? Значит, неоплазму можно [#eec37f]обучить[]..."
+explosiveness: 0.05
+flammability: 0.1
+radioactivity: 0
+color: 804419ff
+cost: 4
+research: aluminium

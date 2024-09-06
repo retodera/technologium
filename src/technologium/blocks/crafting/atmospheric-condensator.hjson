@@ -1,0 +1,89 @@
+type: multicraft.MultiCrafter
+name: Атмосферный конденсатор
+description: Извлекает газы из атмосферы. Требует много энергии.
+size: 3
+health: 220
+hasLiquids: true
+hasItems: false
+ambientSound: extractLoop
+requirements: [
+ dark-metal/35
+ tin/60
+ lithium/25
+]
+recipes: [
+ {
+  input: {
+   power: 3
+  }
+  output: {
+   fluids: nitrogen/2
+  }
+  craftTime: 5
+ }
+ {
+  input: {
+   power: 5
+  }
+  output: {
+   fluids: technologium-carbon/1
+  }
+  craftTime: 5
+ }
+]
+drawer: {
+ type: multicraft.DrawRecipe
+ drawers: [
+  {
+   type: DrawMulti
+   drawers: [
+    {
+     type: DrawRegion
+     suffix: -bottom
+    }
+    {
+     type: DrawPistons
+    }
+    {
+     type: DrawLiquidTile
+     drawLiquid: nitrogen
+     alpha: 4.1
+    }
+    {
+     type: DrawDefault
+    }
+   ]
+  }
+  {
+   type: DrawMulti
+   drawers: [
+    {
+     type: DrawRegion
+     suffix: -bottom
+    }
+    {
+     type: DrawPistons
+    }
+    {
+     type: DrawLiquidTile
+     drawLiquid: technologium-sulfur-fluid
+     alpha: 4.1
+    }
+    {
+     type: DrawParticles
+     color: d4f0ff
+     alpha: 0.6
+     particleSize: 4
+     particles: 10
+     particleRad: 12
+     particleLife: 140
+    }
+    {
+     type: DrawDefault
+    }
+   ]
+  }
+ ]
+}
+research: mini-press
+category: crafting

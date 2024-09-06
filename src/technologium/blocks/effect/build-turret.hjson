@@ -1,0 +1,11 @@
+type: BuildTurret
+name: Строительная турель
+description: Восстанавливает уничтоженные постройки и помогает игрокам в строительстве.
+research: mini-mender
+size: 2
+range: 320
+buildSpeed: 1.5
+consumes: {
+ power: 3.3333334
+}
+category: effect

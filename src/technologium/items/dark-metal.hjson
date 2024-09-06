@@ -1,0 +1,9 @@
+name: Тёмный металл
+description: Довольно прочный материал. Его темнота - его особенность.
+details: Из гематита же получают железо, не так ли?..
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+color: 5c5c5cFF
+cost: 3
+research: hematite

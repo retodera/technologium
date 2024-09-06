@@ -1,0 +1,14 @@
+type: PowerNode
+name: Тёмный силовой узел
+description: Простой силовой узел. Большая дальность, мало соединений.
+size: 1
+research: thermal-plate
+researchCostMultiplier: 3
+squareSprite: false
+health: 40
+laserRange: 12
+maxNodes: 5
+requirements: [
+ hematite/5
+]
+category: power

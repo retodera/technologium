@@ -1,0 +1,11 @@
+type: MemoryBlock
+name: Большое запоминающее устройство
+description: Хранит в себе численные значения. Способ обмена данных между процессорами. Способен хранить больше информации, чем свой меньший аналог.
+size: 2
+memoryCapacity: 1024
+requirements: [
+ dark-metal/35
+ aluminium/40
+ lithium/10
+]
+category: logic

@@ -1,0 +1,11 @@
+type: LiquidJunction
+name: Усовершенствованный жидкостный перекрёсток
+description: Является мостом для двух пересекающихся труб.
+solid: false
+requirements: [
+ dark-metal/6
+ gold-glass/2
+]
+health: 70
+research: improved-pipe
+category: liquid

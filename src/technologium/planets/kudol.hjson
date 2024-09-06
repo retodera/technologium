@@ -1,0 +1,95 @@
+generator: ErekirPlanetGenerator
+localizedName: Кудол
+description: Планета, орбитирующая вокруг Беледа. Крайне похожа на Эрекир.
+parent: beled
+solarSystem: beled
+orbitRadius: 40
+hasAtmosphere: true
+defaultEnv: 17
+iconColor: 47260e
+updateLighting: false
+atmosphereRadIn: 0.02
+atmosphereRadOut: 0.3
+atmosphereColor: ff9900
+landCloudColor: ff9900
+drawOrbit: false
+accessible: true
+alwaysUnlocked: true
+visible: true
+minZoom: 1.1
+defaultCore: core-torch
+prebuildBase: false
+allowLaunchSchematics: false
+allowLaunchLoadout: false
+launchCandidates: []
+sectorSeed: 2281337
+startSector: 0
+sectorSize: 1
+clearSectorOnLose: true
+allowSectorInvasion: false
+allowLaunchToNumbered: false
+cloudMesh: {
+  type: HexSkyMesh
+  planet: kudol
+  seed: 2
+  speed: 3
+  radius: 0.05
+  divisions: 5
+  color: eb7107
+  octaves: 2
+  persistence: 1
+  scl: 2
+  thresh: 0.45
+}
+mesh: {
+    type: NoiseMesh
+    planet: kudol
+    seed: 562697
+    color1: 47260e
+    color2: 7a4118
+    divisions: 5
+    radius: 0.9
+    octaves: 7
+    persistence: 1
+    scl: 0.75
+    mag: 1.2
+}
+hiddenItems: [
+    "copper"
+    "lead"
+    "scrap"
+    "graphite"
+    "coal"
+    "titanium"
+    "thorium"
+    "silicon"
+    "plastanium"
+    "phase-fabric"
+    "surge-alloy"
+    "spore-pod"
+    "blast-compound"
+    "pyratite"
+    "metaglass"
+    "beryllium"
+    "oxide"
+    "tungsten"
+    "carbide"
+    "fissile-matter"
+    "dormant-cyst"
+]
+ruleSetter(kudol): {
+ waveTeam: green
+ placeRangeCheck: false
+ lighting: false
+ fog: true
+ staticFog: true
+ coreDestroyClear: true
+}
+unlockedOnLand(kudol): [
+core-torch
+]
+research: {
+ planet: kudol
+ root: true
+ name: Кудол
+}

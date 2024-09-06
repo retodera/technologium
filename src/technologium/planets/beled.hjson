@@ -1,0 +1,26 @@
+name: beled
+localizedName: "Белед"
+description: Голубой гигант.
+parent: sun
+solarSystem: beled
+iconColor: 00fff2
+hasAtmosphere: false
+accessible: false
+visible: true
+alwaysUnlocked: false
+bloom : true
+drawOrbit: false
+orbitRadius: 500
+radius: 10
+mesh: {
+ type: SunMesh
+ planet: beled
+ divisions: 5
+ radius: 12
+ octaves: 7
+ persistence: 1
+ scl: 0.75
+ mag: 1.25
+ color1: 00fff2
+ color2: 14ссс3
+}

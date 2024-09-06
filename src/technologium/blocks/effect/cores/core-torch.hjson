@@ -1,0 +1,18 @@
+type: CoreBlock
+name: Ядро: «Факел»
+description: Ядро базы. При уничтожении, весь контакт с регионом теряется.
+details: Первая итерация. Очень компактное, самовоспроизводящееся ядро.
+health: 1500
+size: 2
+squareSprite: false
+itemCapacity: 3000
+unitCapModifier: 12
+unitType: quant
+isFirstTier: true
+requirements: [
+ dark-metal/900
+ aluminium/600
+]
+alwaysUnlocked: true
+research: kudol
+category: effect

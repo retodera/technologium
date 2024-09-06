@@ -1,0 +1,10 @@
+name: Гематит
+description: Металлическая руда. Довольно прочная сама по себе. После переплавки можно получить тёмный металл.
+details: Также известен как "Красный железняк", хоть он и не особо красный, да и тут он не железняк...
+explosiveness: 0
+flammability: 0
+radioactivity: 0
+hardness: 1
+color: 909090FF
+cost: 2
+research: core-torch

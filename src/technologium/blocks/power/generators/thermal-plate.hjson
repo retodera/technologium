@@ -1,0 +1,28 @@
+type: ThermalGenerator
+name: Термальная пластина
+description: Генерирует энергию благодаря термальным источникам.
+size: 1
+powerProduction: 0.15
+research: core-torch
+researchCost: [
+ hematite/35
+ tin/20
+]
+attribute: heat
+category: power
+drawer: {
+ type: DrawMulti
+ drawers: [
+  {
+   type: DrawDefault
+  },
+  {
+   type: DrawGlowRegion
+   suffix: -glow
+  }
+ ]
+}
+requirements: [
+ hematite/20
+ tin/10
+]
