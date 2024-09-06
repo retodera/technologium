@@ -6,13 +6,8 @@ import mindustry.mod.*;
 
 public class TModLoader extends Mod {
 
-    public TModLoader() {
-        // uhhh what to put here, who knows?
-    }
-
     @Override
     public void loadContent() {
-        Log.info("Loading Technologium content...");
         TStatusEffects.load();
         TItems.load();
         TLiquids.load();
