@@ -37,9 +37,10 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.content.Fx;
 import mindustry.content.Liquids;
 
-import technologium.world.blocks.*;
+// import multicraft.*;
 
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -67,10 +68,11 @@ public class TBlocks {
             darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmDriver,
 
             // liquds - kudol
-            improvedConduit, improvedJunction, improvedRouter, improvedBridgeConduit, improvedLiquidContainer,
+            improvedConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
+            improvedLiquidContainer,
 
             // power - kudol
-            thermalPlate, darkEnergyNode, lithiumBattery,
+            thermalPlate, darkPowerNode, lithiumBattery,
 
             // crafting - kudol
             smallArcFurnace, miniPress, atmosphericCondensator, trainingCenter, acidElectrolyzer,
@@ -192,6 +194,7 @@ public class TBlocks {
 
         spite = new PowerTurret("spite") {
             {
+                envEnabled |= Env.space;
                 range = 80f;
                 health = 180;
                 size = 1;
@@ -364,5 +367,99 @@ public class TBlocks {
                 consumePower(1.5f);
             }
         };
+
+        // endregion distribution - kudol
+        // region liquid - kudol
+
+        improvedConduit = new Conduit("improved-conduit") {
+            {
+                requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.goldGlass, 2));
+                health = 60;
+                placeableLiquid = true;
+            }
+        };
+
+        improvedLiquidJunction = new LiquidJunction("improved-liquid-junction") {
+            {
+                requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4));
+                health = 90;
+                solid = false;
+                placeableLiquid = true;
+            }
+        };
+
+        improvedLiquidRouter = new LiquidRouter("improved-liquid-router") {
+            {
+                requirements(Category.liquid, with(TItems.darkMetal, 6, TItems.goldGlass, 6));
+                liquidCapacity = 30f;
+                placeableLiquid = true;
+                underBullets = true;
+                solid = false;
+            }
+        };
+
+        improvedBridgeConduit = new LiquidBridge("improved-liquid-bridge") {
+            {
+                fadeIn = moveArrows = false;
+                arrowSpacing = 6f;
+                range = 5;
+                hasPower = false;
+                placeableLiquid = true;
+            }
+        };
+
+        improvedLiquidContainer = new LiquidRouter("improved-liquid-container") {
+            {
+                requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 12));
+                liquidCapacity = 400f;
+                placeableLiquid = true;
+                size = 2;
+                solid = true;
+            }
+        };
+
+        // endregion liquid - kudol
+        // region power - kudol
+
+        thermalPlate = new ThermalGenerator("thermal-plate") {
+            {
+                requirements(Category.power, with(TItems.hematite, 10, TItems.tin, 10));
+                powerProduction = 0.15f;
+                floating = true;
+                generateEffect = Fx.redgeneratespark;
+                ambientSound = Sounds.hum;
+                ambientSoundVolume = 0.06f;
+            }
+        };
+
+        darkPowerNode = new PowerNode("dark-power-node") {
+            {
+                requirements(Category.power, with(TItems.hematite, 5, TItems.tin, 5));
+                maxNodes = 5;
+                laserRange = 10;
+                consumePowerBuffered(800f);
+            }
+        };
+
+        lithiumBattery = new Battery("lithium-battery") {
+            {
+                requirements(Category.power, with(TItems.hematite, 35, TItems.lithium, 10));
+                consumePowerBuffered(10000f);
+                baseExplosiveness = 3;
+            }
+        };
+
+        // endregion power - kudol
+        // region crafting - kudol
+
+        // smallArcFurnace = new MultiCrafter("small-arc-furnace"){{
+        // requirements(Category.crafting, with(TItems.hematite, 50, TItems.tin, 40,
+        // TItems.lithium, 25));
+        // }};
+
+        // i tried to place {{ and }}, when saving it changes to { { and } }
+        // i hate vscode for this
+        // also for some reason it changes the requirements too
+        // it's totally broken
     }
 }
