@@ -24,4 +24,3 @@ Currently has:
 Small, icy moon.
 Currently has:
 - NOTHING.
-- 
