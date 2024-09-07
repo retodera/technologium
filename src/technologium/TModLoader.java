@@ -1,8 +1,10 @@
 package technologium;
 
-import mindustry.content.Planets;
 import technologium.content.*;
 import mindustry.mod.*;
+import mindustry.type.Planet;
+
+import mindustry.Vars;
 
 public class TModLoader extends Mod {
 
@@ -13,7 +15,9 @@ public class TModLoader extends Mod {
         TLiquids.load();
         TBlocks.load();
 
-        Planets.erekir.hiddenItems.addAll(TItems.kudolItems);
-        Planets.serpulo.hiddenItems.addAll(TItems.kudolItems);
+        for (Planet planet : Vars.content.planets()) {
+            if (planet.name != "kudol")
+                planet.hiddenItems.addAll(TItems.kudolItems);
+        }
     }
 }

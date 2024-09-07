@@ -40,6 +40,8 @@ import mindustry.world.meta.*;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
 
+import technologium.world.*;
+
 // import multicraft.*;
 
 import static mindustry.Vars.*;
@@ -68,7 +70,7 @@ public class TBlocks {
             darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmDriver,
 
             // liquds - kudol
-            improvedConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
+            improvedConduit, plasmConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
             improvedLiquidContainer,
 
             // power - kudol
@@ -375,6 +377,14 @@ public class TBlocks {
             {
                 requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.goldGlass, 2));
                 health = 60;
+                placeableLiquid = true;
+            }
+        };
+
+        plasmConduit = new PlasmConduit("plasm-conduit") {
+            {
+                requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4, TItems.stalinium, 4));
+                health = 160;
                 placeableLiquid = true;
             }
         };

@@ -4,7 +4,7 @@ import arc.graphics.*;
 import mindustry.type.*;
 
 public class TLiquids {
-    public static Liquid hydrochloricAcid, liquidNitrogen, sulfur, carbon;
+    public static Liquid hydrochloricAcid, liquidNitrogen, sulfur, carbon, liquidPlasm;
 
     public static void load() {
 
@@ -15,6 +15,7 @@ public class TLiquids {
                 gasColor = Color.valueOf("33cc99");
                 viscosity = 0.3f;
                 temperature = 0.7f;
+                incinerable = false;
             }
         };
 
@@ -26,7 +27,7 @@ public class TLiquids {
                 gasColor = Color.valueOf("e6ace6");
                 viscosity = 0.1f;
                 flammability = 0f;
-                boilPoint = 0f;
+                boilPoint = -10f;
             }
         };
 
@@ -35,6 +36,7 @@ public class TLiquids {
                 gas = true;
                 explosiveness = 1.4f;
                 flammability = 1.4f;
+                boilPoint = -1f;
             }
         };
 
@@ -42,6 +44,15 @@ public class TLiquids {
             {
                 gas = true;
                 flammability = 1.8f;
+                boilPoint = -1f;
+            }
+        };
+
+        liquidPlasm = new Liquid("liquid-plasm", Color.valueOf("00ffff")) {
+            {
+                temperature = 5f;
+                boilPoint = 15f;
+                incinerable = false;
             }
         };
     }

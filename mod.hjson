@@ -6,5 +6,6 @@ description: "<RU>\n[[]#ff]<<Мод требует MultiCrafter Lib!>>[[]]\nОг
 subtitle: "let it grow..."
 version: 0.3
 minGameVersion: 145
-dependencies: ["multi-crafter"]
+// the mod will use multicrafter lib soon
+// dependencies: ["multi-crafter"]
 java: true
