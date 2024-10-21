@@ -14,10 +14,14 @@ public class TModLoader extends Mod {
         TItems.load();
         TLiquids.load();
         TBlocks.load();
+        TUnitTypes.load();
+        TPlanets.load();
+        TTechTree.load();
 
         for (Planet planet : Vars.content.planets()) {
             if (planet.name != "kudol")
                 planet.hiddenItems.addAll(TItems.kudolItems);
+                TPlanets.kudol.hiddenItems.addAll(planet.itemWhitelist).removeAll(TItems.kudolItems);
         }
     }
 }

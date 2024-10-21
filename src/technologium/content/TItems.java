@@ -1,93 +1,102 @@
 package technologium.content;
 
-import arc.graphics.*;
 import arc.struct.*;
 import mindustry.type.Item;
+import technologium.graphics.TPal;
 
 public class TItems {
     public static Item hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm,
-            trainedNeoplasm, stalinium, steel;
+            trainedNeoplasm, uranium, uraniumRod, stalinium, steel;
 
-    public static final Seq<Item> kudolItems = new Seq<>(), kudolOnlyItems = new Seq<>();
+    public static final Seq<Item> kudolItems = new Seq<>();
 
     public static void load() {
-        hematite = new Item("hematite", Color.valueOf("909090")) {
+        hematite = new Item("hematite", TPal.brown2) {
             {
                 hardness = 1;
                 cost = 0.5f;
             }
         };
 
-        tin = new Item("tin", Color.valueOf("cccccc")) {
+        tin = new Item("tin", TPal.wnb10) {
             {
                 hardness = 1;
                 cost = 0.5f;
             }
         };
 
-        darkMetal = new Item("dark-metal", Color.valueOf("5c5c5c")) {
+        darkMetal = new Item("dark-metal", TPal.dark4) {
             {
                 cost = 0.75f;
             }
         };
 
-        bauxite = new Item("bauxite", Color.valueOf("703a23")) {
+        bauxite = new Item("bauxite", TPal.brown14) {
             {
                 hardness = 2;
                 cost = 0.5f;
             }
         };
 
-        aluminium = new Item("aluminium", Color.valueOf("dedede")) {
+        aluminium = new Item("aluminium", TPal.wnb9) {
             {
                 cost = 0.75f;
             }
         };
 
-        lithium = new Item("lithium", Color.valueOf("ff0099")) {
+        lithium = new Item("lithium", TPal.lithium3) {
             {
                 cost = 0.75f;
             }
         };
 
-        gold = new Item("gold", Color.valueOf("dddd00")) {
+        gold = new Item("gold", TPal.gold3) {
             {
                 cost = 1f;
             }
         };
 
-        goldGlass = new Item("gold-glass", Color.valueOf("3fffbf")) {
+        goldGlass = new Item("gold-glass", TPal.ggl3) {
             {
                 cost = 1.25f;
             }
         };
 
-        cannedNeoplasm = new Item("canned-neoplasm", Color.valueOf("804419")) {
+        cannedNeoplasm = new Item("canned-neoplasm", TPal.sgl1) {
             {
                 cost = 2f;
             }
         };
 
-        trainedNeoplasm = new Item("trained-neoplasm", Color.valueOf("bf6626")) {
+        trainedNeoplasm = new Item("trained-neoplasm", TPal.sgl3) {
             {
                 cost = 3f;
             }
         };
 
-        stalinium = new Item("stalinium", Color.red) {
+        uranium = new Item("uranium", TPal.uranium3) {{
+            cost = 4f;
+        }};
+
+        
+        uraniumRod = new Item("uranium-rod", TPal.uranium2) {{
+            cost = 6f;
+        }};
+
+        stalinium = new Item("stalinium", TPal.red3) {
             {
-                cost = 4f;
+                cost = 10f;
             }
         };
 
-        steel = new Item("steel", Color.valueOf("acacac")) {
+        steel = new Item("steel", TPal.wnb7) {
             {
                 cost = 1f;
             }
         };
 
         kudolItems.addAll(
-                hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm,
+                hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumRod,
                 stalinium);
     }
 }

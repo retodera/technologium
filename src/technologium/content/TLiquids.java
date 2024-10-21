@@ -1,37 +1,37 @@
 package technologium.content;
 
-import arc.graphics.*;
 import mindustry.type.*;
+import technologium.graphics.TPal;
 
 public class TLiquids {
     public static Liquid hydrochloricAcid, liquidNitrogen, sulfur, carbon, liquidPlasm;
 
     public static void load() {
 
-        hydrochloricAcid = new Liquid("hydrochloric-acid", Color.valueOf("3fffbf")) {
+        hydrochloricAcid = new Liquid("hydrochloric-acid", TPal.acid3) {
             {
                 effect = TStatusEffects.corrosion;
-                boilPoint = 1f;
-                gasColor = Color.valueOf("33cc99");
+                boilPoint = 2f;
+                gasColor = TPal.acid1;
                 viscosity = 0.3f;
                 temperature = 0.7f;
                 incinerable = false;
             }
         };
 
-        liquidNitrogen = new Liquid("liquid-nitrogen", Color.valueOf("ffbfff")) {
+        liquidNitrogen = new Liquid("liquid-nitrogen", TPal.cyan5) {
             {
                 coolant = true;
                 heatCapacity = 1.4f;
                 temperature = 0f;
-                gasColor = Color.valueOf("e6ace6");
+                gasColor = TPal.cyan3;
                 viscosity = 0.1f;
                 flammability = 0f;
                 boilPoint = -10f;
             }
         };
 
-        sulfur = new Liquid("sulfur", Color.valueOf("703c16")) {
+        sulfur = new Liquid("sulfur", TPal.brown10) {
             {
                 gas = true;
                 explosiveness = 1.4f;
@@ -40,7 +40,7 @@ public class TLiquids {
             }
         };
 
-        carbon = new Liquid("carbon", Color.valueOf("2e2e2e")) {
+        carbon = new Liquid("carbon", TPal.dark2) {
             {
                 gas = true;
                 flammability = 1.8f;
@@ -48,7 +48,7 @@ public class TLiquids {
             }
         };
 
-        liquidPlasm = new Liquid("liquid-plasm", Color.valueOf("00ffff")) {
+        liquidPlasm = new Liquid("liquid-plasm", TPal.plasm5) {
             {
                 temperature = 5f;
                 boilPoint = 15f;

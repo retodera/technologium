@@ -39,10 +39,8 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
-
 import technologium.world.*;
-
-// import multicraft.*;
+import multicraft.*;
 
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -54,46 +52,46 @@ public class TBlocks {
     // environment - floor
     volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticTree, neoplasticLiquid, hydrochloricAcidLiquid,
 
-            // environment - ore
-            hematiteOre, tinWallOre, bauxiteOre,
+    // environment - ore
+    hematiteOre, tinWallOre, bauxiteOre,
 
-            // environment - wall
-            volcanicWall, acidWall, neoplasticWall,
+    // environment - wall
+    volcanicWall, acidWall, neoplasticWall,
 
-            // turrets - kudol
-            spite,
+    // turrets - kudol
+    spite,
 
-            // production - kudol
-            darkPlasmaBore, darkDrill, goldExtractor, neoplasmCleaningStation,
+    // production - kudol
+    darkPlasmaBore, miniPlasmaBore, darkDrill, goldExtractor,
 
-            // distribution - kudol
-            darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmDriver,
+    // distribution - kudol
+    darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmDriver,
 
-            // liquds - kudol
-            improvedConduit, plasmConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
-            improvedLiquidContainer,
+    // liquds - kudol
+    improvedConduit, plasmConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
+    improvedLiquidContainer,
 
-            // power - kudol
-            thermalPlate, darkPowerNode, lithiumBattery,
+    // power - kudol
+    thermalPlate, darkPowerNode, darkPowerNodeLarge, lithiumBattery,
 
-            // crafting - kudol
-            smallArcFurnace, miniPress, atmosphericCondensator, trainingCenter, acidElectrolyzer,
+    // crafting - kudol
+    arcFurnace, arcMelter, atmosphericConcentrator, trainingCenter, acidElectrolyzer,
 
-            // defense - kudol
-            darkWall, largeDarkWall,
+    // defense - kudol
+    darkWall, darkWallLarge,
 
-            // units - kudol
-            unitFabricator,
+    // units - kudol
+    unitFabricator,
 
-            // effect - kudol
-            coreTorch, darkUnloader, darkContainer, darkVault, miniMender, miniShieldProjector, buildTurret,
+    // effect - kudol
+    coreTorch, coreBlaze, darkUnloader, darkContainer, darkVault, miniMender, miniShieldProjector, buildTurret,
 
-            // logic - kudol
-            // i added "switch", "cell", "nessage" and "bank" to the end of names so their
-            // logical links will have that name and the programming with processors would
-            // be easier even with the different names of the blocks
-            buttonSwitch, communicationBlockMessage, energeticProcessor, plasmProcessor, memoryDeviceCell,
-            largeMemoryDeviceBank, stringMemoryDevice, miniatureDigitalDisplay, digitalDisplay
+    // logic - kudol
+    // i added "switch", "cell", "message" and "bank" to the end of names so their
+    // logical links will have that name and the programming with processors would
+    // be easier even with the different names of the blocks
+    buttonSwitch, communicationBlockMessage, energeticProcessor, plasmProcessor, memoryDeviceCell,
+    largeMemoryDeviceBank, miniatureDigitalDisplay, digitalDisplay
 
     ;
 
@@ -101,30 +99,28 @@ public class TBlocks {
             neoplasm = Attribute.add("neoplasm"),
             neoplasmliquid = Attribute.add("neoplasmliquid");
 
-    // now i'll tell you the story of me creating this
-
-    // most of this is copied from other mods, but mostly from the mindustry itself
-    // (as if i didn't do that while the mod was on .hjson)
-    // i never coded something in java until now, but i do know a little bit of
-    // basics of javascript
-    // i always thought that js and java are the same thing. i was horribly wrong.
+    /* now i'll tell you the story of me creating this
+ most of this is copied from other mods, but mostly from the mindustry itself
+ (as if i didn't do that while the mod was on .hjson)
+ i knew some basics of javascript
+ btw i always thought that js and java are the same thing. i was horribly wrong. */
 
     public static void load() {
 
         // region environment - floor
-        volcanicStone = new Floor("volcanic-stone") {
+        volcanicStone = new Floor("volcanic-stone", 3) {
             {
                 attributes.set(gold, 0.25f);
             }
         };
 
-        thermalStone = new Floor("thermal-stone") {
+        thermalStone = new Floor("thermal-stone", 3) {
             {
                 attributes.set(Attribute.heat, 1f);
             }
         };
 
-        acidFloor = new Floor("acid-floor");
+        acidFloor = new Floor("acid-floor", 3);
 
         neoplasticFloor = new Floor("neoplastic-floor") {
             {
@@ -284,28 +280,6 @@ public class TBlocks {
             }
         };
 
-        neoplasmCleaningStation = new AttributeCrafter("neoplasm-cleaning-station") {
-            {
-                requirements(Category.production, with(TItems.darkMetal, 40, TItems.lithium, 12, TItems.goldGlass, 20));
-                consumePower(1.5f);
-                health = 460;
-                craftTime = 1f;
-                size = 3;
-                hasLiquids = true;
-                hasItems = false;
-                hasPower = true;
-                liquidCapacity = 240;
-                baseEfficiency = 0;
-                attribute = neoplasmliquid;
-                outputLiquid = new LiquidStack(Liquids.water, 0.25f / 60f);
-                placeableLiquid = true;
-                drawer = new DrawMulti(
-                        new DrawRegion("-bottom"),
-                        new DrawLiquidTile(Liquids.water),
-                        new DrawDefault());
-            }
-        };
-
         // endregion production - kudol
         // region distribution - kudol
 
@@ -373,19 +347,21 @@ public class TBlocks {
         // endregion distribution - kudol
         // region liquid - kudol
 
-        improvedConduit = new Conduit("improved-conduit") {
+        improvedConduit = new WnBLConduit("improved-conduit") {
             {
                 requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.goldGlass, 2));
                 health = 60;
                 placeableLiquid = true;
+                blacklist.add(TLiquids.liquidPlasm);
             }
         };
 
-        plasmConduit = new PlasmConduit("plasm-conduit") {
+        plasmConduit = new WnBLConduit("plasm-conduit") {
             {
                 requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4, TItems.stalinium, 4));
                 health = 160;
                 placeableLiquid = true;
+                whitelist.add(TLiquids.liquidPlasm);
             }
         };
 
@@ -451,6 +427,15 @@ public class TBlocks {
             }
         };
 
+        darkPowerNodeLarge = new PowerNode("dark-power-node-large") {
+            {
+                requirements(Category.power, with(TItems.hematite, 5, TItems.tin, 5));
+                maxNodes = 5;
+                laserRange = 10;
+                consumePowerBuffered(800f);
+            }
+        };
+
         lithiumBattery = new Battery("lithium-battery") {
             {
                 requirements(Category.power, with(TItems.hematite, 35, TItems.lithium, 10));
@@ -462,14 +447,101 @@ public class TBlocks {
         // endregion power - kudol
         // region crafting - kudol
 
-        // smallArcFurnace = new MultiCrafter("small-arc-furnace"){{
-        // requirements(Category.crafting, with(TItems.hematite, 50, TItems.tin, 40,
-        // TItems.lithium, 25));
-        // }};
+        // why isn't it thinking that MultiCrafter is a type? there's an import up there
+        // added the multicraft folder from the repository of multicraft and it got fixed
+        arcFurnace = new MultiCrafter("arc-furnace") {
+            {
+                requirements(Category.crafting, with(TItems.hematite, 50, TItems.tin, 40,
+                        TItems.lithium, 25));
+                health = 140;
+                size = 2;
+                itemCapacity = 10;
+                drawer = new DrawMulti(
+                        new DrawRegion("-bottom"),
+                        new DrawDefault(),
+                        new DrawFlame());
+                resolvedRecipes = Seq.with(
+                        new Recipe(
+                                new IOEntry(
+                                        Seq.with(ItemStack.with(TItems.hematite, 5)),
+                                        Seq.with(),
+                                        0.5f),
+                                new IOEntry(
+                                        Seq.with(ItemStack.with(TItems.darkMetal, 2)),
+                                        Seq.with()),
+                                120f),
+                        new Recipe(
+                                new IOEntry(
+                                        Seq.with(ItemStack.with(TItems.bauxite, 5)),
+                                        Seq.with(),
+                                        0.5f),
+                                new IOEntry(
+                                        Seq.with(ItemStack.with(TItems.aluminium, 2)),
+                                        Seq.with()),
+                                120f));
+            }
+        };
 
         // i tried to place {{ and }}, when saving it changes to { { and } }
         // i hate vscode for this
-        // also for some reason it changes the requirements too
-        // it's totally broken
+
+        // endregion crafting - kudol
+        // region defense - kudol
+
+        darkWall = new Wall("dark-wall") {
+            {
+                requirements(Category.defense, with(TItems.hematite, 4, TItems.tin, 4));
+                health = 360;
+                researchCostMultiplier = 0.2f;
+            }
+        };
+
+        darkWallLarge = new Wall("dark-wall-large") {
+            {
+                requirements(Category.defense, with(TItems.hematite, 16, TItems.tin, 16));
+                health = 1440;
+                size = 2;
+            }
+        };
+
+        // endregion defense - kudol
+        // region units - kudol
+
+        unitFabricator = new UnitFactory("unit-fabricator") {
+            {
+                requirements(Category.units, with(TItems.darkMetal, 100, TItems.tin, 40, TItems.lithium, 25));
+                size = 2;
+                health = 260;
+                consumePower(3f);
+                plans = Seq.with(
+                        new UnitPlan(TUnitTypes.cobra, 900f,
+                                with(TItems.darkMetal, 30, TItems.tin, 15, TItems.trainedNeoplasm, 1)));
+            }
+        };
+
+        // endregion units - kudol
+        // region effect - kudol
+
+        coreTorch = new CoreBlock("core-torch") {
+            {
+                requirements(Category.effect, with(TItems.darkMetal, 1200, TItems.tin, 900, TItems.gold, 200));
+                size = 2;
+                isFirstTier = true;
+                health = 2000;
+                itemCapacity = 3000;
+                unitType = TUnitTypes.quant;
+            }
+        };
+
+        coreBlaze = new CoreBlock("core-blaze") {
+            {
+                requirements(Category.effect, with(TItems.darkMetal, 3000, TItems.tin, 2000, TItems.aluminium, 1600, TItems.gold, 800));
+                size = 3;
+                health = 4500;
+                itemCapacity = 6000;
+                unitType = TUnitTypes.quant;
+            }
+        };
+        
     }
 }
