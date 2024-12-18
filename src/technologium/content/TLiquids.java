@@ -4,7 +4,7 @@ import mindustry.type.*;
 import technologium.graphics.TPal;
 
 public class TLiquids {
-    public static Liquid hydrochloricAcid, liquidNitrogen, sulfur, carbon, liquidPlasm;
+    public static Liquid hydrochloricAcid, liquidNitrogen, carbon, liquidPlasma;
 
     public static void load() {
 
@@ -31,14 +31,6 @@ public class TLiquids {
             }
         };
 
-        sulfur = new Liquid("sulfur", TPal.brown10) {
-            {
-                gas = true;
-                explosiveness = 1.4f;
-                flammability = 1.4f;
-                boilPoint = -1f;
-            }
-        };
 
         carbon = new Liquid("carbon", TPal.dark2) {
             {
@@ -48,9 +40,9 @@ public class TLiquids {
             }
         };
 
-        liquidPlasm = new Liquid("liquid-plasm", TPal.plasm5) {
+        liquidPlasma = new Liquid("liquid-plasma", TPal.plasm5) {
             {
-                temperature = 5f;
+                temperature = 4.8f;
                 boilPoint = 15f;
                 incinerable = false;
             }

@@ -1,9 +1,9 @@
 displayName: "[[]#aaccdd]Technologium"
-name: "technologium"
+name: "t"
 author: "[[]#ff]retodera"
 main: "technologium.TModLoader"
-description: "<RU>\nОгромный мод, добавляющий большое количество блоков, предметов и юнитов.[[]#ff]WIP!\n\n<EN>\nA very huge mod that adds lots of blocks, items and units.[[]#ff]WIP![[]]"
-subtitle: "the power..."
+description: "<RU>\nОгромный мод в разработке, который добавит большое количество планет, блоков, предметов и юнитов.\n\n<EN>\nA very huge mod in development that will add lots of planets, blocks, items and units."
+subtitle: "monkeys. together. power."
 version: 0.3
 minGameVersion: 145
 java: true

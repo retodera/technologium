@@ -29,6 +29,9 @@ public class TPal {
             cyan3 = Color.valueOf("d9a3d9"),
             cyan4 = Color.valueOf("e6ace6"),
             cyan5 = Color.valueOf("f2b6f2"),
+            calt1 = Color.valueOf("7d7a93"),
+            calt2 = Color.valueOf("6c6a80"),
+            calt3 = Color.valueOf("5b596b"),
 
             acid1 = Color.valueOf("33cc99"),
             acid2 = Color.valueOf("39e6ac"),
