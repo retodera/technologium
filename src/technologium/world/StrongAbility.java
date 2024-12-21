@@ -3,7 +3,7 @@ package technologium.world;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
 
-//stolen from NightScape
+//partially stolen from NightScape
 public class StrongAbility extends Ability {
     @Override
     public void update(Unit unit) {

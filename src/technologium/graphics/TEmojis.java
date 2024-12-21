@@ -15,11 +15,14 @@ import mindustry.ctype.*;
 import mindustry.mod.Mods.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.*;
+import mindustry.game.EventType.*;
 //"yonked the code from Dusted Lands lol" - IceWorld
+//changed the code a bit to make it work
 public class TEmojis {
     public static int id;
 
     public static void load() {
+        Events.on(ContentInitEvent.class, e -> {
         //load the character id
         LoadedMod mod = Vars.mods.getMod("t");
         OrderedMap<String, String> map = new OrderedMap<>();
@@ -54,7 +57,7 @@ public class TEmojis {
 
         Texture pure = TItems.hematite.uiIcon.texture;
         Texture genned = TBlocks.spite.uiIcon.texture;
-
+        
         fonts.each(f -> f.getRegions().add(new TextureRegion(pure)));
         fonts.each(f -> f.getRegions().add(new TextureRegion(genned)));
 
@@ -101,6 +104,7 @@ public class TEmojis {
                 });
 
         TTeams.kaut.emoji = Reflect.<ObjectMap<String, String>>get(Fonts.class, "stringIcons").get(TTeams.kaut.name, "");
+    });
     }
 
     public static class GenData {

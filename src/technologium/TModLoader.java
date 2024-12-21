@@ -2,11 +2,13 @@ package technologium;
 
 import technologium.content.*;
 import technologium.world.TMusic;
+import technologium.graphics.*;
 import mindustry.mod.*;
 import mindustry.type.Planet;
 import mindustry.Vars;
 import arc.util.*;
 
+//totally NOT a reference to the tModLoader (mod loader for terraria or smth)
 public class TModLoader extends Mod {
 
     public TModLoader() {
@@ -31,7 +33,9 @@ public class TModLoader extends Mod {
         Log.info("[T-planets]");
         TPlanets.load();
         Log.info("[T-tech_trees]");
-        KudolTechTree.load();
+        TTechTrees.load();
+        Log.info("[T-additional_stuff]");
+        TEmojis.load();
 
         for (Planet planet : Vars.content.planets()) {
             if (planet.name != "kudol") {

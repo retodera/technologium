@@ -16,7 +16,7 @@ public class TStatusEffects {
             speedMultiplier = 1.4f;
         }};
         neoplasmCovered = new StatusEffect("neoplasm-covered") {{
-            color = TPal.brown10;
+            color = TPal.brown5;
             speedMultiplier = 0.7f;
             effect = Fx.muddy;
             init(() -> {

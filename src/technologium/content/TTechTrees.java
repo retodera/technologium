@@ -11,21 +11,41 @@ import static technologium.content.TItems.*;
 import static technologium.content.TLiquids.*;
 import static technologium.content.TUnitTypes.*;
 
-public class KudolTechTree {
+public class TTechTrees {
     public static void load(){
+        //region kudol
+
         TPlanets.kudol.techTree = nodeRoot("Kudol", kudol, () -> {
-            //blocks
+
+            //region blocks
+
             node(coreTorch, () -> {
+
                 //region production
+
                 node(darkDrill, () -> {
-                    node(darkPlasmaBore);
+                    node(darkPlasmaBore, () -> {
+                        node(miniPlasmaBore);
+                        node(goldExtractor);
+                    });
                 });
-                //endregion
+
+                //region crafting
+
+                node(arcFurnace, () -> {
+                    node(enricher);
+                    node(constructor, () -> {
+                        //node(arcSmelter);
+                    });
+                });
+
                 //region cores
+
                 node(coreBlaze, () -> {          
                 });
-                //endregion
+
                 //region distribution
+
                 node(darkConveyor, () -> {
                     node(darkRouter, () -> {
                         node(darkDistributor);
@@ -40,8 +60,9 @@ public class KudolTechTree {
                         });
                     });
                 });
-                //endregion
+
                 //region liquids
+
                 node(improvedConduit, () -> {
                     node(improvedLiquidJunction, () -> {
                         node(improvedLiquidRouter);
@@ -50,8 +71,9 @@ public class KudolTechTree {
                     });
                     node(thermoConduit);
                 });
-                //endregion
+
                 //region power
+
                 node(thermalPlate, () -> {
                     node(darkPowerNode, () -> {
                         node(darkPowerNodeLarge);
@@ -59,13 +81,19 @@ public class KudolTechTree {
                     });
                 });
             });
-            //items
+
+            //region items
+
             node(hematite, () -> {
                 node(tin);
-                node(lithium);
+                node(pegmatite, () -> {
+                    node(lithium);
+                });
                 node(darkMetal, () -> {
+                    node(enrichedMetal);
                     node(cog);
                     node(bauxite, () -> {
+                        node(enrichedAluminium);
                         node(aluminium, () -> {
                             node(cannedNeoplasm, () -> {
                                 node(trainedNeoplasm); 
@@ -81,7 +109,9 @@ public class KudolTechTree {
                     });
                 });
             });
-            //liquids
+
+            //region liquids
+            
             node(neoplasm, () -> {
                 node(water, () -> {
                     node(liquidNitrogen);
@@ -89,6 +119,11 @@ public class KudolTechTree {
                     node(liquidPlasma);
                 });
             });
+        });
+
+        //region venjer
+
+        TPlanets.venjer.techTree = nodeRoot("Venjer", venjer, () -> {
         });
     }
 }

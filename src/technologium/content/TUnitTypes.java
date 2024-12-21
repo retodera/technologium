@@ -7,7 +7,9 @@ import mindustry.type.*;
 import mindustry.type.weapons.*;
 import technologium.graphics.TPal;
 import technologium.world.*;
-import mindustry.content.Fx;
+import technologium.type.unit.*;
+import mindustry.content.*;
+import arc.graphics.*;
 
 public class TUnitTypes {
 
@@ -29,9 +31,9 @@ public class TUnitTypes {
     metalstrong;
     public static void load() {
 
-        // region core units
+        //region core units
 
-        quant = new UnitType("quant") {{
+        quant = new KudolUnitType("quant") {{
             aiController = BuilderAI::new;
             constructor = MechUnit::create;
             isEnemy = false;
@@ -39,13 +41,14 @@ public class TUnitTypes {
             mechStepParticles = true;
             health = 80;
             armor = 1;
-            hitSize = 8f;
+            hitSize = 12f;
             flying = false;
             itemCapacity = 15;
             drag = 0.15f;
             speed = 0.5f;
             canBoost = true;
             boostMultiplier = 1.5f;
+            engineOffset = 9f;
             buildSpeed = 1.2f;
             buildRange = 200f;
             canAttack = false;
@@ -57,10 +60,9 @@ public class TUnitTypes {
             createScorch = false;
             weapons.add(new RepairBeamWeapon() {{
                 reload = 20f;
-                x = 0f;
-                y = 0f;
+                x = y = 0f;
                 rotate = false;
-                shootY = 0;
+                shootY = 2;
                 beamWidth = 0.7f;
                 aimDst = 0f;
                 shootCone = 15f;
@@ -79,14 +81,57 @@ public class TUnitTypes {
             }});
         }};
 
-        // endregion core units
-        // region kudol - sniper
+        //endregion
 
-        cobra = new UnitType("cobra") {{
+        //region kudol - laser
+
+        blade = new KudolUnitType("blade") {{
+            constructor = MechUnit::create;
+            speed = 0.6f;
+            health = 145;
+            hitSize = 12f;
+            createScorch = true;
+            isEnemy = true;
+            aiController = GroundAI::new;
+            mineSpeed = 0f;
+            flying = false;
+            canBoost = true;
+            engineOffset = 9f;
+            buildSpeed = 0.5f;
+            buildRange = 150f;
+            itemCapacity = 50;
+            weapons.add(new Weapon() {{
+                x = y = 0f;
+                shootY = 10f;
+                recoil = 0f;
+                shake = 0.25f;
+                rotate = false;
+                shootSound = Sounds.laserbeam;
+                continuous = true;
+                alwaysContinuous = true;
+                mirror = false;
+                bullet = new ContinuousLaserBulletType() {{
+                    damage = 10f;
+                    length = 50f;
+                    width = 5f;
+                    hitEffect = Fx.hitMeltHeal;
+                    healPercent = 1f;
+                    collidesTeam = true;
+                    colors = new Color[]{TPal.gold3.cpy().a(.2f), TPal.gold2.cpy().a(.5f), TPal.gold1.cpy().a(1.2f), Color.white};
+                }};
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 1f;
+            }});
+        }};
+        //endregion
+
+        //region kudol - sniper
+
+        cobra = new KudolUnitType("cobra") {{
             constructor = MechUnit::create;
             speed = 0.8f;
             health = 120;
-            hitSize = 8f;
+            hitSize = 12f;
             aiController = GroundAI::new;
             isEnemy = true;
             mineSpeed = 0f;
@@ -97,13 +142,12 @@ public class TUnitTypes {
             itemCapacity = 30;
             faceTarget = false;
             weapons.add(new Weapon("t-sniper-gun") {{
-                x = 0f;
-                y = 0f;
+                x = y = 0f;
                 shootY = 2f;
                 rotate = true;
                 rotateSpeed = 1f;
                 reload = 80f;
-                recoil = 8f;
+                recoil = 2f;
                 shootSound = Sounds.shootAlt;
                 mirror = false;
                 bullet = new BasicBulletType() {{
@@ -116,8 +160,9 @@ public class TUnitTypes {
             }});
         }};
         //endregion
+
         //region special
-        metalstrong = new UnitType("metalstrong"){{
+        metalstrong = new KudolUnitType("metalstrong"){{
             constructor = MechUnit::create;
             speed = 1f;
             health = 500000;

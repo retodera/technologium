@@ -71,5 +71,37 @@ public class TPlanets {
             };
             unlockedOnLand.add(TBlocks.coreTorch);
         }};
+
+        venjer = new Planet("venjer", beled, 1.5f, 2) {{
+            generator = new SerpuloPlanetGenerator(); //maybe i'll change it later, but i think it'll be hard to make a planet generator
+            meshLoader = () -> new NoiseMesh(this, 69420, 3, 1.4f, 7, 1f, 0.75f, 1.2f, Color.valueOf("12b312"), Color.valueOf("663614"), 7, 1f, 0.75f, 1.2f);
+            cloudMeshLoader = () -> new MultiMesh(
+                new HexSkyMesh(this, 228, 0.1f, 0.14f, 4, Color.valueOf("2ee62e").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                new HexSkyMesh(this, 1337, 0.3f, 0.15f, 4, Color.valueOf("29cc29").a(0.75f), 2, 0.42f, 1.2f, 0.45f));
+            alwaysUnlocked = true;
+            accessible = false; //for now false, before i'll end the Kudol campaign
+            allowWaveSimulation = false;
+            allowLaunchSchematics = false;
+            allowLaunchLoadout = false;
+            landCloudColor = Color.valueOf("2ee62e");
+            atmosphereColor = Color.valueOf("29cc29");
+            atmosphereRadIn = 0.05f;
+            atmosphereRadOut = 0.5f;
+            orbitSpacing = 30f;
+            orbitRadius = 65f;
+            clearSectorOnLose = true;
+            defaultEnv = Env.terrestrial | Env.oxygen | Env.groundWater;
+            defaultCore = TBlocks.coreTorch;
+            allowLaunchToNumbered = false; //and probably won't be enabled.
+            updateLighting = false;
+            itemWhitelist = TItems.kudolItems;
+            ruleSetter = r -> {
+                r.waveTeam = TTeams.kaut;
+                r.placeRangeCheck = true;
+                r.showSpawns = true;
+                r.coreDestroyClear = true;
+                r.onlyDepositCore = true;
+            };
+        }};
     }
 }

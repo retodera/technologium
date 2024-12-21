@@ -6,8 +6,8 @@ import technologium.graphics.TPal;
 
 public class TItems {
     public static Item
-    /* standart */ hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, salt, cannedNeoplasm,
-            trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium,
+    /* standart */ hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm,
+            trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, pegmatite, enrichedMetal, enrichedAluminium,
     /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioProcessor, advBioProcessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol
             ;
 
@@ -29,7 +29,7 @@ public class TItems {
                 cost = 0.75f;
         }};
 
-        bauxite = new Item("bauxite", TPal.brown14) {{
+        bauxite = new Item("bauxite", TPal.brown8) {{
                 hardness = 2;
                 cost = 0.5f;
         }};
@@ -50,10 +50,6 @@ public class TItems {
                 cost = 1.25f;
         }};
 
-        salt = new Item("salt", TPal.wnb7) {{
-                cost = 1f;
-        }};
-
         cannedNeoplasm = new Item("canned-neoplasm", TPal.sgl1) {{
                 cost = 2f;
         }};
@@ -62,11 +58,11 @@ public class TItems {
                 cost = 3f;
         }};
 
-        uranium = new Item("uranium", TPal.uranium3) {{
+        uranium = new Item("uranium", TPal.green1) {{
             cost = 4f;
         }};
 
-        uraniumCell = new Item("uranium-cell", TPal.uranium2) {{
+        uraniumCell = new Item("uranium-cell", TPal.green2) {{
             cost = 6f;
         }};
 
@@ -90,8 +86,25 @@ public class TItems {
             cost = 0f;
         }};
 
+        pegmatite = new Item("pegmatite", TPal.kaut1) {{
+            hardness = 1;
+            cost = 0.5f;
+        }};
+
+        enrichedMetal = new Item("enriched-metal", TPal.wnb4) {{
+            cost = 0f;
+        }};
+
+        enrichedAluminium = new Item("enriched-aluminium", TPal.wnb6) {{
+            cost = 0f;
+        }};
+
+        bioProcessor = new Item("bio-processor", TPal.cyan2) {{
+            cost = 6f;
+        }};
+
         kudolItems.addAll(
-                hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, salt, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
-                stalinium, roskomnadzorium, cog);
+                hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
+                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium);
     }
 }

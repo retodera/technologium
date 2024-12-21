@@ -48,44 +48,44 @@ public class TBlocks {
 
     public static Block
 
-    // environment - floor
-    volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticLiquid, hydrochloricAcidLiquid,
+    //environment - floor
+    volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticLiquid, hydrochloricAcidLiquid, pegmatiteFloor,
 
-    // environment - ore
+    //environment - ore
     hematiteOre, tinWallOre, bauxiteOre,
 
-    // environment - wall
-    volcanicWall, acidWall, neoplasticWall, neoplasticTree,
+    //environment - wall
+    volcanicWall, acidWall, neoplasticWall, neoplasticTree, pegmatiteWall,
 
-    // turrets - kudol
+    //turrets - kudol
     spite,
 
-    // production - kudol
+    //production - kudol
     darkPlasmaBore, miniPlasmaBore, darkDrill, goldExtractor,
 
-    // distribution - kudol
+    //distribution - kudol
     darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmaDriver,
 
-    // liquds - kudol
+    //liquds - kudol
     improvedConduit, thermoConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
     improvedLiquidContainer,
 
-    // power - kudol
+    //power - kudol
     thermalPlate, darkPowerNode, darkPowerNodeLarge, lithiumBattery,
 
-    // crafting - kudol
-    arcFurnace, arcMelter, atmosphericConcentrator, trainingCenter, acidElectrolyzer, constructor,
+    //crafting - kudol
+    arcFurnace, arcSmelter, atmosphericConcentrator, trainingCenter, acidElectrolyzer, constructor, enricher,
 
-    // defense - kudol
+    //defense - kudol
     darkWall, darkWallLarge,
 
-    // units - kudol
+    //units - kudol
     unitFabricator,
 
-    // effect - kudol
+    //effect - kudol
     coreTorch, coreBlaze, darkUnloader, darkContainer, darkVault, miniMender, miniShieldProjector, buildTurret,
 
-    // logic - kudol
+    //logic - kudol
     switchBlock, message, energeticProcessor, plasmaProcessor, cell,
     bank, miniDisplay, display, stringMemoryBlock
     ;
@@ -101,22 +101,39 @@ public class TBlocks {
 
     public static void load() {
 
-        // region environment - floor
+        //region environment - wall
+
+        volcanicWall = new StaticWall("volcanic-wall");
+
+        acidWall = new StaticWall("acid-wall");
+
+        neoplasticWall = new StaticWall("neoplastic-wall");
+
+        pegmatiteWall = new StaticWall("pegmatite-wall");
+
+        neoplasticTree = new TreeBlock("neoplastic-tree");
+
+        //region environment - floor
+
         volcanicStone = new Floor("volcanic-stone", 3) {{
             attributes.set(goldA, 0.25f);
+            wall = volcanicWall;
         }};
 
         thermalStone = new Floor("thermal-stone", 3) {{
             attributes.set(Attribute.heat, 1f);
+            blendGroup = volcanicStone;
+            wall = volcanicWall;
         }};
 
-        acidFloor = new Floor("acid-floor", 3);
+        acidFloor = new Floor("acid-floor", 3) {{
+            wall = acidWall;
+        }};
 
         neoplasticFloor = new Floor("neoplastic-floor") {{
             attributes.set(neoplasmA, 0.25f);
+            wall = neoplasticWall;
         }};
-
-        neoplasticTree = new TreeBlock("neoplastic-tree");
 
         neoplasticLiquid = new Floor("neoplastic-liquid") {{
             isLiquid = true;
@@ -148,8 +165,13 @@ public class TBlocks {
             statusDuration = 360f;
         }};
 
-        // endregion
-        // region environment - ore
+        pegmatiteFloor = new Floor("pegmatite-floor") {{
+            itemDrop = TItems.pegmatite;
+            playerUnmineable = true;
+            wall = pegmatiteWall;
+        }};
+
+        //region environment - ore
 
         hematiteOre = new OreBlock("hematite-ore", TItems.hematite);
 
@@ -159,17 +181,7 @@ public class TBlocks {
 
         bauxiteOre = new OreBlock("bauxite-ore", TItems.bauxite);
 
-        // endregion
-        // region environment - wall
-
-        volcanicWall = new StaticWall("volcanic-wall");
-
-        acidWall = new StaticWall("acid-wall");
-
-        neoplasticWall = new StaticWall("neoplastic-wall");
-
-        // endregion
-        // region turrets - kudol
+        //region turrets - kudol
 
         spite = new PowerTurret("spite") {{
             requirements(Category.turret, with(TItems.hematite, 110, TItems.tin, 80, TItems.lithium, 5));
@@ -197,8 +209,7 @@ public class TBlocks {
             }};
         }};
 
-        // endregion
-        // region production - kudol
+        //region production - kudol
 
         darkPlasmaBore = new BeamDrill("dark-plasma-bore") {{
             requirements(Category.production, with(TItems.hematite, 25, TItems.tin, 10));
@@ -246,6 +257,7 @@ public class TBlocks {
             liquidCapacity = 200;
             maxBoost = 3f;
             attribute = goldA;
+            minEfficiency = 1f;
             outputItem = new ItemStack(TItems.gold, 1);
             baseEfficiency = 0;
             drawer = new DrawMulti(
@@ -259,8 +271,7 @@ public class TBlocks {
                 );
         }};
 
-        // endregion
-        // region distribution - kudol
+        //region distribution - kudol
 
         darkConveyor = new Conveyor("dark-conveyor") {{
             requirements(Category.distribution, with(TItems.hematite, 1));
@@ -313,8 +324,7 @@ public class TBlocks {
             consumePower(1.5f);
         }};
 
-        // endregion
-        // region liquid - kudol
+        //region liquid - kudol
 
         improvedConduit = new TempConduit("improved-conduit") {{
             requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.goldGlass, 2));
@@ -343,6 +353,7 @@ public class TBlocks {
         }};
 
         improvedBridgeConduit = new LiquidBridge("improved-liquid-bridge") {{
+            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 20));
             fadeIn = moveArrows = false;
             arrowSpacing = 6f;
             range = 5;
@@ -356,10 +367,10 @@ public class TBlocks {
             placeableLiquid = true;
             size = 2;
             solid = true;
+            squareSprite = false;
         }};
 
-        // endregion
-        // region power - kudol
+        //region power - kudol
 
         thermalPlate = new ThermalGenerator("thermal-plate") {{
             requirements(Category.power, with(TItems.hematite, 10, TItems.tin, 10));
@@ -375,6 +386,7 @@ public class TBlocks {
             maxNodes = 5;
             laserRange = 10;
             consumePowerBuffered(800f);
+            squareSprite = false;
         }};
 
         darkPowerNodeLarge = new PowerNode("dark-power-node-large") {{
@@ -383,6 +395,7 @@ public class TBlocks {
             maxNodes = 5;
             laserRange = 10;
             consumePowerBuffered(800f);
+            squareSprite = false;
         }};
 
         lithiumBattery = new Battery("lithium-battery") {{
@@ -391,16 +404,14 @@ public class TBlocks {
             baseExplosiveness = 3;
         }};
 
-        // endregion
-        // region crafting - kudol
+        //region crafting - kudol
 
-        // why isn't it thinking that MultiCrafter is a type? there's an import up there
-        // added the multicraft folder from the repository of multicraft and it got fixed
         arcFurnace = new MultiCrafter("arc-furnace") {{
             requirements(Category.crafting, with(TItems.hematite, 50, TItems.tin, 40, TItems.lithium, 25));
             health = 140;
             size = 2;
             itemCapacity = 10;
+            squareSprite = false;
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
                 new DrawDefault(),
@@ -430,6 +441,42 @@ public class TBlocks {
                             Seq.with()
                         ),
                         120f
+                    ),
+                    new Recipe(
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.pegmatite, 5)),
+                            Seq.with(),
+                            0.5f
+                        ),
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.lithium, 1)),
+                            Seq.with()
+                        ),
+                        120f
+                    ),
+                    new Recipe(
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.enrichedMetal, 2)),
+                            Seq.with(),
+                            0.5f
+                        ),
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.darkMetal, 1)),
+                            Seq.with()
+                        ),
+                        120f
+                    ),
+                    new Recipe(
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.enrichedAluminium, 2)),
+                            Seq.with(),
+                            0.5f
+                        ),
+                        new IOEntry(
+                            Seq.with(ItemStack.with(TItems.aluminium, 1)),
+                            Seq.with()
+                        ),
+                        120f
                     )
                 );
             }
@@ -439,6 +486,7 @@ public class TBlocks {
             requirements(Category.crafting, with(TItems.darkMetal, 50, TItems.tin, 30, TItems.lithium, 15));
             size = 4;
             itemCapacity = 30;
+            squareSprite = false;
             resolvedRecipes = Seq.with(
                 new Recipe(
                     new IOEntry(
@@ -455,13 +503,52 @@ public class TBlocks {
             );
         }};
 
-        // i tried to place {{ and }}, when saving it changes to { { and } }
-        // i hate vscode for this
+        enricher = new MultiCrafter("enricher") {{
+            requirements(Category.crafting, with(TItems.darkMetal, 80, TItems.tin, 40, TItems.lithium, 15));
+            size = 3;
+            itemCapacity = 10;
+            squareSprite = false;
+            resolvedRecipes = Seq.with(
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.hematite, 1)),
+                        Seq.with(),
+                        40/60f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.enrichedMetal, 1)),
+                        Seq.with()
+                    ),
+                    240f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.bauxite, 1)),
+                        Seq.with(),
+                        40/60f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.enrichedAluminium, 1)),
+                        Seq.with()
+                    ),
+                    240f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.pegmatite, 2)),
+                        Seq.with(),
+                        40/60f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.lithium, 1)),
+                        Seq.with()
+                    ),
+                    240f
+                )  
+            );
+        }};
 
-        //vscodium doesn't have this feature, another reason why vscodium is better than vscode
-
-        // endregion
-        // region defense - kudol
+        //region defense - kudol
 
         darkWall = new Wall("dark-wall") {{
             requirements(Category.defense, with(TItems.hematite, 4, TItems.tin, 4));
@@ -475,8 +562,7 @@ public class TBlocks {
             size = 2;
         }};
 
-        // endregion
-        // region units - kudol
+        //region units - kudol
 
         unitFabricator = new UnitFactory("unit-fabricator") {{
             requirements(Category.units, with(TItems.darkMetal, 100, TItems.tin, 40, TItems.lithium, 25));
@@ -484,12 +570,11 @@ public class TBlocks {
             health = 260;
             consumePower(3f);
             plans = Seq.with(
-                new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.bioProcessor, 1))
+                new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.bioProcessor, 1)),
+                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 50, TItems.aluminium, 35, TItems.lithium, 25, TItems.accumulator, 4, TItems.bioProcessor, 1))
             );
         }};
-
-        // endregion
-        // region effect - kudol
+        //region effect - kudol
 
         coreTorch = new TCoreBlock("core-torch") {{
             requirements(Category.effect, with(TItems.darkMetal, 1200, TItems.tin, 900, TItems.gold, 200));
@@ -498,6 +583,7 @@ public class TBlocks {
             health = 2000;
             itemCapacity = 3000;
             unitType = TUnitTypes.quant;
+            squareSprite = false;
         }};
 
         coreBlaze = new TCoreBlock("core-blaze") {{
@@ -506,6 +592,7 @@ public class TBlocks {
             health = 4500;
             itemCapacity = 6000;
             unitType = TUnitTypes.quant;
+            squareSprite = false;
         }};
 
         darkContainer = new TStorageBlock("dark-container") {{
@@ -513,6 +600,7 @@ public class TBlocks {
             size = 2;
             scaledHealth = 80;
             itemCapacity = 400;
+            squareSprite = false;
         }};
 
         darkVault = new TStorageBlock("dark-vault") {{
@@ -520,6 +608,7 @@ public class TBlocks {
             size = 3;
             scaledHealth = 90;
             itemCapacity = 1500;
+            squareSprite = false;
         }};
 
         darkUnloader = new Unloader("dark-unloader") {{
@@ -527,8 +616,7 @@ public class TBlocks {
             speed = 60 / 15f;
         }};
 
-        // endregion
-        // region logic
+        //region logic
 
         switchBlock = new SwitchBlock("switch") {{
             requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 5));
@@ -555,12 +643,14 @@ public class TBlocks {
             requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 15, TItems.bioProcessor, 1));
             instructionsPerTick = 10;
             size = 1;
+            squareSprite = false;
         }};
 
         plasmaProcessor = new LogicBlock("plasma-processor") {{
             requirements(Category.logic, with(TItems.darkMetal, 120, TItems.aluminium, 80, TItems.lithium, 60, TItems.bioProcessor, 5));
             instructionsPerTick = 24;
             size = 2;
+            squareSprite = false;
         }};
 
         display = new LogicDisplay("display") {{
