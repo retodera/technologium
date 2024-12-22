@@ -48,7 +48,7 @@ public class TUnitTypes {
             speed = 0.5f;
             canBoost = true;
             boostMultiplier = 1.5f;
-            engineOffset = 9f;
+            engineOffset = 7f;
             buildSpeed = 1.2f;
             buildRange = 200f;
             canAttack = false;
@@ -96,7 +96,7 @@ public class TUnitTypes {
             mineSpeed = 0f;
             flying = false;
             canBoost = true;
-            engineOffset = 9f;
+            engineOffset = 7f;
             buildSpeed = 0.5f;
             buildRange = 150f;
             itemCapacity = 50;
@@ -104,24 +104,24 @@ public class TUnitTypes {
                 x = y = 0f;
                 shootY = 10f;
                 recoil = 0f;
-                shake = 0.25f;
+                shake = 0f;
                 rotate = false;
                 shootSound = Sounds.laserbeam;
                 continuous = true;
                 alwaysContinuous = true;
                 mirror = false;
                 bullet = new ContinuousLaserBulletType() {{
-                    damage = 10f;
+                    damage = 2f;
                     length = 50f;
                     width = 5f;
-                    hitEffect = Fx.hitMeltHeal;
-                    healPercent = 1f;
+                    healPercent = 0.05f;
                     collidesTeam = true;
                     colors = new Color[]{TPal.gold3.cpy().a(.2f), TPal.gold2.cpy().a(.5f), TPal.gold1.cpy().a(1.2f), Color.white};
                 }};
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = 1f;
             }});
+            immunities.add(StatusEffects.burning);
         }};
         //endregion
 
@@ -146,12 +146,12 @@ public class TUnitTypes {
                 shootY = 2f;
                 rotate = true;
                 rotateSpeed = 1f;
-                reload = 80f;
+                reload = 120f;
                 recoil = 2f;
                 shootSound = Sounds.shootAlt;
                 mirror = false;
                 bullet = new BasicBulletType() {{
-                    damage = 20f;
+                    damage = 15f;
                     speed = 30f;
                     lifetime = 10f;
                     frontColor = TPal.gold3;
@@ -175,14 +175,15 @@ public class TUnitTypes {
             createScorch = true;
             isEnemy = true;
             weapons.add(new Weapon("t-metalstrong-arm"){{
-                x = 16f;
+                x = 8f;
                 y = 2f;
                 recoil = -5f;
                 reload = 3f;
                 mirror = true;
                 alternate = true;
                 rotate = false;
-                shootSound = Sounds.shotgun;
+                shootSound = Sounds.none;
+                ejectEffect = Fx.none;
                 bullet = new BasicBulletType(){{
                     damage = 100f;
                     speed = 0f;

@@ -11,7 +11,7 @@ public class TStatusEffects {
     public static void load() {
         corrosion = new StatusEffect("corrosion") {{
             color = TPal.dark1;
-            damage = 0.3f;
+            damage = 0.1f;
             effect = Fx.none;
             speedMultiplier = 1.4f;
         }};
@@ -20,8 +20,8 @@ public class TStatusEffects {
             speedMultiplier = 0.7f;
             effect = Fx.muddy;
             init(() -> {
-                affinity(StatusEffects.wet, (unit, result, time) -> unit.damagePierce(22f));
-                affinity(StatusEffects.burning, (unit, result, time) -> unit.damagePierce(26f));
+                affinity(StatusEffects.wet, (unit, result, time) -> unit.damagePierce(0.3f));
+                affinity(StatusEffects.burning, (unit, result, time) -> unit.damagePierce(0.5f));
             });
         }};
     }

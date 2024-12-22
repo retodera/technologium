@@ -78,7 +78,7 @@ public class TPlanets {
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 228, 0.1f, 0.14f, 4, Color.valueOf("2ee62e").a(0.75f), 2, 0.42f, 1f, 0.43f),
                 new HexSkyMesh(this, 1337, 0.3f, 0.15f, 4, Color.valueOf("29cc29").a(0.75f), 2, 0.42f, 1.2f, 0.45f));
-            alwaysUnlocked = true;
+            alwaysUnlocked = false; //for now false, before i'll end the Kudol campaign
             accessible = false; //for now false, before i'll end the Kudol campaign
             allowWaveSimulation = false;
             allowLaunchSchematics = false;

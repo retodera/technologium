@@ -2,6 +2,7 @@
 
 package technologium.content;
 
+//yea, there are alot of unused imports, but soon they will be used
 import arc.graphics.*;
 import arc.struct.*;
 import mindustry.*;
@@ -49,7 +50,7 @@ public class TBlocks {
     public static Block
 
     //environment - floor
-    volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticLiquid, hydrochloricAcidLiquid, pegmatiteFloor,
+    volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticLiquid, hydrochloricAcidLiquid, pegmatiteStone,
 
     //environment - ore
     hematiteOre, tinWallOre, bauxiteOre,
@@ -93,34 +94,42 @@ public class TBlocks {
     public static final Attribute goldA = Attribute.add("goldA"),
             neoplasmA = Attribute.add("neoplasmA");
 
-    /* now i'll tell you the story of me creating this
- most of this is copied from other mods, but mostly from the mindustry itself
- (as if i didn't do that while the mod was on .hjson)
- i knew some basics of javascript
- btw i always thought that js and java are the same thing. i was horribly wrong. */
+ /* now i'll tell you the story of me creating this
+most of this is copied from other mods, but mostly from the mindustry itself
+(as if i didn't do that while the mod was on .hjson)
+i knew some basics of javascript
+btw i always thought that js and java are the same thing. i was horribly wrong. */
 
     public static void load() {
 
         //region environment - wall
 
-        volcanicWall = new StaticWall("volcanic-wall");
+        volcanicWall = new StaticWall("volcanic-wall") {{
+            variants = 3;
+        }};
 
-        acidWall = new StaticWall("acid-wall");
+        acidWall = new StaticWall("acid-wall") {{
+            variants = 3;
+        }};
 
-        neoplasticWall = new StaticWall("neoplastic-wall");
+        neoplasticWall = new StaticWall("neoplastic-wall") {{
+            variants = 3;
+        }};
 
-        pegmatiteWall = new StaticWall("pegmatite-wall");
+        pegmatiteWall = new StaticWall("pegmatite-wall") {{
+            variants = 3;
+        }};
 
         neoplasticTree = new TreeBlock("neoplastic-tree");
 
         //region environment - floor
 
-        volcanicStone = new Floor("volcanic-stone", 3) {{
+        volcanicStone = new Floor("volcanic-stone", 4) {{
             attributes.set(goldA, 0.25f);
             wall = volcanicWall;
         }};
 
-        thermalStone = new Floor("thermal-stone", 3) {{
+        thermalStone = new Floor("thermal-stone", 4) {{
             attributes.set(Attribute.heat, 1f);
             blendGroup = volcanicStone;
             wall = volcanicWall;
@@ -130,7 +139,7 @@ public class TBlocks {
             wall = acidWall;
         }};
 
-        neoplasticFloor = new Floor("neoplastic-floor") {{
+        neoplasticFloor = new Floor("neoplastic-floor", 3) {{
             attributes.set(neoplasmA, 0.25f);
             wall = neoplasticWall;
         }};
@@ -165,7 +174,7 @@ public class TBlocks {
             statusDuration = 360f;
         }};
 
-        pegmatiteFloor = new Floor("pegmatite-floor") {{
+        pegmatiteStone = new Floor("pegmatite-stone", 4) {{
             itemDrop = TItems.pegmatite;
             playerUnmineable = true;
             wall = pegmatiteWall;
@@ -184,22 +193,15 @@ public class TBlocks {
         //region turrets - kudol
 
         spite = new PowerTurret("spite") {{
-            requirements(Category.turret, with(TItems.hematite, 110, TItems.tin, 80, TItems.lithium, 5));
+            requirements(Category.turret, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 5));
             envEnabled |= Env.space;
             range = 80f;
             health = 180;
             size = 1;
             recoil = 2f;
-            reload = 8f;
+            reload = 60f;
             consumePower(0.25f);
             shootSound = Sounds.blaster;
-            shoot = new ShootBarrel() {{
-                barrels = new float[] {
-                    -2.5f, 0f, 0f,
-                    -1f, 0f, 0f,
-                    1f, 0f, 0f,
-                    2.5f, 0f, 0f,
-                };}};
             drawer = new DrawTurret("kudol-");
             shootType = new LaserBulletType(12) {{
                 buildingDamageMultiplier = 0.25f;
@@ -368,6 +370,7 @@ public class TBlocks {
             size = 2;
             solid = true;
             squareSprite = false;
+            liquidPadding = 1f;
         }};
 
         //region power - kudol
