@@ -1,10 +1,10 @@
-displayName: "[[]#aaccdd]Technologium"
 name: "t"
-author: "[[]#ff]retodera"
-main: "technologium.TModLoader"
-description: "<RU>\nОгромный мод в разработке, который добавит большое количество планет, блоков, предметов и юнитов.\n\n<EN>\nA very huge mod in development that will add lots of planets, blocks, items and units."
-subtitle: "monkeys. together. power."
-version: 0.3
-minGameVersion: 145
 java: true
+minGameVersion: 145
+main: "technologium.TModLoader"
+displayName: "Technologium"
+description: "<RU>\nОгромный мод в разработке, который добавит большое количество планет, блоков, предметов и юнитов.\nВременно недоступен на мобилках, т.к. я не пойму как сделать .jar для андроида\n\n<EN>\nA very huge mod in development that will add lots of planets, blocks, items and units.\nFor now doesn't work on mobile, until i understand how to make android compatible .jar"
+author: "[[]#ff]retodera"
+subtitle: "monkeys. together. power."
+version: v0.3
 repo: "retodera/technologium"

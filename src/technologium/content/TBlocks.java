@@ -393,10 +393,10 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
         }};
 
         darkPowerNodeLarge = new PowerNode("dark-power-node-large") {{
-            requirements(Category.power, with(TItems.hematite, 5, TItems.tin, 5));
+            requirements(Category.power, with(TItems.darkMetal, 20, TItems.lithium, 12, TItems.tin, 10));
             size = 2;
-            maxNodes = 5;
-            laserRange = 10;
+            maxNodes = 15;
+            laserRange = 25;
             consumePowerBuffered(800f);
             squareSprite = false;
         }};
@@ -418,72 +418,71 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
                 new DrawDefault(),
-                new DrawFlame()
-                );
-                resolvedRecipes = Seq.with(
-                    new Recipe(
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.hematite, 5)),
-                            Seq.with(),
-                            0.5f
-                        ),
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.darkMetal, 2)),
-                            Seq.with()
-                        ),
-                        120f
+                new DrawCrucibleFlame()
+            );
+            resolvedRecipes = Seq.with(
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.hematite, 5)),
+                        Seq.with(),
+                        0.5f
                     ),
-                    new Recipe(
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.bauxite, 5)),
-                            Seq.with(),
-                            0.5f
-                        ),
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.aluminium, 2)),
-                            Seq.with()
-                        ),
-                        120f
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.darkMetal, 2)),
+                        Seq.with()
                     ),
-                    new Recipe(
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.pegmatite, 5)),
-                            Seq.with(),
-                            0.5f
-                        ),
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.lithium, 1)),
-                            Seq.with()
-                        ),
-                        120f
+                    120f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.bauxite, 5)),
+                        Seq.with(),
+                        0.5f
                     ),
-                    new Recipe(
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.enrichedMetal, 2)),
-                            Seq.with(),
-                            0.5f
-                        ),
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.darkMetal, 1)),
-                            Seq.with()
-                        ),
-                        120f
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.aluminium, 2)),
+                        Seq.with()
                     ),
-                    new Recipe(
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.enrichedAluminium, 2)),
-                            Seq.with(),
-                            0.5f
-                        ),
-                        new IOEntry(
-                            Seq.with(ItemStack.with(TItems.aluminium, 1)),
-                            Seq.with()
-                        ),
-                        120f
-                    )
-                );
-            }
-        };
+                    120f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.pegmatite, 5)),
+                        Seq.with(),
+                        0.5f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.lithium, 1)),
+                        Seq.with()
+                    ),
+                    120f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.enrichedMetal, 2)),
+                        Seq.with(),
+                        0.5f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.darkMetal, 1)),
+                        Seq.with()
+                    ),
+                    120f
+                ),
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.enrichedAluminium, 2)),
+                        Seq.with(),
+                        0.5f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.aluminium, 1)),
+                        Seq.with()
+                    ),
+                    120f
+                )
+            );
+        }};
 
         constructor = new MultiCrafter("constructor") {{
             requirements(Category.crafting, with(TItems.darkMetal, 50, TItems.tin, 30, TItems.lithium, 15));
@@ -647,6 +646,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             instructionsPerTick = 10;
             size = 1;
             squareSprite = false;
+            range = 16 * 8;
         }};
 
         plasmaProcessor = new LogicBlock("plasma-processor") {{
@@ -654,6 +654,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             instructionsPerTick = 24;
             size = 2;
             squareSprite = false;
+            range = 48 * 8;
         }};
 
         display = new LogicDisplay("display") {{

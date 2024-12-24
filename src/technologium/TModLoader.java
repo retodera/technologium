@@ -1,7 +1,7 @@
 package technologium;
 
 import technologium.content.*;
-import technologium.world.TMusic;
+import technologium.world.*;
 import technologium.graphics.*;
 import mindustry.mod.*;
 import mindustry.type.Planet;
@@ -13,7 +13,9 @@ import static technologium.TVars.*;
 public class TModLoader extends Mod {
 
     public TModLoader() {}
+    
     @Override
+
     public void loadContent() {
         TMusic.load();
         TTeams.load();
@@ -25,6 +27,9 @@ public class TModLoader extends Mod {
         TPlanets.load();
         TTechTrees.load();
     }
+
+    @Override
+    
     public void init(){
         TEmojis.load();
         TVars.load();

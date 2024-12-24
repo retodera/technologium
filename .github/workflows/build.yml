@@ -1,6 +1,9 @@
-name: Java CI (commit test)
+name: Java CI
 
-on: [push]
+on:
+  push:
+    tags:
+      - '*.*'
 
 jobs:
   buildJar:
@@ -29,3 +32,22 @@ jobs:
       with:
         name: Android + Desktop build
         path: ExampleJavaMod.jar
+    - name: Create release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
+        draft: false
+        prerelease: false
+    - name: Upload release jar
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ExampleJavaMod.jar
+        asset_name: ExampleJavaMod.jar
+        asset_content_type: application/zip

@@ -54,7 +54,7 @@ public class TUnitTypes {
             canAttack = false;
             mineWalls = true;
             mineFloor = true;
-            mineSpeed = 1f;
+            mineSpeed = 2f;
             mineTier = 1;
             coreUnitDock = true;
             createScorch = false;
@@ -104,7 +104,7 @@ public class TUnitTypes {
                 x = y = 0f;
                 shootY = 10f;
                 recoil = 0f;
-                shake = 0f;
+                shake = -1f;
                 rotate = false;
                 shootSound = Sounds.laserbeam;
                 continuous = true;

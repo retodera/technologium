@@ -52,22 +52,27 @@ public class TItems {
 
         cannedNeoplasm = new Item("canned-neoplasm", TPal.sgl1) {{
                 cost = 2f;
+                flammability = 0.25f;
         }};
 
         trainedNeoplasm = new Item("trained-neoplasm", TPal.sgl3) {{
                 cost = 3f;
+                flammability = 0.25f;
         }};
 
         uranium = new Item("uranium", TPal.green1) {{
             cost = 4f;
+            radioactivity = 1f;
         }};
 
         uraniumCell = new Item("uranium-cell", TPal.green2) {{
             cost = 6f;
+            radioactivity = 2f;
         }};
 
         stalinium = new Item("stalinium", TPal.red3) {{
                 cost = 10f;
+                radioactivity = 1.5f;
         }};
 
         rotor = new Item("rotor", TPal.wnb3) {{
@@ -101,6 +106,8 @@ public class TItems {
 
         bioProcessor = new Item("bio-processor", TPal.cyan2) {{
             cost = 6f;
+            flammability = 0.25f;
+            explosiveness = 0.25f;
         }};
 
         kudolItems.addAll(
