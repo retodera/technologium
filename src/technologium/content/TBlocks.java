@@ -154,7 +154,6 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             variants = 0;
             supportsOverlay = false;
             shallow = false;
-            placeableOn = false;
             status = TStatusEffects.neoplasmCovered;
             statusDuration = 720f;
         }};
@@ -169,7 +168,6 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             variants = 0;
             supportsOverlay = false;
             shallow = false;
-            placeableOn = false;
             status = TStatusEffects.corrosion;
             statusDuration = 360f;
         }};
@@ -259,7 +257,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             liquidCapacity = 200;
             maxBoost = 3f;
             attribute = goldA;
-            minEfficiency = 1f;
+            minEfficiency = 0.01f;
             outputItem = new ItemStack(TItems.gold, 1);
             baseEfficiency = 0;
             drawer = new DrawMulti(
@@ -339,23 +337,25 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             maxTemp = 5f;
         }};
 
-        improvedLiquidJunction = new LiquidJunction("improved-liquid-junction") {{
+        improvedLiquidJunction = new TempLiquidJunction("improved-liquid-junction") {{
             requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4));
             health = 90;
             solid = false;
             placeableLiquid = true;
         }};
 
-        improvedLiquidRouter = new LiquidRouter("improved-liquid-router") {{
+        improvedLiquidRouter = new TempLiquidRouter("improved-liquid-router") {{
             requirements(Category.liquid, with(TItems.darkMetal, 6, TItems.goldGlass, 6));
+            health = 120;
             liquidCapacity = 30f;
             placeableLiquid = true;
             underBullets = true;
             solid = false;
         }};
 
-        improvedBridgeConduit = new LiquidBridge("improved-liquid-bridge") {{
+        improvedBridgeConduit = new TempLiquidBridge("improved-liquid-bridge") {{
             requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 20));
+            health = 140;
             fadeIn = moveArrows = false;
             arrowSpacing = 6f;
             range = 5;
@@ -363,9 +363,10 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             placeableLiquid = true;
         }};
 
-        improvedLiquidContainer = new LiquidRouter("improved-liquid-container") {{
+        improvedLiquidContainer = new TempLiquidRouter("improved-liquid-container") {{
             requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 12));
-            liquidCapacity = 400f;
+            health = 540;
+            liquidCapacity = 800f;
             placeableLiquid = true;
             size = 2;
             solid = true;

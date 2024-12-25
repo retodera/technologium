@@ -39,7 +39,7 @@ public class TUnitTypes {
             isEnemy = false;
             mechSideSway = 0.3f;
             mechStepParticles = true;
-            health = 80;
+            health = 180;
             armor = 1;
             hitSize = 12f;
             flying = false;
@@ -88,7 +88,7 @@ public class TUnitTypes {
         blade = new KudolUnitType("blade") {{
             constructor = MechUnit::create;
             speed = 0.6f;
-            health = 145;
+            health = 265;
             hitSize = 12f;
             createScorch = true;
             isEnemy = true;
@@ -130,7 +130,7 @@ public class TUnitTypes {
         cobra = new KudolUnitType("cobra") {{
             constructor = MechUnit::create;
             speed = 0.8f;
-            health = 120;
+            health = 220;
             hitSize = 12f;
             aiController = GroundAI::new;
             isEnemy = true;
@@ -161,7 +161,7 @@ public class TUnitTypes {
         }};
         //endregion
 
-        //region special
+        //region special (cringe)
         metalstrong = new KudolUnitType("metalstrong"){{
             constructor = MechUnit::create;
             speed = 1f;

@@ -34,8 +34,8 @@ public class TLiquids {
         }};
 
         liquidPlasma = new Liquid("liquid-plasma", TPal.plasma1) {{
-            temperature = 4.8f;
-            boilPoint = 15f;
+            temperature = 2.8f;
+            boilPoint = 4.5f;
             incinerable = false;
         }};
     }

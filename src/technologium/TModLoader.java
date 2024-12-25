@@ -9,10 +9,14 @@ import mindustry.Vars;
 
 import static technologium.TVars.*;
 
+import arc.util.Log;
+
 //totally NOT a reference to the tModLoader (mod loader for terraria or smth)
 public class TModLoader extends Mod {
 
-    public TModLoader() {}
+    public TModLoader() {
+        Log.info("[loading TECHNOLOGIUM]");
+    }
     
     @Override
 
@@ -26,11 +30,13 @@ public class TModLoader extends Mod {
         TBlocks.load();
         TPlanets.load();
         TTechTrees.load();
+        Log.info("[TECHNOLOGIUM content successfully loaded]");
     }
 
     @Override
     
     public void init(){
+        Log.info("[initiating TECHNOLOGIUM]");
         TEmojis.load();
         TVars.load();
         settings.apply();
