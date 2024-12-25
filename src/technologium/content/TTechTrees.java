@@ -75,8 +75,8 @@ public class TTechTrees {
                 //region power
 
                 node(thermalPlate, () -> {
-                    node(darkPowerNode, () -> {
-                        node(darkPowerNodeLarge);
+                    node(energeticNode, () -> {
+                        node(energeticNodeLarge);
                         node(lithiumBattery); 
                     });
                 });

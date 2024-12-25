@@ -1,4 +1,4 @@
-package technologium.world.blocks;
+package technologium.world.blocks.liquid;
 
 import static mindustry.Vars.tilesize;
 

@@ -16,8 +16,6 @@ import mindustry.mod.Mods.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.*;
 //"yonked the code from Dusted Lands lol" - IceWorld
-//changed the code a bit to make it work
-//i dunno what i changed to make it work
 public class TEmojis {
     public static int id;
 
@@ -72,6 +70,15 @@ public class TEmojis {
                 ).removeAll(u -> u.minfo.mod != mod)
                 .map(c -> new GenData(c.uiIcon.texture == pure, c.name, c.uiIcon))
                 .add(new GenData(true, "kaut", Core.atlas.find("t-team-kaut")))
+                //region mms emojis
+                .add(new GenData(true, "t", Core.atlas.find("t-t")))
+                .add(new GenData(true, "mms", Core.atlas.find("t-mms")))
+                .add(new GenData(true, "mms-idc", Core.atlas.find("t-mms-idc")))
+                .add(new GenData(true, "mms-angry", Core.atlas.find("t-mms-angry")))
+                .add(new GenData(true, "mms-hmm", Core.atlas.find("t-mms-hmm")))
+                .add(new GenData(true, "mms-kk", Core.atlas.find("t-mms-kk")))
+                .add(new GenData(true, "mms-nice", Core.atlas.find("t-mms-nice")))
+                //endregion
                 .each(data -> {
                     TextureRegion region = data.glyphRegion;
                     id--;

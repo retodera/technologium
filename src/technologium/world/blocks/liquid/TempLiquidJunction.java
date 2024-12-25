@@ -1,4 +1,4 @@
-package technologium.world.blocks;
+package technologium.world.blocks.liquid;
 
 import arc.math.Mathf;
 import mindustry.content.Fx;

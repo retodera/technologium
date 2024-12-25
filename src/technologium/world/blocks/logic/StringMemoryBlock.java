@@ -1,4 +1,4 @@
-package technologium.world.blocks;
+package technologium.world.blocks.logic;
 
 import arc.util.io.*;
 import mindustry.gen.*;

@@ -8,7 +8,7 @@ public class TItems {
     public static Item
     /* standart */ hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm,
             trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, pegmatite, enrichedMetal, enrichedAluminium,
-    /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioProcessor, advBioProcessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol
+    /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol
             ;
 
     public static final Seq<Item> kudolItems = new Seq<>();
@@ -104,7 +104,7 @@ public class TItems {
             cost = 0f;
         }};
 
-        bioProcessor = new Item("bio-processor", TPal.cyan2) {{
+        bioprocessor = new Item("bioprocessor", TPal.cyan2) {{
             cost = 6f;
             flammability = 0.25f;
             explosiveness = 0.25f;
@@ -112,6 +112,6 @@ public class TItems {
 
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
-                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium);
+                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor);
     }
 }

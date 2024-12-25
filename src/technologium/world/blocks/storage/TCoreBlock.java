@@ -1,4 +1,4 @@
-package technologium.world.blocks;
+package technologium.world.blocks.storage;
 
 import arc.graphics.g2d.*;
 import mindustry.game.*;

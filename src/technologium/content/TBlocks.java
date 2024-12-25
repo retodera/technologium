@@ -40,6 +40,13 @@ import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import technologium.world.*;
 import technologium.world.blocks.*;
+import technologium.world.blocks.liquid.TempConduit;
+import technologium.world.blocks.liquid.TempLiquidBridge;
+import technologium.world.blocks.liquid.TempLiquidJunction;
+import technologium.world.blocks.liquid.TempLiquidRouter;
+import technologium.world.blocks.logic.StringMemoryBlock;
+import technologium.world.blocks.storage.TCoreBlock;
+import technologium.world.blocks.storage.TStorageBlock;
 import multicraft.*;
 
 import static mindustry.Vars.*;
@@ -72,7 +79,7 @@ public class TBlocks {
     improvedLiquidContainer,
 
     //power - kudol
-    thermalPlate, darkPowerNode, darkPowerNodeLarge, lithiumBattery,
+    thermalPlate, energeticNode, energeticNodeLarge, lithiumBattery,
 
     //crafting - kudol
     arcFurnace, arcSmelter, atmosphericConcentrator, trainingCenter, acidElectrolyzer, constructor, enricher,
@@ -385,7 +392,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             ambientSoundVolume = 0.06f;
         }};
 
-        darkPowerNode = new PowerNode("dark-power-node") {{
+        energeticNode = new PowerNode("dark-power-node") {{
             requirements(Category.power, with(TItems.hematite, 5, TItems.tin, 5));
             maxNodes = 5;
             laserRange = 10;
@@ -393,7 +400,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             squareSprite = false;
         }};
 
-        darkPowerNodeLarge = new PowerNode("dark-power-node-large") {{
+        energeticNodeLarge = new PowerNode("dark-power-node-large") {{
             requirements(Category.power, with(TItems.darkMetal, 20, TItems.lithium, 12, TItems.tin, 10));
             size = 2;
             maxNodes = 15;
@@ -404,7 +411,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
 
         lithiumBattery = new Battery("lithium-battery") {{
             requirements(Category.power, with(TItems.hematite, 35, TItems.lithium, 10));
-            consumePowerBuffered(10000f);
+            consumePowerBuffered(2000f);
             baseExplosiveness = 3;
         }};
 
@@ -573,8 +580,8 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             health = 260;
             consumePower(3f);
             plans = Seq.with(
-                new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.bioProcessor, 1)),
-                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 50, TItems.aluminium, 35, TItems.lithium, 25, TItems.accumulator, 4, TItems.bioProcessor, 1))
+                new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.bioprocessor, 1)),
+                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 50, TItems.aluminium, 35, TItems.lithium, 25, TItems.accumulator, 4, TItems.bioprocessor, 1))
             );
         }};
         //region effect - kudol
@@ -628,7 +635,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
         message = new MessageBlock("message") {{
             requirements(Category.logic, with(TItems.darkMetal, 15, TItems.tin, 10));
             maxTextLength = 600;
-            maxNewlines = 50;
+            maxNewlines = 200;
         }};
 
         cell = new MemoryBlock("cell") {{
@@ -639,11 +646,11 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
         bank = new MemoryBlock("bank") {{
             requirements(Category.logic, with(TItems.darkMetal, 100, TItems.tin, 70, TItems.lithium, 45, TItems.memoryCard, 16));
             size = 2;
-            memoryCapacity = 1024;
+            memoryCapacity = 2048;
         }};
 
         energeticProcessor = new LogicBlock("energetic-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 15, TItems.bioProcessor, 1));
+            requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 15, TItems.bioprocessor, 1));
             instructionsPerTick = 10;
             size = 1;
             squareSprite = false;
@@ -651,7 +658,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
         }};
 
         plasmaProcessor = new LogicBlock("plasma-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 120, TItems.aluminium, 80, TItems.lithium, 60, TItems.bioProcessor, 5));
+            requirements(Category.logic, with(TItems.darkMetal, 120, TItems.aluminium, 80, TItems.lithium, 60, TItems.bioprocessor, 5));
             instructionsPerTick = 24;
             size = 2;
             squareSprite = false;
@@ -659,13 +666,13 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
         }};
 
         display = new LogicDisplay("display") {{
-            requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 10, TItems.bioProcessor, 1));
+            requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 10, TItems.bioprocessor, 1));
             size = 4;
             displaySize = 200;
         }};
 
         miniDisplay = new LogicDisplay("mini-display") {{
-            requirements(Category.logic, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.lithium, 5, TItems.bioProcessor, 1));
+            requirements(Category.logic, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.lithium, 5, TItems.bioprocessor, 1));
             size = 2;
             displaySize = 100;
         }};

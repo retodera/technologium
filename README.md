@@ -1,5 +1,16 @@
-# Technologium
-a java mod for Mindustry. it'll be a huge mod. for now, WIP!
-the mod will have 5 planets, each with its own blocks, units, items, mechanics, enemy team and story (maybe).
-help will be appreciated, as for now i'm the only creator, and i'm not that good at java coding.
-until i understand how to make an android compatible jar, the mod is only for pc
+<div align="center">
+
+# Technologium [![Discord](Discord.png)](https://discord.gg/x3D2Qbadmb)
+Java mod for Mindustry. Will eventually overgrow everything.
+</div>
+
+## A bit about the mod
+The mod took a bit of inspiration from Factorio - that's why the mod has "technologies" - complex items that are required to construct blocks, units or other complex items.
+The Kudol idea was taken from the Erekir planet. I really liked Erekir.
+Venjer was randomly made up, and was randomly chosen as the hardest planet.
+## Currently working on:
+- Kudol campaign
+- DrawAssemble for Constructor block
+- T2 Units
+# Lore
+nothing there yet

@@ -1,16 +1,7 @@
 package technologium.content;
 
-import arc.func.*;
 import arc.graphics.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import arc.util.*;
-import mindustry.game.*;
-import mindustry.graphics.*;
 import mindustry.graphics.g3d.*;
-import mindustry.graphics.g3d.PlanetGrid.*;
-import mindustry.game.Team;
 import mindustry.maps.planet.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
