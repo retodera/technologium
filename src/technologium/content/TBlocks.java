@@ -1,4 +1,4 @@
-//fun fact: the mod was originally made on .hjson, but then i decided to add one block type and now i make the mod in java. btw VSCodium is the best coding app as in my opinion
+//fun fact: the mod was originally made on .hjson, but then i decided to add one block type and now i make the mod in java.
 
 package technologium.content;
 
@@ -40,13 +40,10 @@ import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import technologium.world.*;
 import technologium.world.blocks.*;
-import technologium.world.blocks.liquid.TempConduit;
-import technologium.world.blocks.liquid.TempLiquidBridge;
-import technologium.world.blocks.liquid.TempLiquidJunction;
-import technologium.world.blocks.liquid.TempLiquidRouter;
-import technologium.world.blocks.logic.StringMemoryBlock;
-import technologium.world.blocks.storage.TCoreBlock;
-import technologium.world.blocks.storage.TStorageBlock;
+import technologium.world.blocks.liquid.*;
+import technologium.world.blocks.logic.*;
+import technologium.world.blocks.storage.*;
+import technologium.world.blocks.production.*;
 import multicraft.*;
 
 import static mindustry.Vars.*;
@@ -98,14 +95,7 @@ public class TBlocks {
     bank, miniDisplay, display, stringMemoryBlock
     ;
 
-    public static final Attribute goldA = Attribute.add("goldA"),
-            neoplasmA = Attribute.add("neoplasmA");
-
- /* now i'll tell you the story of me creating this
-most of this is copied from other mods, but mostly from the mindustry itself
-(as if i didn't do that while the mod was on .hjson)
-i knew some basics of javascript
-btw i always thought that js and java are the same thing. i was horribly wrong. */
+    public static final Attribute goldA = Attribute.add("goldA"), neoplasmA = Attribute.add("neoplasmA");
 
     public static void load() {
 
@@ -228,6 +218,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             range = 6;
             fogRadius = 3;
             researchCost = with(TItems.hematite, 10);
+            optionalBoostIntensity = 1f;
         }};
 
         miniPlasmaBore = new BeamDrill("mini-plasma-bore") {{
@@ -239,6 +230,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             tier = 1;
             range = 6;
             fogRadius = 2;
+            optionalBoostIntensity = 1f;
         }};
 
         darkDrill = new Drill("dark-drill") {{
@@ -248,9 +240,10 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             tier = 1;
             drillTime = 720f;
             size = 1;
+            liquidBoostIntensity = 1f;
         }};
 
-        goldExtractor = new AttributeCrafter("gold-extractor") {{
+        goldExtractor = new TAttributeCrafter("gold-extractor") {{
             requirements(Category.production, with(TItems.darkMetal, 30, TItems.aluminium, 50, TItems.lithium, 20));
             consumePower(1f);
             consumeLiquid(Liquids.water, 5f / 60f).boost();
@@ -265,17 +258,15 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             maxBoost = 3f;
             attribute = goldA;
             minEfficiency = 0.01f;
+            optionalBoostIntensity = 2f;
             outputItem = new ItemStack(TItems.gold, 1);
             baseEfficiency = 0;
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
                 new DrawLiquidTile(Liquids.water),
-                new DrawRegion("-rotator") {{
-                    spinSprite = true;
-                    rotateSpeed = 1;
-                }},
+                new DrawRegion("-rotator", 1, true),
                 new DrawDefault()
-                );
+            );
         }};
 
         //region distribution - kudol
@@ -392,7 +383,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             ambientSoundVolume = 0.06f;
         }};
 
-        energeticNode = new PowerNode("dark-power-node") {{
+        energeticNode = new PowerNode("energetic-node") {{
             requirements(Category.power, with(TItems.hematite, 5, TItems.tin, 5));
             maxNodes = 5;
             laserRange = 10;
@@ -400,7 +391,7 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             squareSprite = false;
         }};
 
-        energeticNodeLarge = new PowerNode("dark-power-node-large") {{
+        energeticNodeLarge = new PowerNode("energetic-node-large") {{
             requirements(Category.power, with(TItems.darkMetal, 20, TItems.lithium, 12, TItems.tin, 10));
             size = 2;
             maxNodes = 15;
@@ -492,12 +483,24 @@ btw i always thought that js and java are the same thing. i was horribly wrong. 
             );
         }};
 
-        constructor = new MultiCrafter("constructor") {{
+        constructor = new TConstructor("constructor") {{
             requirements(Category.crafting, with(TItems.darkMetal, 50, TItems.tin, 30, TItems.lithium, 15));
             size = 4;
             itemCapacity = 30;
             squareSprite = false;
             resolvedRecipes = Seq.with(
+                new Recipe(
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.darkMetal, 2, TItems.aluminium, 2)),
+                        Seq.with(),
+                        0.5f
+                    ),
+                    new IOEntry(
+                        Seq.with(ItemStack.with(TItems.cog, 8)),
+                        Seq.with()
+                    ),
+                    120f
+                ),
                 new Recipe(
                     new IOEntry(
                         Seq.with(ItemStack.with(TItems.darkMetal, 15, TItems.aluminium, 8)),

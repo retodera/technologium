@@ -76,7 +76,7 @@ public class TUnitTypes {
                 laserColor = TPal.acid3;
                 healColor = TPal.acid3;
                 bullet = new BulletType() {{
-                    maxRange = 80f;
+                    maxRange = 40f;
                 }};
             }});
         }};
@@ -104,7 +104,7 @@ public class TUnitTypes {
                 x = y = 0f;
                 shootY = 10f;
                 recoil = 0f;
-                shake = -1f;
+                shake = 0f;
                 rotate = false;
                 shootSound = Sounds.laserbeam;
                 continuous = true;

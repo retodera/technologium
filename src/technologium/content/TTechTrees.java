@@ -15,7 +15,7 @@ public class TTechTrees {
     public static void load(){
         //region kudol
 
-        TPlanets.kudol.techTree = nodeRoot("Kudol", kudol, () -> {
+        TPlanets.kudol.techTree = nodeRoot("kudol", kudol, () -> {
 
             //region blocks
 
@@ -123,7 +123,7 @@ public class TTechTrees {
 
         //region venjer
 
-        TPlanets.venjer.techTree = nodeRoot("Venjer", venjer, () -> {
+        TPlanets.venjer.techTree = nodeRoot("venjer", venjer, () -> {
         });
     }
 }

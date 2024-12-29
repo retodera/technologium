@@ -4,7 +4,7 @@ minGameVersion: 145
 main: "technologium.TModLoader"
 displayName: "Technologium"
 description: "<RU>\nОгромный мод в разработке, который добавит большое количество планет, блоков, предметов и юнитов.\n\n<EN>\nA very huge mod in development that will add lots of planets, blocks, items and units."
-author: "[[]#ff]retodera"
+author: "[[]#ff]retodera\n[[]]\nПомогавшие/Helpers:\n[[]#ffcc]xDer[[]]\nПризрак"
 subtitle: "The mod must grow."
 version: v0.3
 repo: "retodera/technologium"

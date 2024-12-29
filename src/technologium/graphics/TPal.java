@@ -48,9 +48,9 @@ public class TPal {
             sgla = Color.valueOf("ad5c237f"),
 
             brown1 = Color.valueOf("1a0e05"),
-            brown2 = Color.valueOf("3d200c"),
-            brown3 = Color.valueOf("522c10"),
-            brown4 = Color.valueOf("703c16"),
+            brown2 = Color.valueOf("331b0b"),
+            brown3 = Color.valueOf("42230d"),
+            brown4 = Color.valueOf("5c3112"),
             brown5 = Color.valueOf("7a4118"),
             brown6 = sgl1,
             brown7 = sgl2,

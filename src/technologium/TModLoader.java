@@ -6,10 +6,9 @@ import technologium.graphics.*;
 import mindustry.mod.*;
 import mindustry.type.Planet;
 import mindustry.Vars;
+import arc.util.Log;
 
 import static technologium.TVars.*;
-
-import arc.util.Log;
 
 //totally NOT a reference to the tModLoader (mod loader for terraria or smth)
 public class TModLoader extends Mod {

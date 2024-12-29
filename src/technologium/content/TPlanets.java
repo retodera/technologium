@@ -30,9 +30,9 @@ public class TPlanets {
 
         kudol = new Planet("kudol", beled, 2f, 3) {{
             generator = new SerpuloPlanetGenerator(); //maybe i'll change it later, but i think it'll be hard to make a planet generator
-            meshLoader = () -> new NoiseMesh(this, 2281337, 4, 1.9f, 7, 1f, 0.75f, 1.2f, Color.valueOf("331b0b"), Color.valueOf("663614"), 7, 1f, 0.75f, 1.2f);
+            meshLoader = () -> new NoiseMesh(this, 2281337, 4, 1.9f, 7, 1f, 0.75f, 1.2f, Color.valueOf("331b0b"), Color.valueOf("a35721"), 7, 1f, 0.75f, 0.53f);
             cloudMeshLoader = () -> new MultiMesh(
-                new HexSkyMesh(this, 69, 0.1f, 0.14f, 4, Color.valueOf("7a4118").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                new HexSkyMesh(this, 69, 0.1f, 0.14f, 4, Color.valueOf("85481b").a(0.75f), 2, 0.42f, 1f, 0.43f),
                 new HexSkyMesh(this, 420, 0.3f, 0.15f, 4, Color.valueOf("ad5c23").a(0.75f), 2, 0.42f, 1.2f, 0.45f));
             alwaysUnlocked = true;
             accessible = true;

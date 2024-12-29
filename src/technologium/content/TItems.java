@@ -110,8 +110,12 @@ public class TItems {
             explosiveness = 0.25f;
         }};
 
+        accumulator = new Item("accumulator", TPal.lithium2) {{
+           cost = 6f;     
+        }};
+
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
-                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor);
+                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator);
     }
 }
