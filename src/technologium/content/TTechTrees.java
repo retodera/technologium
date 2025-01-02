@@ -24,6 +24,7 @@ public class TTechTrees {
                 //region production
 
                 node(darkDrill, () -> {
+                    node(metallicDrill);
                     node(darkPlasmaBore, () -> {
                         node(miniPlasmaBore);
                         node(goldExtractor);

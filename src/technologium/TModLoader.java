@@ -45,6 +45,14 @@ public class TModLoader extends Mod {
                 planet.hiddenItems.addAll(TItems.kudolItems).removeAll(planet.itemWhitelist);
                 TPlanets.kudol.hiddenItems.addAll(planet.itemWhitelist).removeAll(TItems.kudolItems);
             }
+            if (planet.name != "venjer") {
+                planet.hiddenItems.addAll(TItems.venjerItems).removeAll(planet.itemWhitelist);
+                TPlanets.venjer.hiddenItems.addAll(planet.itemWhitelist).removeAll(TItems.venjerItems);
+            }
+            if (planet.name != "mitaplanet") {
+                planet.hiddenItems.addAll(TItems.mitaItems).removeAll(planet.itemWhitelist);
+                TPlanets.mita.hiddenItems.addAll(planet.itemWhitelist).removeAll(TItems.mitaItems);
+            }
         }
     }
 }

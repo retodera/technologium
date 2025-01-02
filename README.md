@@ -10,7 +10,7 @@ The Kudol idea was taken from the Erekir planet. I really liked Erekir.
 Venjer was randomly made up, and was randomly chosen as the hardest planet.
 ## Currently working on:
 - Kudol campaign
-- DrawAssemble for Constructor block
 - T2 Units
+- Drone station & drones
 # Lore
 nothing there yet

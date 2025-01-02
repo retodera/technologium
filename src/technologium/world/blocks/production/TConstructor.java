@@ -27,15 +27,15 @@ public class TConstructor extends MultiCrafter {
     public TextureRegion bottomRegion, iconRegion;
 
     //arms rotation multiplier
-    public float rotateSpeed = 1f,
+    public float rotateSpeed = 1f;
     //offset relative to the center of the block
-    offset = 8f,
+    public float offset = 8f;
     //arms movement length towards the center multiplier
-    move = 2f,
+    public float move = 4f;
     //internal use, do not change
-    prog = 0,
-    progn = 0,
-    r = 0;
+    public float prog = 0;
+    public float progn = 0;
+    public float r = 0;
 
     public TConstructor(String name) {
         super(name);
@@ -74,7 +74,7 @@ public class TConstructor extends MultiCrafter {
     }
 
     public class ConstructorBuild extends MultiCrafterBuild {
-        public float totalProgress;
+        public float totalProgress, ewarmup;
         public int armC = Mathf.clamp(armCount, 1, 16);
         public Seq<AssembleArm> arms = new Seq<>(armC);
         public Rand rand = new Rand();
@@ -138,12 +138,13 @@ public class TConstructor extends MultiCrafter {
             //used this instead of just totalProgress() because the arms stop and will have to continue moving normally
             prog = totalProgress() - progn;
             progn = totalProgress();
-            if(prog < 0.01 && !state.isPaused()) prog = 0.22f;
+            //for some reason when placing 2 or more constructors the prog of the non-first one is 0, so this exists
+            if(prog < 0.001 && !state.isPaused()) prog = 0.22f;
 
-            for(int i = 0; i < armCount; i++) {
+            for(int i = 0; i < armC; i++) {
 
                 //randomly cause the assembly arms to stop & move forward
-                if(rand.ints().findAny().getAsInt() % 200 / (i + 1) == 1 && arms.get(i).dir != 0 && warmup() != 0 && !state.isPaused()) {
+                if(rand.nextInt() % 200 / (i + 1) == 1 && arms.get(i).dir != 0 && warmup() != 0 && !state.isPaused()) {
                     arms.get(i).ndir = 0 - arms.get(i).dir;
                     arms.get(i).dir = 0;
                 }
@@ -151,7 +152,7 @@ public class TConstructor extends MultiCrafter {
                 //rotation
                 if(arms.get(i).dir != 0) {
                     arms.get(i).r = (arms.get(i).r + prog * rotateSpeed * 5 * arms.get(i).dir * warmup()) % 360;
-                    r = (arms.get(i).r + 360 / armCount * i) % 360;
+                    r = (arms.get(i).r + 360 / armC * i) % 360;
                     arms.get(i).x = (float)(x + Mathf.cosDeg(r) * offset);
                     arms.get(i).y = (float)(y + Mathf.sinDeg(r) * offset);
                     Draw.rect(arms.get(i).tex, arms.get(i).x, arms.get(i).y, r + 90);
@@ -160,15 +161,15 @@ public class TConstructor extends MultiCrafter {
                 //movement forwards
                 else {
                     arms.get(i).r2 += prog * 10 * warmup();
-                    Draw.rect(arms.get(i).tex, (float)(arms.get(i).x - Mathf.cosDeg(arms.get(i).r + 360 / armCount * i) * Mathf.sinDeg(arms.get(i).r2) * move), (float)(arms.get(i).y - Mathf.sinDeg(arms.get(i).r + 360 / armCount * i) * Mathf.sinDeg(arms.get(i).r2) * move), arms.get(i).r + 360 / armCount * i + 90);
+                    Draw.rect(arms.get(i).tex, (float)(arms.get(i).x - Mathf.cosDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move), (float)(arms.get(i).y - Mathf.sinDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move), arms.get(i).r + 360 / armC * i + 90);
                     if(arms.get(i).r2 >= 180) {
                         arms.get(i).dir = arms.get(i).ndir;
                         arms.get(i).r2 = 0;
                     }
                 }
-            //if(!state.isPaused()) {Log.info("(" + x + ", " + y + ")" + i + " x=" + arms.get(i).x + " y=" + arms.get(i).y + " dir=" + arms.get(i).dir + " ndir=" + arms.get(i).ndir + " r=" + arms.get(i).r + " r2=" + arms.get(i).r2);
-            //    Log.info("prog=" + prog + " progn=" + progn);
-            //};
+            // if(!state.isPaused()) {Log.info("(" + x + ", " + y + ")" + i + " x=" + arms.get(i).x + " y=" + arms.get(i).y + " dir=" + arms.get(i).dir + " ndir=" + arms.get(i).ndir + " r=" + arms.get(i).r + " r2=" + arms.get(i).r2);
+            //     Log.info("prog=" + prog + " progn=" + progn);
+            // };
             }
             Draw.rect(region, x, y);
         }

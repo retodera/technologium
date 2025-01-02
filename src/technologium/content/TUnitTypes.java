@@ -104,7 +104,6 @@ public class TUnitTypes {
                 x = y = 0f;
                 shootY = 10f;
                 recoil = 0f;
-                shake = 0f;
                 rotate = false;
                 shootSound = Sounds.laserbeam;
                 continuous = true;
@@ -114,6 +113,7 @@ public class TUnitTypes {
                     damage = 2f;
                     length = 50f;
                     width = 5f;
+                    shake = 0.2f;
                     healPercent = 0.05f;
                     collidesTeam = true;
                     colors = new Color[]{TPal.gold3.cpy().a(.2f), TPal.gold2.cpy().a(.5f), TPal.gold1.cpy().a(1.2f), Color.white};
@@ -152,8 +152,8 @@ public class TUnitTypes {
                 mirror = false;
                 bullet = new BasicBulletType() {{
                     damage = 15f;
-                    speed = 30f;
-                    lifetime = 10f;
+                    speed = 15f;
+                    lifetime = 20f;
                     frontColor = TPal.gold3;
                     backColor = TPal.gold1;
                 }};

@@ -8,11 +8,11 @@ import arc.util.Time;
 import mindustry.type.LiquidStack;
 
 public class TAttributeCrafter extends AttributeCrafter {
-    public float optionalBoostIntensity = 2.5f;
+    public float optionalBoostIntensity = 2f;
 
     public TAttributeCrafter(String name) {
         super(name);
-        maxBoost = 2.5f;
+        maxBoost = 2f;
     }
     
     @Override
@@ -38,7 +38,7 @@ public class TAttributeCrafter extends AttributeCrafter {
             if(efficiency > 0){
     
                 progress += getProgressIncrease(craftTime);
-                warmup = Mathf.approachDelta(warmup, warmupTarget() + optionalEfficiency * optionalBoostIntensity, warmupSpeed);
+                warmup = Mathf.approachDelta(warmup, Math.min(maxBoost, warmupTarget() + optionalEfficiency * (optionalBoostIntensity - 1f)), warmupSpeed);
     
                 //continuously output based on efficiency
                 if(outputLiquids != null){
@@ -67,7 +67,7 @@ public class TAttributeCrafter extends AttributeCrafter {
         @Override
 
         public float efficiencyMultiplier() {
-            return (baseEfficiency + Math.min(maxBoost, boostScale * attrsum) + attribute.env()) + optionalEfficiency * optionalBoostIntensity;
+            return (baseEfficiency + Math.min(maxBoost, boostScale * attrsum) + attribute.env()) + optionalEfficiency * (optionalBoostIntensity - 1f);
         }
     }
 }

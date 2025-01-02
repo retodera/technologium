@@ -1,5 +1,8 @@
 package technologium.content;
 
+import static technologium.TVars.misideRelease;
+
+import arc.graphics.Color;
 import arc.struct.*;
 import mindustry.type.Item;
 import technologium.graphics.TPal;
@@ -8,10 +11,12 @@ public class TItems {
     public static Item
     /* standart */ hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm,
             trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, pegmatite, enrichedMetal, enrichedAluminium,
-    /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol
-            ;
+    /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol,
+    /* mitamitamitamitamitamitamitamitamitamitamitamitamitamitamitamita */
+            mitanium, mitalite, milane, cappite      
+    ;
 
-    public static final Seq<Item> kudolItems = new Seq<>();
+    public static final Seq<Item> kudolItems = new Seq<>(), venjerItems = new Seq<>(), mitaItems = new Seq<>();
 
     public static void load() {
 
@@ -114,8 +119,36 @@ public class TItems {
            cost = 6f;     
         }};
 
+        mitanium = new Item("mitanium", Color.valueOf("c195fb")) {{
+            cost = 1f;
+            flammability = 0.25f;
+            hardness = 1;
+            hidden = !misideRelease;
+        }};
+
+        mitalite = new Item("mitalite", Color.valueOf("665c9f")) {{
+            cost = 2f;
+            hidden = !misideRelease;
+        }};
+
+        milane = new Item("milane", TPal.lithium1) {{
+            cost = 3f;
+            hardness = 2;
+            explosiveness = 0.5f;
+            hidden = !misideRelease;
+        }};
+
+        cappite = new Item("cappite", Color.valueOf("484988")) {{
+            cost = 2f;
+            radioactivity = 1.5f;
+            hidden = !misideRelease;
+        }};
+
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
                 stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator);
+        mitaItems.addAll(
+                mitanium, mitalite, milane, cappite
+        );
     }
 }

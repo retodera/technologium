@@ -1,5 +1,6 @@
 package multicraft;
 
+//only changes: make the totalProgress normally work & little warmupTarget() change
 import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -172,6 +173,7 @@ public class MultiCrafter extends Block {
     protected static Table hoveredInfo;
 
     public class MultiCrafterBuild extends Building implements HeatBlock, HeatConsumer {
+        public float totalProgress;
         /**
          * For {@linkplain HeatConsumer}, only enabled when the multicrafter requires heat input
          */
@@ -267,6 +269,8 @@ public class MultiCrafter extends Block {
                 if (wasVisible && Mathf.chanceDelta(updateEffectChance))
                     updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
             } else warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+
+            totalProgress += warmup * Time.delta;
 
             if (craftTimeNeed <= 0f) {
                 if (efficiency > 0f)
@@ -469,8 +473,8 @@ public class MultiCrafter extends Block {
         public float warmupTarget() {
             Recipe cur = getCurRecipe();
             // When As HeatConsumer
-            if (isConsumeHeat && cur.isConsumeHeat()) return Mathf.clamp(heat / cur.input.heat);
-            else return 1f;
+            if (isConsumeHeat && cur.isConsumeHeat()) return Mathf.clamp(heat / cur.input.heat) * efficiency;
+            else return efficiency;
         }
 
         @Override
@@ -530,6 +534,11 @@ public class MultiCrafter extends Block {
             else if (effect == Fx.upgradeCoreBloom) effect.at(x, y, block.size);
             else if (effect == Fx.rotateBlock) effect.at(x, y, block.size);
             else effect.at(x, y, 0, this);
+        }
+
+        @Override
+        public float totalProgress(){
+            return totalProgress;
         }
     }
 

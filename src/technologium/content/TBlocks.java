@@ -38,8 +38,9 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
+import technologium.graphics.TPal;
 import technologium.world.*;
-import technologium.world.blocks.*;
+import technologium.world.draw.*;
 import technologium.world.blocks.liquid.*;
 import technologium.world.blocks.logic.*;
 import technologium.world.blocks.storage.*;
@@ -47,6 +48,7 @@ import technologium.world.blocks.production.*;
 import multicraft.*;
 
 import static mindustry.Vars.*;
+import static technologium.TVars.*;
 import static mindustry.type.ItemStack.*;
 
 public class TBlocks {
@@ -55,18 +57,20 @@ public class TBlocks {
 
     //environment - floor
     volcanicStone, thermalStone, acidFloor, neoplasticFloor, neoplasticLiquid, hydrochloricAcidLiquid, pegmatiteStone,
+    mitaStone,
 
     //environment - ore
     hematiteOre, tinWallOre, bauxiteOre,
 
     //environment - wall
     volcanicWall, acidWall, neoplasticWall, neoplasticTree, pegmatiteWall,
+    mitaWall, mitaHide,
 
     //turrets - kudol
     spite,
 
     //production - kudol
-    darkPlasmaBore, miniPlasmaBore, darkDrill, goldExtractor,
+    darkPlasmaBore, miniPlasmaBore, darkDrill, metallicDrill, goldExtractor,
 
     //distribution - kudol
     darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmaDriver,
@@ -79,7 +83,7 @@ public class TBlocks {
     thermalPlate, energeticNode, energeticNodeLarge, lithiumBattery,
 
     //crafting - kudol
-    arcFurnace, arcSmelter, atmosphericConcentrator, trainingCenter, acidElectrolyzer, constructor, enricher,
+    arcFurnace, arcSmelter, atmosphericCondenser, trainingCenter, acidElectrolyzer, constructor, enricher,
 
     //defense - kudol
     darkWall, darkWallLarge,
@@ -88,7 +92,7 @@ public class TBlocks {
     unitFabricator,
 
     //effect - kudol
-    coreTorch, coreBlaze, darkUnloader, darkContainer, darkVault, miniMender, miniShieldProjector, buildTurret,
+    coreTorch, coreBlaze, darkUnloader, darkContainer, darkVault, miniMender, miniShieldProjector, buildTurret, radar,
 
     //logic - kudol
     switchBlock, message, energeticProcessor, plasmaProcessor, cell,
@@ -118,6 +122,16 @@ public class TBlocks {
         }};
 
         neoplasticTree = new TreeBlock("neoplastic-tree");
+
+        mitaWall = new StaticWall("mita-wall") {{
+            variants = 3; 
+            buildVisibility = misideRelease ? BuildVisibility.hidden : BuildVisibility.debugOnly;
+        }};
+
+        mitaHide = new StaticWall("mita-hide") {{
+            variants = 1;
+            buildVisibility = misideRelease ? BuildVisibility.hidden : BuildVisibility.debugOnly;
+        }};
 
         //region environment - floor
 
@@ -175,6 +189,11 @@ public class TBlocks {
             wall = pegmatiteWall;
         }};
 
+        mitaStone = new Floor("mita-stone", 3) {{
+            wall = mitaWall;
+            buildVisibility = misideRelease ? BuildVisibility.hidden : BuildVisibility.debugOnly;
+        }};
+
         //region environment - ore
 
         hematiteOre = new OreBlock("hematite-ore", TItems.hematite);
@@ -210,7 +229,7 @@ public class TBlocks {
 
         darkPlasmaBore = new BeamDrill("dark-plasma-bore") {{
             requirements(Category.production, with(TItems.hematite, 25, TItems.tin, 10));
-            consumePower(0.2f);
+            consumePower(12 / 60f);
             health = 120;
             drillTime = 400f;
             size = 2;
@@ -223,7 +242,7 @@ public class TBlocks {
 
         miniPlasmaBore = new BeamDrill("mini-plasma-bore") {{
             requirements(Category.production, with(TItems.darkMetal, 10, TItems.tin, 10));
-            consumePower(0.1f);
+            consumePower(8 / 60f);
             health = 80;
             drillTime = 300f;
             size = 1;
@@ -235,11 +254,21 @@ public class TBlocks {
 
         darkDrill = new Drill("dark-drill") {{
             requirements(Category.production, with(TItems.hematite, 20, TItems.tin, 15));
-            consumePower(0.25f);
+            consumePower(5 / 60f);
             health = 110;
             tier = 1;
             drillTime = 720f;
             size = 1;
+            liquidBoostIntensity = 1f;
+        }};
+
+        metallicDrill = new Drill("metallic-drill") {{
+            requirements(Category.production, with(TItems.darkMetal, 25, TItems.tin, 15, TItems.lithium, 10));
+            consumePower(35 / 60f);
+            health = 240;
+            tier = 2;
+            drillTime = 440f;
+            size = 2;
             liquidBoostIntensity = 1f;
         }};
 
@@ -255,10 +284,9 @@ public class TBlocks {
             hasItems = true;
             itemCapacity = 20;
             liquidCapacity = 200;
-            maxBoost = 3f;
             attribute = goldA;
             minEfficiency = 0.01f;
-            optionalBoostIntensity = 2f;
+            optionalBoostIntensity = maxBoost = 2.5f;
             outputItem = new ItemStack(TItems.gold, 1);
             baseEfficiency = 0;
             drawer = new DrawMulti(
@@ -320,6 +348,7 @@ public class TBlocks {
             reload = 100f;
             range = 500f;
             consumePower(1.5f);
+            outlineColor = TPal.darkerOutline;
         }};
 
         //region liquid - kudol
@@ -381,6 +410,10 @@ public class TBlocks {
             generateEffect = Fx.redgeneratespark;
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.06f;
+            drawer = new DrawMulti(
+                new DrawDefault(),
+                new DrawGlowRegion()
+            );
         }};
 
         energeticNode = new PowerNode("energetic-node") {{
@@ -488,6 +521,7 @@ public class TBlocks {
             size = 4;
             itemCapacity = 30;
             squareSprite = false;
+            rotate = false;
             resolvedRecipes = Seq.with(
                 new Recipe(
                     new IOEntry(
@@ -521,6 +555,19 @@ public class TBlocks {
             size = 3;
             itemCapacity = 10;
             squareSprite = false;
+            rotate = false;
+            drawer = new DrawMulti(
+                new DrawRegion("-bottom"),
+                new DrawRecipe() {{
+                    drawers = new DrawBlock[] {
+                        new DrawRegionColored("-powder", 1f, false, TItems.hematite),
+                        new DrawRegionColored("-powder", 1f, false, TItems.bauxite),
+                        new DrawRegionColored("-powder", 1f, false, TItems.pegmatite)
+                    };
+                }},
+                new DrawRegion("-rotator", 1f, false),
+                new DrawDefault()
+            );
             resolvedRecipes = Seq.with(
                 new Recipe(
                     new IOEntry(
@@ -628,6 +675,15 @@ public class TBlocks {
             requirements(Category.effect, with(TItems.darkMetal, 20, TItems.tin, 5, TItems.aluminium, 10));
             speed = 60 / 15f;
         }};
+        
+        radar = new Radar("radar") {{
+            requirements(Category.effect, BuildVisibility.fogOnly, with(TItems.darkMetal, 40, TItems.tin, 32, TItems.lithium, 25));
+            size = 1;
+            health = 120;
+            consumePower(1f);
+            fogRadius = 26;
+            outlineColor = TPal.darkerOutline;
+        }};
 
         //region logic
 
@@ -668,13 +724,13 @@ public class TBlocks {
             range = 48 * 8;
         }};
 
-        display = new LogicDisplay("display") {{
+        display = new BorderlessDisplay("display") {{
             requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 10, TItems.bioprocessor, 1));
             size = 4;
             displaySize = 200;
         }};
 
-        miniDisplay = new LogicDisplay("mini-display") {{
+        miniDisplay = new BorderlessDisplay("mini-display") {{
             requirements(Category.logic, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.lithium, 5, TItems.bioprocessor, 1));
             size = 2;
             displaySize = 100;

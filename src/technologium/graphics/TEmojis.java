@@ -71,7 +71,7 @@ public class TEmojis {
                 .map(c -> new GenData(c.uiIcon.texture == pure, c.name, c.uiIcon))
                 .add(new GenData(true, "kaut", Core.atlas.find("t-team-kaut")))
                 //region mms emojis
-                .add(new GenData(true, "t", Core.atlas.find("t-t")))
+                .add(new GenData(true, "technologium", Core.atlas.find("t-settings-icon")))
                 .add(new GenData(true, "mms", Core.atlas.find("t-mms")))
                 .add(new GenData(true, "mms-idc", Core.atlas.find("t-mms-idc")))
                 .add(new GenData(true, "mms-angry", Core.atlas.find("t-mms-angry")))
