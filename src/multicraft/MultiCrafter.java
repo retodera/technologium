@@ -1,6 +1,9 @@
 package multicraft;
 
-//only changes: make the totalProgress normally work & little warmupTarget() change
+// only changes: make the totalProgress normally work & little warmupTarget() change
+// the totalProgress was recently added, lol
+// oh wait, it was 8 month ago? time goes fast
+// but i downloaded the zip of the multicrafter lib a little later, then why didnt it exist?
 import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;

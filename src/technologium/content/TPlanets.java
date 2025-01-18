@@ -13,6 +13,7 @@ public class TPlanets {
     public static Planet
     /* stars */ beled,
         /* planets */ kudol, venjer, nobata, itinbu, mita;
+        // TODO add asteroids to all planets with the same items as the planets have
 
     public static void load() {
         // cyan giant star
@@ -32,7 +33,7 @@ public class TPlanets {
         }};
 
         kudol = new Planet("kudol", beled, 2f, 3) {{
-            generator = new SerpuloPlanetGenerator(); //maybe i'll change it later, but i think it'll be hard to make a planet generator
+            generator = new SerpuloPlanetGenerator(); // TODO make generator
             meshLoader = () -> new NoiseMesh(this, 2281337, 6, 1.9f, 7, 1f, 0.75f, 1.2f, Color.valueOf("331b0b"), Color.valueOf("a35721"), 7, 1f, 0.75f, 0.53f);
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 69, 0.1f, 0.14f, 6, Color.valueOf("85481b").a(0.75f), 2, 0.42f, 1f, 0.43f),
@@ -68,7 +69,7 @@ public class TPlanets {
         }};
 
         venjer = new Planet("venjer", beled, 1.5f, 2) {{
-            generator = new SerpuloPlanetGenerator(); //maybe i'll change it later, but i think it'll be hard to make a planet generator
+            generator = new SerpuloPlanetGenerator(); // TODO make generator
             meshLoader = () -> new NoiseMesh(this, 69420, 5, 1.4f, 7, 1f, 0.75f, 1.2f, Color.valueOf("12b312"), Color.valueOf("663614"), 7, 1f, 0.75f, 0.53f);
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 228, 0.1f, 0.14f, 6, Color.valueOf("2ee62e").a(0.75f), 2, 0.42f, 1f, 0.43f),

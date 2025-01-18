@@ -57,8 +57,7 @@ public class TConstructor extends MultiCrafter {
         bottomRegion = Core.atlas.find(name + "-bottom");
         iconRegion = Core.atlas.find(name + "-arms-icon");
         armsTex = new TextureRegion[armCount];
-        for(int i = 0; i < armCount; i++)
-        armsTex[i] = Core.atlas.find(name + "-arm" + (i+1));
+        for(int i = 0; i < armCount; i++) armsTex[i] = Core.atlas.find(name + "-arm" + (i+1));
     }
 
     public TextureRegion[] icons() {
@@ -66,7 +65,6 @@ public class TConstructor extends MultiCrafter {
     }
 
     @Override
-
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(bottomRegion, plan.drawx(), plan.drawy());
         Draw.rect(iconRegion, plan.drawx(), plan.drawy());
@@ -94,6 +92,7 @@ public class TConstructor extends MultiCrafter {
                 // if <= 0, instantly produced
                 if (craftTimeNeed > 0f) craftingTime += edelta();
                 warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+                ewarmup = Mathf.approachDelta(ewarmup, warmupTarget() * efficiency, warmupSpeed);
                 if (hasPower) {
                     float powerChange = (cur.output.power - cur.input.power) * delta();
                     if (!Mathf.zero(powerChange))
@@ -144,14 +143,14 @@ public class TConstructor extends MultiCrafter {
             for(int i = 0; i < armC; i++) {
 
                 //randomly cause the assembly arms to stop & move forward
-                if(rand.nextInt() % 200 / (i + 1) == 1 && arms.get(i).dir != 0 && warmup() != 0 && !state.isPaused()) {
+                if(rand.nextInt() % 200 / (i + 1) == 1 && arms.get(i).dir != 0 && ewarmup != 0 && !state.isPaused()) {
                     arms.get(i).ndir = 0 - arms.get(i).dir;
                     arms.get(i).dir = 0;
                 }
 
                 //rotation
                 if(arms.get(i).dir != 0) {
-                    arms.get(i).r = (arms.get(i).r + prog * rotateSpeed * 5 * arms.get(i).dir * warmup()) % 360;
+                    arms.get(i).r = (arms.get(i).r + prog * rotateSpeed * 5 * arms.get(i).dir * ewarmup) % 360;
                     r = (arms.get(i).r + 360 / armC * i) % 360;
                     arms.get(i).x = (float)(x + Mathf.cosDeg(r) * offset);
                     arms.get(i).y = (float)(y + Mathf.sinDeg(r) * offset);
@@ -160,8 +159,11 @@ public class TConstructor extends MultiCrafter {
 
                 //movement forwards
                 else {
-                    arms.get(i).r2 += prog * 10 * warmup();
-                    Draw.rect(arms.get(i).tex, (float)(arms.get(i).x - Mathf.cosDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move), (float)(arms.get(i).y - Mathf.sinDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move), arms.get(i).r + 360 / armC * i + 90);
+                    arms.get(i).r2 += prog * 10 * ewarmup;
+                    Draw.rect(arms.get(i).tex,
+                        (float)(arms.get(i).x - Mathf.cosDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move),
+                        (float)(arms.get(i).y - Mathf.sinDeg(arms.get(i).r + 360 / armC * i) * Mathf.sinDeg(arms.get(i).r2) * move),
+                        arms.get(i).r + 360 / armC * i + 90);
                     if(arms.get(i).r2 >= 180) {
                         arms.get(i).dir = arms.get(i).ndir;
                         arms.get(i).r2 = 0;

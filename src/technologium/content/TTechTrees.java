@@ -54,8 +54,8 @@ public class TTechTrees {
                         node(darkBridgeConveyor, () -> {
                             node(plasmaDriver);
                         });
-                        node(darkUnloader, () -> {
-                            node(darkContainer, () -> {
+                        node(darkContainer, () -> {
+                            node(darkUnloader, () -> {
                                 node(darkVault);
                             });
                         });
@@ -67,7 +67,7 @@ public class TTechTrees {
                 node(improvedConduit, () -> {
                     node(improvedLiquidJunction, () -> {
                         node(improvedLiquidRouter);
-                        node(improvedBridgeConduit);
+                        node(improvedLiquidBridge);
                         node(improvedLiquidContainer);
                     });
                     node(thermoConduit);
@@ -79,6 +79,22 @@ public class TTechTrees {
                     node(energeticNode, () -> {
                         node(energeticNodeLarge);
                         node(lithiumBattery); 
+                    });
+                });
+
+                //region logic
+
+                node(energeticProcessor, () -> {
+                    node(plasmaProcessor);
+                    node(switchBlock);
+                    node(message);
+                    node(cell, () -> {
+                        node(bank);
+                        node(stringCell);
+                    }); 
+                    node(miniDisplay, () -> {
+                        node(display);
+                        node(projector);
                     });
                 });
             });

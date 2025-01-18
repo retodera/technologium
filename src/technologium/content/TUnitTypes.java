@@ -5,6 +5,7 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
+import technologium.entities.*;
 import technologium.graphics.TPal;
 import technologium.world.*;
 import technologium.type.unit.*;
@@ -15,6 +16,8 @@ public class TUnitTypes {
 
     public static UnitType
 
+    // names are ready, units itself aren't
+    
     // core units
     quant, lonter, glider, prosecutor, reaper, predator,
 
@@ -37,6 +40,8 @@ public class TUnitTypes {
             aiController = BuilderAI::new;
             constructor = MechUnit::create;
             isEnemy = false;
+            createScorch = false;
+            canAttack = false;
             mechSideSway = 0.3f;
             mechStepParticles = true;
             health = 180;
@@ -51,13 +56,11 @@ public class TUnitTypes {
             engineOffset = 7f;
             buildSpeed = 1.2f;
             buildRange = 200f;
-            canAttack = false;
             mineWalls = true;
             mineFloor = true;
             mineSpeed = 2f;
             mineTier = 1;
             coreUnitDock = true;
-            createScorch = false;
             weapons.add(new RepairBeamWeapon() {{
                 reload = 20f;
                 x = y = 0f;
@@ -90,8 +93,6 @@ public class TUnitTypes {
             speed = 0.6f;
             health = 265;
             hitSize = 12f;
-            createScorch = true;
-            isEnemy = true;
             aiController = GroundAI::new;
             mineSpeed = 0f;
             flying = false;
@@ -133,12 +134,10 @@ public class TUnitTypes {
             health = 220;
             hitSize = 12f;
             aiController = GroundAI::new;
-            isEnemy = true;
             mineSpeed = 0f;
             flying = false;
             canBoost = false;
             buildSpeed = 0;
-            createScorch = true;
             itemCapacity = 30;
             faceTarget = false;
             weapons.add(new Weapon("t-sniper-gun") {{
@@ -160,6 +159,44 @@ public class TUnitTypes {
             }});
         }};
         //endregion
+
+        //region kudol - air
+
+        mercury = new KudolUnitType("mercury") {{
+            constructor = UnitEntity::create;
+            speed = 3.5f;
+            drag = 0.15f;
+            accel = 0.1f;
+            health = 190;
+            hitSize = 10f;
+            aiController = FlyingAI::new;
+            mineSpeed = 0f;
+            flying = true;
+            buildSpeed = 0;
+            itemCapacity = 40;
+            engineOffset = 4.5f;
+            engineSize = 2.5f;
+            weapons.add(new Weapon("t-mercury-weapon") {{
+                x = 0;
+                y = 5f;
+                layerOffset = -0.01f;
+                top = false;
+                shootY = 2f;
+                recoil = 1.5f;
+                rotate = false;
+                shootSound = Sounds.blaster;
+                mirror = false;
+                reload = 30f;
+                bullet = new BasicBulletType() {{
+                    sprite = "t-sphere-bullet";
+                    damage = 4f;
+                    speed = 3f;
+                    lifetime = 25f;
+                    frontColor = TPal.gold3;
+                    backColor = hitColor = trailColor = TPal.gold1;
+                }};
+            }});
+        }};
 
         //region special (cringe)
         metalstrong = new KudolUnitType("metalstrong"){{

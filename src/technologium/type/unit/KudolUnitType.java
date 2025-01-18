@@ -13,5 +13,8 @@ public class KudolUnitType extends UnitType {
         envDisabled = Env.none;
         ammoType = new ItemAmmoType(TItems.darkMetal);
         researchCostMultiplier = 8;
+        isEnemy = true;
+        createScorch = true;
+        canAttack = true;
     }
 }

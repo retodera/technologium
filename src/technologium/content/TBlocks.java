@@ -76,7 +76,7 @@ public class TBlocks {
     darkConveyor, darkJunction, darkRouter, darkDistributor, darkBridgeConveyor, plasmaDriver,
 
     //liquds - kudol
-    improvedConduit, thermoConduit, improvedLiquidJunction, improvedLiquidRouter, improvedBridgeConduit,
+    improvedConduit, thermoConduit, improvedLiquidJunction, improvedLiquidRouter, improvedLiquidBridge,
     improvedLiquidContainer,
 
     //power - kudol
@@ -96,7 +96,7 @@ public class TBlocks {
 
     //logic - kudol
     switchBlock, message, energeticProcessor, plasmaProcessor, cell,
-    bank, miniDisplay, display, stringMemoryBlock
+    bank, miniDisplay, display, stringCell, projector
     ;
 
     public static final Attribute goldA = Attribute.add("goldA"), neoplasmA = Attribute.add("neoplasmA");
@@ -217,6 +217,7 @@ public class TBlocks {
             consumePower(0.25f);
             shootSound = Sounds.blaster;
             drawer = new DrawTurret("kudol-");
+            outlineColor = TPal.darkerOutline;
             shootType = new LaserBulletType(12) {{
                 buildingDamageMultiplier = 0.25f;
                 length = 80f;
@@ -354,25 +355,27 @@ public class TBlocks {
         //region liquid - kudol
 
         improvedConduit = new TempConduit("improved-conduit") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.goldGlass, 2));
+            requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.tin, 4, TItems.goldGlass, 2));
             health = 60;
+            junctionReplacement = improvedLiquidJunction;
+            bridgeReplacement = improvedLiquidBridge;
         }};
 
         thermoConduit = new TempConduit("thermo-conduit") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4, TItems.stalinium, 2));
+            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.tin, 8, TItems.goldGlass, 4, TItems.stalinium, 2));
             health = 160;
             maxTemp = 5f;
         }};
 
         improvedLiquidJunction = new TempLiquidJunction("improved-liquid-junction") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.goldGlass, 4));
+            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.tin, 8, TItems.goldGlass, 4));
             health = 90;
             solid = false;
             placeableLiquid = true;
         }};
 
         improvedLiquidRouter = new TempLiquidRouter("improved-liquid-router") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 6, TItems.goldGlass, 6));
+            requirements(Category.liquid, with(TItems.darkMetal, 6, TItems.tin, 12, TItems.goldGlass, 6));
             health = 120;
             liquidCapacity = 30f;
             placeableLiquid = true;
@@ -380,8 +383,8 @@ public class TBlocks {
             solid = false;
         }};
 
-        improvedBridgeConduit = new TempLiquidBridge("improved-liquid-bridge") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 20));
+        improvedLiquidBridge = new TempLiquidBridge("improved-liquid-bridge") {{
+            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.tin, 30, TItems.goldGlass, 20));
             health = 140;
             fadeIn = moveArrows = false;
             arrowSpacing = 6f;
@@ -391,7 +394,7 @@ public class TBlocks {
         }};
 
         improvedLiquidContainer = new TempLiquidRouter("improved-liquid-container") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.goldGlass, 12));
+            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.tin, 40, TItems.goldGlass, 12));
             health = 540;
             liquidCapacity = 800f;
             placeableLiquid = true;
@@ -560,12 +563,12 @@ public class TBlocks {
                 new DrawRegion("-bottom"),
                 new DrawRecipe() {{
                     drawers = new DrawBlock[] {
-                        new DrawRegionColored("-powder", 1f, false, TItems.hematite),
-                        new DrawRegionColored("-powder", 1f, false, TItems.bauxite),
-                        new DrawRegionColored("-powder", 1f, false, TItems.pegmatite)
+                        new DrawRegionColored("-powder", 1f, false, TItems.hematite, false),
+                        new DrawRegionColored("-powder", 1f, false, TItems.bauxite, false),
+                        new DrawRegionColored("-powder", 1f, false, TItems.pegmatite, false)
                     };
                 }},
-                new DrawRegion("-rotator", 1f, false),
+                new DrawRegion("-rotator", 1f, true),
                 new DrawDefault()
             );
             resolvedRecipes = Seq.with(
@@ -611,14 +614,14 @@ public class TBlocks {
         //region defense - kudol
 
         darkWall = new Wall("dark-wall") {{
-            requirements(Category.defense, with(TItems.hematite, 4, TItems.tin, 4));
+            requirements(Category.defense, with(TItems.darkMetal, 4));
             health = 360;
             researchCostMultiplier = 0.2f;
         }};
 
         darkWallLarge = new Wall("dark-wall-large") {{
-            requirements(Category.defense, with(TItems.hematite, 16, TItems.tin, 16));
-            health = 1440;
+            requirements(Category.defense, with(TItems.darkMetal, 16));
+            scaledHealth = 360;
             size = 2;
         }};
 
@@ -631,9 +634,11 @@ public class TBlocks {
             consumePower(3f);
             plans = Seq.with(
                 new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.bioprocessor, 1)),
-                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 50, TItems.aluminium, 35, TItems.lithium, 25, TItems.accumulator, 4, TItems.bioprocessor, 1))
+                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 50, TItems.aluminium, 35, TItems.lithium, 25, TItems.accumulator, 4, TItems.bioprocessor, 1)),
+                new UnitPlan(TUnitTypes.mercury, 750f, with(TItems.darkMetal, 25, TItems.aluminium, 40, TItems.bioprocessor, 1))
             );
         }};
+
         //region effect - kudol
 
         coreTorch = new TCoreBlock("core-torch") {{
@@ -689,23 +694,27 @@ public class TBlocks {
 
         switchBlock = new SwitchBlock("switch") {{
             requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 5));
+            health = 80;
         }};
 
         message = new MessageBlock("message") {{
             requirements(Category.logic, with(TItems.darkMetal, 15, TItems.tin, 10));
             maxTextLength = 600;
             maxNewlines = 200;
+            health = 80;
         }};
 
         cell = new MemoryBlock("cell") {{
             requirements(Category.logic, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.memoryCard, 4));
             memoryCapacity = 256;
+            health = 80;
         }};
 
         bank = new MemoryBlock("bank") {{
             requirements(Category.logic, with(TItems.darkMetal, 100, TItems.tin, 70, TItems.lithium, 45, TItems.memoryCard, 16));
             size = 2;
             memoryCapacity = 2048;
+            scaledHealth = 30;
         }};
 
         energeticProcessor = new LogicBlock("energetic-processor") {{
@@ -714,6 +723,8 @@ public class TBlocks {
             size = 1;
             squareSprite = false;
             range = 16 * 8;
+            health = 140;
+            consumePower(35 / 60f);
         }};
 
         plasmaProcessor = new LogicBlock("plasma-processor") {{
@@ -722,23 +733,35 @@ public class TBlocks {
             size = 2;
             squareSprite = false;
             range = 48 * 8;
+            scaledHealth = 40;
+            consumePower(100 / 60f);
         }};
 
         display = new BorderlessDisplay("display") {{
             requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 10, TItems.bioprocessor, 1));
             size = 4;
             displaySize = 200;
+            scaledHealth = 30;
         }};
 
         miniDisplay = new BorderlessDisplay("mini-display") {{
             requirements(Category.logic, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.lithium, 5, TItems.bioprocessor, 1));
             size = 2;
             displaySize = 100;
+            scaledHealth = 25;  
         }};
 
-        stringMemoryBlock = new StringMemoryBlock("string-memory-block") {{
+        stringCell = new StringMemoryBlock("string-cell") {{
             requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 20, TItems.memoryCard, 32));
             memoryCapacity = 64;
+            health = 100;    
+        }};
+
+        projector = new Projector("projector") {{
+            requirements(Category.logic, with(TItems.darkMetal, 50, TItems.lithium, 35, TItems.advBioprocessor, 5));
+            size = 1;
+            health = 80;
+            consumePower(0.75f);
         }};
     }
 }

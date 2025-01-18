@@ -5,6 +5,7 @@ import mindustry.type.*;
 import mindustry.content.StatusEffects;
 import technologium.graphics.TPal;
 import mindustry.graphics.Pal;
+import technologium.TVars;
 
 public class TStatusEffects {
     public static StatusEffect corrosion, neoplasmCovered, mitaCorrupted;
@@ -29,6 +30,7 @@ public class TStatusEffects {
         }};
 
         mitaCorrupted = new StatusEffect("mita-corrupted") {{
+            show = !TVars.misideRelease;
             color = Pal.accent;
             damage = 0.025f;
             effect = Fx.none;

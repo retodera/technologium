@@ -9,8 +9,8 @@ import technologium.graphics.TPal;
 
 public class TItems {
     public static Item
-    /* standart */ hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm,
-            trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, pegmatite, enrichedMetal, enrichedAluminium,
+    /* standart */ hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, cannedNeoplasm,
+            trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, enrichedMetal, enrichedAluminium,
     /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol,
     /* mitamitamitamitamitamitamitamitamitamitamitamitamitamitamitamita */
             mitanium, mitalite, milane, cappite      
@@ -21,48 +21,53 @@ public class TItems {
     public static void load() {
 
         hematite = new Item("hematite", TPal.brown2) {{
-                hardness = 1;
-                cost = 0.5f;
-        }};
-
-        tin = new Item("tin", TPal.calt1) {{
-                hardness = 1;
-                cost = 0.5f;
+            hardness = 1;
+            cost = 0.5f;
         }};
 
         darkMetal = new Item("dark-metal", TPal.dark4) {{
-                cost = 0.75f;
+            cost = 0.75f;
+        }};
+
+        tin = new Item("tin", TPal.tin1) {{
+            hardness = 1;
+            cost = 0.5f;
         }};
 
         bauxite = new Item("bauxite", TPal.brown8) {{
-                hardness = 2;
-                cost = 0.5f;
+            hardness = 2;
+            cost = 0.5f;
         }};
 
         aluminium = new Item("aluminium", TPal.wnb9) {{
-                cost = 0.75f;
+            cost = 0.75f;
+        }};
+
+        pegmatite = new Item("pegmatite", TPal.kaut1) {{
+            hardness = 1;
+            cost = 0.5f;
         }};
 
         lithium = new Item("lithium", TPal.lithium3) {{
-                cost = 0.75f;
+            cost = 0.75f;
         }};
 
         gold = new Item("gold", TPal.gold3) {{
-                cost = 1f;
+            cost = 1f;
         }};
 
         goldGlass = new Item("gold-glass", TPal.ggl3) {{
-                cost = 1.25f;
+            cost = 1.25f;
         }};
 
         cannedNeoplasm = new Item("canned-neoplasm", TPal.sgl1) {{
-                cost = 2f;
-                flammability = 0.25f;
+            cost = 2f;
+            flammability = 0.25f;
         }};
 
         trainedNeoplasm = new Item("trained-neoplasm", TPal.sgl3) {{
-                cost = 3f;
-                flammability = 0.25f;
+            cost = 3f;
+            flammability = 0.25f;
         }};
 
         uranium = new Item("uranium", TPal.green1) {{
@@ -76,8 +81,8 @@ public class TItems {
         }};
 
         stalinium = new Item("stalinium", TPal.red3) {{
-                cost = 10f;
-                radioactivity = 1.5f;
+            cost = 10f;
+            radioactivity = 1.5f;
         }};
 
         rotor = new Item("rotor", TPal.wnb3) {{
@@ -92,13 +97,8 @@ public class TItems {
             cost = 4f;
         }};
 
-        roskomnadzorium = new Item("roskomnadzorium", TPal.calt2) {{
+        roskomnadzorium = new Item("roskomnadzorium", TPal.tin2) {{
             cost = 0f;
-        }};
-
-        pegmatite = new Item("pegmatite", TPal.kaut1) {{
-            hardness = 1;
-            cost = 0.5f;
         }};
 
         enrichedMetal = new Item("enriched-metal", TPal.wnb4) {{
@@ -116,7 +116,7 @@ public class TItems {
         }};
 
         accumulator = new Item("accumulator", TPal.lithium2) {{
-           cost = 6f;     
+            cost = 6f;     
         }};
 
         mitanium = new Item("mitanium", Color.valueOf("c195fb")) {{

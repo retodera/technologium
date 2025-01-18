@@ -1,13 +1,14 @@
 package technologium.world.blocks.logic;
 
 import arc.util.io.*;
-import mindustry.gen.*;
-import mindustry.world.*;
 import mindustry.world.meta.*;
+import mindustry.world.Tile;
+import mindustry.world.Block;
+import mindustry.gen.Building;
+import mindustry.gen.Bullet;
 
 import static mindustry.Vars.*;
 
-// thanks to Codeium, i modified MemoryBlock so it would store String values
 public class StringMemoryBlock extends Block{
     public int memoryCapacity = 32;
 
@@ -22,7 +23,7 @@ public class StringMemoryBlock extends Block{
         configurable = true;
     }
 
-    @Override
+     @Override
     public void setStats(){
         super.setStats();
 
@@ -41,7 +42,6 @@ public class StringMemoryBlock extends Block{
     public class StringMemoryBuild extends Building{
         public String[] memory = new String[memoryCapacity];
 
-        //massive byte size means picking up causes sync issues
         @Override
         public boolean canPickup(){
             return false;

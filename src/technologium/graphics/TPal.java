@@ -15,6 +15,10 @@ public class TPal {
             gold2 = Color.valueOf("bf9900"),
             gold3 = Color.valueOf("deb100"),
 
+            tin1 = Color.valueOf("666094"),
+            tin2 = Color.valueOf("585380"),
+            tin3 = Color.valueOf("4a466b"),
+
             orange1 = Color.valueOf("cc6600"),
             orange2 = Color.valueOf("e67300"),
             orange3 = Color.valueOf("ff7f00"),

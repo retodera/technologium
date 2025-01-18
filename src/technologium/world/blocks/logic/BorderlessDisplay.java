@@ -22,10 +22,9 @@ public class BorderlessDisplay extends LogicDisplay{
         super(name);
     }
 
-    public class TDisplayBuild extends LogicDisplayBuild {
+    public class BorderlessDisplayBuild extends LogicDisplayBuild {
 
         @Override
-
         public void draw() {
             if (Core.settings.getBool("drawdisplayborder")) super.draw();
 
@@ -98,7 +97,7 @@ public class BorderlessDisplay extends LogicDisplay{
                 Draw.blend(Blending.disabled);
                 Draw.draw(Draw.z(), () -> {
                     if (this.buffer != null) {
-                        Draw.rect(Draw.wrap((Texture)this.buffer.getTexture()), this.x, this.y, (float)(32 * size) * Draw.scl, (float)(-(32 * size)) * Draw.scl);
+                        Draw.rect(Draw.wrap((Texture)this.buffer.getTexture()), this.x, this.y, (float)(32 * size) * Draw.scl, (float)(-32 * size) * Draw.scl);
                     }
                 });
                 Draw.blend();
