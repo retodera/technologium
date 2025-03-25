@@ -1,45 +1,30 @@
 package multicraft;
 
-import arc.func.Prov;
-import arc.graphics.Color;
-import arc.graphics.g2d.TextureRegion;
-import arc.struct.ObjectSet;
-import arc.struct.Seq;
-import arc.util.Nullable;
-import mindustry.type.Item;
-import mindustry.type.ItemStack;
-import mindustry.type.Liquid;
-import mindustry.type.LiquidStack;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.struct.*;
+import arc.util.*;
+
+import mindustry.ctype.*;
+import mindustry.type.*;
 
 public class IOEntry {
-    public Seq<ItemStack> items = new Seq<>(ItemStack.class);
-    public Seq<LiquidStack> fluids = new Seq<>(LiquidStack.class);
+    public ItemStack[] items = ItemStack.empty;
+    public LiquidStack[] fluids = LiquidStack.empty;
     public float power = 0f;
     public float heat = 0f;
+    public PayloadStack[] payloads = {}; // Equivalent of empty
+
+    public ObjectSet<Item> itemsUnique = new ObjectSet<>();
+    public ObjectSet<Liquid> fluidsUnique = new ObjectSet<>();
+    public ObjectSet<UnlockableContent> payloadsUnique = new ObjectSet<>();
     @Nullable
     public Prov<TextureRegion> icon;
     @Nullable
     public Color iconColor;
-    public ObjectSet<Item> itemsUnique = new ObjectSet<>();
-    public ObjectSet<Liquid> fluidsUnique = new ObjectSet<>();
 
-    public IOEntry(Seq<ItemStack> items, Seq<LiquidStack> fluids) {
-        this(items, fluids, 0f, 0f);
-    }
-
-    public IOEntry(Seq<ItemStack> items, Seq<LiquidStack> fluids, float power) {
-        this(items, fluids, power, 0f);
-    }
-
-    public IOEntry(Seq<ItemStack> items, Seq<LiquidStack> fluids, float power, float heat) {
-        this.items = items;
-        this.fluids = fluids;
-        this.power = power;
-        this.heat = heat;
-    }
-
-    public IOEntry() {
-    }
+    public IOEntry() {}
 
     public void cacheUnique() {
         for (ItemStack item : items) {
@@ -48,15 +33,15 @@ public class IOEntry {
         for (LiquidStack fluid : fluids) {
             fluidsUnique.add(fluid.liquid);
         }
-    }
-
-    public void shrinkSize() {
-        items.shrink();
-        fluids.shrink();
+        for (PayloadStack payload : payloads) {
+            // "item" can be any UnlockableContent
+            payloadsUnique.add(payload.item);
+        }
     }
 
     public boolean isEmpty() {
-        return items.isEmpty() && fluids.isEmpty() && power <= 0f && heat <= 0f;
+        return items.length == 0 && fluids.length == 0
+            && power <= 0f && heat <= 0f && payloads.length == 0;
     }
 
     public int maxItemAmount() {
@@ -75,6 +60,14 @@ public class IOEntry {
         return max;
     }
 
+    public int maxPayloadAmount() {
+        int max = 0;
+        for (PayloadStack payload : payloads) {
+            max = Math.max(payload.amount, max);
+        }
+        return max;
+    }
+
     @Override
     public String toString() {
         return "IOEntry{" +
@@ -82,6 +75,7 @@ public class IOEntry {
             "fluids=" + fluids +
             "power=" + power +
             "heat=" + heat +
+            "payloads=" + payloads +
             "}";
     }
 }

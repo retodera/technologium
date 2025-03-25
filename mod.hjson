@@ -1,10 +1,32 @@
 name: t
 java: true
 minGameVersion: 145
-main: technologium.TModLoader
-displayName: Technologium
-description: "[accent]<RU>[]\nОгромный мод в разработке, который добавит большое количество планет, блоков, предметов и юнитов. Поставьте звёздочку моду в репозитории, пожалуйста.\n\n[accent]<EN>[]\nA very huge mod in development that will add lots of planets, blocks, items and units. Please give a star to the mod in the repository."
-author: "[[]#ff]retodera\n[[]]\nПомогавшие/Helpers:\n[[]#ffcc]xDer[[]]\nПризрак (Ghost)"
-subtitle: The mod must grow.
-version: v0.3
+main: technologium.Technologium
+displayName: "[[]#00fff2]Technologium"
+description: "[accent]<RU>[[]]
+\n[[]#00fff2]Technologium[[]] будет очередным большим модом для Mindustry. Уже многое запланировано, хотя практически ничто из этого не сделано.
+\n
+\nМод будет содержать в себе 2 солнечные системы, может даже больше; множество новых механик, много кампаний, ещё больше блоков, особенно предметов, жидкостей, юнитов и не только.
+\nПока что, только один человек - retodera - работает над модом. Но, если вы хороший спрайтер/кодер, вы можете помочь мне с всем этим. 
+Если это не так, вы всё ещё можете мотивировать меня, поставив звёздочку на репозитории.
+\nВы также можете присоединиться к нашему говносерверу Дискорд в репозитории.
+\n[[]#7f7f7f]Мод должен расти.[[]]
+\n
+\n
+[accent]<ENG>[[]]
+\n[[]#00fff2]Technologium[[]] will be another big mod for Mindustry. There's already so much planned, though practically none of it is finished.
+\n
+\nThe mod will contain a whole 2 solar systems, or maybe even more; lots of new mechanics, many campaigns, even more blocks, especially items, liquids, units and not only.
+\nFor now, only one person - retodera - works on the mod. But, if you're a good spriter/coder, you could help me with all of this. 
+If not, you could still motivate me by giving a star on the repository.
+\nYou also could join our shitty Discord server in the repository.
+\n[[]#7f7f7f]The mod must grow.[[]]"
+author: "[[]#ff]retodera[[]] - основатель мода и единственный работающий над ним
+\nА также:
+\nxDer - генератор идей
+\nПризрак - основатель сервера Дискорд (я мог бы и сам)
+\nnadocd (dev) - иногда помогает с кодом
+\nИ все, кто поставили звёздочку <3"
+subtitle: Idea void
+version: v0.4
 repo: retodera/technologium

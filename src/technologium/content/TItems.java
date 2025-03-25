@@ -1,152 +1,221 @@
 package technologium.content;
 
-import static technologium.TVars.misideRelease;
+import static technologium.TVars.*;
 
-import arc.graphics.Color;
 import arc.struct.*;
 import mindustry.type.Item;
-import technologium.graphics.TPal;
+import technologium.type.Fruit;
+
+import static technologium.graphics.TPal.*;
 
 public class TItems {
     public static Item
-    /* standart */ hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, cannedNeoplasm,
-            trainedNeoplasm, uranium, uraniumCell, stalinium, roskomnadzorium, enrichedMetal, enrichedAluminium,
-    /* technologies */ rotor, armorPlate, cog, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator, advAccumulator, shieldGen, advShieldGen, technologiumKudol,
+    /* standart */ volcanicSand, hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, negativium, cannedNeoplasm,
+        trainedNeoplasm, uranium, enrichedUranium, uraniumCell, stalinium, rknium, enrichedMetal, enrichedAluminium,
+    /* technologies */ cog, armorPlate, rotor, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator,
+        advAccumulator, shieldGen, advShieldGen, technologiumKudol,
+    /* fruits */ leptine, leptineSeed,
     /* mitamitamitamitamitamitamitamitamitamitamitamitamitamitamitamita */
-            mitanium, mitalite, milane, cappite      
+        mitanium, mitalite, milane, cappite,
+    /* other */
+        theimpossible
     ;
 
     public static final Seq<Item> kudolItems = new Seq<>(), venjerItems = new Seq<>(), mitaItems = new Seq<>();
 
     public static void load() {
 
-        hematite = new Item("hematite", TPal.brown2) {{
+        // region kudol
+
+        volcanicSand = new Item("volcanic-sand", brown3) {{
+            cost = 0.25f;
+        }};
+
+        hematite = new Item("hematite", brown2) {{
             hardness = 1;
             cost = 0.5f;
         }};
 
-        darkMetal = new Item("dark-metal", TPal.dark4) {{
+        darkMetal = new Item("dark-metal", dark4) {{
             cost = 0.75f;
         }};
 
-        tin = new Item("tin", TPal.tin1) {{
+        tin = new Item("tin", tin1) {{
             hardness = 1;
             cost = 0.5f;
         }};
 
-        bauxite = new Item("bauxite", TPal.brown8) {{
+        bauxite = new Item("bauxite", brown8) {{
             hardness = 2;
             cost = 0.5f;
         }};
 
-        aluminium = new Item("aluminium", TPal.wnb9) {{
+        aluminium = new Item("aluminium", wnb9) {{
             cost = 0.75f;
         }};
 
-        pegmatite = new Item("pegmatite", TPal.kaut1) {{
+        pegmatite = new Item("pegmatite", kaut1) {{
             hardness = 1;
             cost = 0.5f;
         }};
 
-        lithium = new Item("lithium", TPal.lithium3) {{
+        lithium = new Item("lithium", lithium3) {{
             cost = 0.75f;
         }};
 
-        gold = new Item("gold", TPal.gold3) {{
+        gold = new Item("gold", gold3) {{
             cost = 1f;
         }};
 
-        goldGlass = new Item("gold-glass", TPal.ggl3) {{
+        goldGlass = new Item("gold-glass", ggl3) {{
             cost = 1.25f;
         }};
 
-        cannedNeoplasm = new Item("canned-neoplasm", TPal.sgl1) {{
+        negativium = new Item("negativium", orange1) {{
+            flammability = 5f;
+            explosiveness = 5f;
+        }};
+
+        cannedNeoplasm = new Item("canned-neoplasm", brown6) {{
             cost = 2f;
             flammability = 0.25f;
         }};
 
-        trainedNeoplasm = new Item("trained-neoplasm", TPal.sgl3) {{
+        trainedNeoplasm = new Item("trained-neoplasm", brown7) {{
             cost = 3f;
             flammability = 0.25f;
         }};
 
-        uranium = new Item("uranium", TPal.green1) {{
+        uranium = new Item("uranium", lime1) {{
             cost = 4f;
-            radioactivity = 1f;
+            radioactivity = 0.4f;
         }};
 
-        uraniumCell = new Item("uranium-cell", TPal.green2) {{
-            cost = 6f;
-            radioactivity = 2f;
-        }};
-
-        stalinium = new Item("stalinium", TPal.red3) {{
-            cost = 10f;
+        enrichedUranium = new Item("enriched-uranium", lime3) {{
+            cost = 4f;
             radioactivity = 1.5f;
         }};
 
-        rotor = new Item("rotor", TPal.wnb3) {{
+        uraniumCell = new Item("uranium-cell", lime2) {{
+            cost = 6f;
+            radioactivity = 0.94f;
+        }};
+
+        stalinium = new Item("stalinium", red3) {{
+            cost = 10f;
+            radioactivity = 1f;
+        }};
+
+        // region kudol technologies
+
+        rotor = new Item("rotor", wnb3) {{
             cost = 4f;
         }};
 
-        armorPlate = new Item("armor-plate", TPal.wnb2) {{
+        armorPlate = new Item("armor-plate", wnb2) {{
             cost = 4f;
         }};
 
-        cog = new Item("cog", TPal.wnb5) {{
+        cog = new Item("cog", wnb5) {{
             cost = 4f;
         }};
 
-        roskomnadzorium = new Item("roskomnadzorium", TPal.tin2) {{
+        rknium = new Item("rknium", tin2) {{
             cost = 0f;
         }};
 
-        enrichedMetal = new Item("enriched-metal", TPal.wnb4) {{
+        enrichedMetal = new Item("enriched-metal", wnb4) {{
             cost = 0f;
         }};
 
-        enrichedAluminium = new Item("enriched-aluminium", TPal.wnb6) {{
+        enrichedAluminium = new Item("enriched-aluminium", wnb6) {{
             cost = 0f;
         }};
 
-        bioprocessor = new Item("bioprocessor", TPal.cyan2) {{
+        bioprocessor = new Item("bioprocessor", brown5) {{
             cost = 6f;
             flammability = 0.25f;
             explosiveness = 0.25f;
         }};
 
-        accumulator = new Item("accumulator", TPal.lithium2) {{
+        advBioprocessor = new Item("adv-bioprocessor", brown4) {{
+            cost = 10f;
+            flammability = 0.5f;
+            explosiveness = 0.5f;
+        }};
+
+        accumulator = new Item("accumulator", lithium2) {{
             cost = 6f;     
         }};
 
-        mitanium = new Item("mitanium", Color.valueOf("c195fb")) {{
+        advAccumulator = new Item("adv-accumulator", lithium1) {{
+            cost = 10f;     
+        }};
+
+        memoryCard = new Item("memory-card", wnb5) {{
+            cost = 6f;     
+        }};
+
+        shieldGen = new Item("shield-gen", gold2) {{
+            cost = 6f;     
+        }};
+
+        advShieldGen = new Item("adv-shield-gen", gold1) {{
+            cost = 10f;     
+        }};
+
+        // region fruits
+
+        leptine = new Fruit("leptine", tin2) {{
+            result = null;
+            juiciness = 0.75f;
+            plantable = false;
+            seedChance = 0.5f;
+        }};
+
+        leptineSeed = new Fruit("leptine-seed", kaut2) {{
+            result = leptine;
+            growTimeMin = 1200f;
+            growTimeMax = 1800f;
+        }};
+
+        // region mita
+
+        mitanium = new Item("mitanium", purpur1) {{
             cost = 1f;
             flammability = 0.25f;
             hardness = 1;
             hidden = !misideRelease;
         }};
 
-        mitalite = new Item("mitalite", Color.valueOf("665c9f")) {{
+        mitalite = new Item("mitalite", purpur2) {{
             cost = 2f;
             hidden = !misideRelease;
         }};
 
-        milane = new Item("milane", TPal.lithium1) {{
+        milane = new Item("milane", lithium1) {{
             cost = 3f;
             hardness = 2;
             explosiveness = 0.5f;
             hidden = !misideRelease;
         }};
 
-        cappite = new Item("cappite", Color.valueOf("484988")) {{
+        cappite = new Item("cappite", purpur1.cpy().mul(83 / 95f)) {{
             cost = 2f;
             radioactivity = 1.5f;
             hidden = !misideRelease;
         }};
 
+        // region other
+
+        theimpossible = new Item("theimpossible", red3) {{
+            cost = flammability = explosiveness = radioactivity = charge = hardness = 2147483647;
+        }};
+
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
-                stalinium, roskomnadzorium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator);
+                stalinium, rknium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator,
+                leptine, leptineSeed);
         mitaItems.addAll(
                 mitanium, mitalite, milane, cappite
         );

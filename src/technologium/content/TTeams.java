@@ -5,10 +5,13 @@ import mindustry.game.Team;
 
 //credits to FOS (Fictional Octo System) mod
 public class TTeams {
-    public static Team kaut;
+    public static Team kaut, mita;
+    public static Team[] teams;
 
     public static void load(){
-        kaut = newTeam(28, "kaut", Color.valueOf("bf8f6f"));
+        kaut = newTeam(28, "kaut", Color.valueOf("bf8f60"));
+        mita = newTeam(69, "mita", Color.valueOf("847cbf"));
+        teams = new Team[] {kaut, mita};
     }
 
     //modify any of 256 teams' properties

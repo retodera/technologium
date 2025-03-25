@@ -3,6 +3,7 @@ package technologium.graphics;
 import arc.graphics.*;
 
 public class TPal {
+    // total mess
     public static Color
             dark1 = Color.valueOf("1a1a1a"),
             dark2 = Color.valueOf("2e2e2e"),
@@ -11,17 +12,13 @@ public class TPal {
             dark5 = Color.valueOf("6f6f6f"),
             darkerOutline = dark2,
 
-            gold1 = Color.valueOf("9e7e00"),
-            gold2 = Color.valueOf("bf9900"),
+            gold1 = Color.valueOf("786000"),
+            gold2 = Color.valueOf("ab8900"),
             gold3 = Color.valueOf("deb100"),
 
             tin1 = Color.valueOf("666094"),
             tin2 = Color.valueOf("585380"),
             tin3 = Color.valueOf("4a466b"),
-
-            orange1 = Color.valueOf("cc6600"),
-            orange2 = Color.valueOf("e67300"),
-            orange3 = Color.valueOf("ff7f00"),
 
             plasma1 = Color.valueOf("14ccc3"),
             plasma2 = Color.valueOf("09ebdf"),
@@ -30,9 +27,12 @@ public class TPal {
             cyan1 = Color.valueOf("e6ace6"),
             cyan2 = Color.valueOf("f2b6f2"),
             cyan3 = Color.valueOf("ffbfff"),
-            calt1 = Color.valueOf("bf8fbf"),
-            calt2 = Color.valueOf("cc99cc"),
+            calt1 = Color.valueOf("a67ca6"),
+            calt2 = Color.valueOf("bf8fbf"),
             calt3 = Color.valueOf("d9a3d9"),
+            purpur1 = Color.valueOf("a79df2"),
+            purpur2 = Color.valueOf("7f75b5"),
+            purpur3 = Color.valueOf("534e79"),
 
             acid1 = Color.valueOf("33cc99"),
             acid2 = Color.valueOf("39e6ac"),
@@ -60,16 +60,20 @@ public class TPal {
             brown7 = sgl2,
             brown8 = sgl3,
 
-            lithium1 = Color.valueOf("e6008a"),
-            lithium2 = Color.valueOf("c20074"),
-            lithium3 = Color.valueOf("99005c"),
+            bgray1 = Color.valueOf("1a1511"),
+            bgray2 = Color.valueOf("332a24"),
+            bgray3 = Color.valueOf("42362d"),
 
-            green1 = Color.valueOf("33ff33"),
-            green2 = Color.valueOf("2ee62e"),
-            green3 = Color.valueOf("29cc29"),
-            green4 = Color.valueOf("16d916"),
-            green5 = Color.valueOf("12b312"),
-            green6 = Color.valueOf("0e8c0e"),
+            lithium1 = Color.valueOf("cc338f"),
+            lithium2 = Color.valueOf("99266b"),
+            lithium3 = Color.valueOf("661947"),
+
+            lime1 = Color.valueOf("5ce65c"),
+            lime2 = Color.valueOf("36b336"),
+            lime3 = Color.valueOf("268026"),
+            green1 = Color.valueOf("41d941"),
+            green2 = Color.valueOf("32a632"),
+            green3 = Color.valueOf("227322"),
 
             wnb1 = dark1,
             wnb2 = dark2,
@@ -84,5 +88,9 @@ public class TPal {
 
             kaut1 = Color.valueOf("bf8f60"),
             kaut2 = Color.valueOf("a67c53"),
-            kaut3 = Color.valueOf("8c6946");
+            kaut3 = Color.valueOf("8c6946"),
+
+            orange1 = Color.valueOf("cc7a29"),
+            orange2 = Color.valueOf("995c1f"),
+            orange3 = Color.valueOf("663d14");
 }

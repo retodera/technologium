@@ -53,6 +53,7 @@ public class Projector extends LogicDisplay {
     public class ProjectorBuild extends LogicDisplayBuild {
         public int displaySize = 64;
         public float projSize = 1, targetX, targetY, eff;
+        public Table table = new Table();
         public float color;
 
         @Override
@@ -174,38 +175,48 @@ public class Projector extends LogicDisplay {
         @Override
         public void buildConfiguration (Table table) {
             table.clearChildren();
+            rebuild();
+            table.add(this.table);
+        }
+
+        void rebuild() {
+            table.clear();
             table.background(Styles.black6);
             table.add("@proj-projsize");
             table.field(""+projSize, TextFieldFilter.floatsOnly, v -> {
                 if(v != "") configure(new Float[]{
-                    Float.parseFloat(v),
-                    Float.parseFloat(""+displaySize),
-                    targetX, targetY
-                });
+                        Float.parseFloat(v),
+                        Float.parseFloat(""+displaySize),
+                        targetX, targetY
+                    });
+                else rebuild();
             });
             table.row().add("@proj-dispsize");
             table.field(""+displaySize, TextFieldFilter.digitsOnly, v -> {
                 if(v != "") configure(new Float[]{
-                    projSize,
-                    Float.parseFloat(v),
-                    targetX, targetY
-                });
+                        projSize,
+                        Float.parseFloat(v),
+                        targetX, targetY
+                    });
+                else rebuild();
             });
             table.row().add("@proj-x");
             table.field(""+targetX, TextFieldFilter.floatsOnly, v -> {
                 if(v != "") configure(new Float[]{
-                    projSize,
-                    Float.parseFloat(""+displaySize),
-                    Float.parseFloat(v), targetY
-                });
+                        projSize,
+                        Float.parseFloat(""+displaySize),
+                        Float.parseFloat(v), targetY
+                    });
+                else rebuild();
             });
             table.row().add("@proj-y");
             table.field(""+targetY, TextFieldFilter.floatsOnly, v -> {
                 if(v != "") configure(new Float[]{
-                    projSize,
-                    Float.parseFloat(""+displaySize),
-                    targetX,  Float.parseFloat(v)
-                });
+                        projSize,
+                        Float.parseFloat(""+displaySize),
+                        targetX,  Float.parseFloat(v)
+                    });
+                else rebuild();
             });
         }
 

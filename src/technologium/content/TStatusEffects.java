@@ -4,7 +4,6 @@ import mindustry.content.Fx;
 import mindustry.type.*;
 import mindustry.content.StatusEffects;
 import technologium.graphics.TPal;
-import mindustry.graphics.Pal;
 import technologium.TVars;
 
 public class TStatusEffects {
@@ -30,8 +29,8 @@ public class TStatusEffects {
         }};
 
         mitaCorrupted = new StatusEffect("mita-corrupted") {{
-            show = !TVars.misideRelease;
-            color = Pal.accent;
+            show = TVars.misideRelease;
+            color = TPal.purpur1;
             damage = 0.025f;
             effect = Fx.none;
             speedMultiplier = 0f;

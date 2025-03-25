@@ -1,11 +1,11 @@
 package multicraft;
 
-import arc.func.Prov;
-import arc.graphics.Color;
-import arc.graphics.g2d.TextureRegion;
-import arc.util.Nullable;
-import mindustry.content.Fx;
-import mindustry.entities.Effect;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
 
 public class Recipe {
     public IOEntry input;
@@ -18,44 +18,27 @@ public class Recipe {
 
     public Effect craftEffect = Fx.none;
 
-    public Recipe(IOEntry input, IOEntry output, float craftTime) {
-        this.input = input;
-        this.output = output;
-        this.craftTime = craftTime;
-    }
-
-    public Recipe() {
-    }
+    public Recipe() {}
 
     public void cacheUnique() {
         input.cacheUnique();
         output.cacheUnique();
     }
 
-    public boolean isAnyEmpty() {
-        if (input == null || output == null) return true;
-        return input.isEmpty() || output.isEmpty();
-    }
-
-    public void shrinkSize() {
-        input.shrinkSize();
-        output.shrinkSize();
-    }
-
-    public boolean isOutputFluid() {
-        return !output.fluids.isEmpty();
+    public boolean isConsumeItem() {
+        return input.items.length > 0;
     }
 
     public boolean isOutputItem() {
-        return !output.items.isEmpty();
+        return output.items.length > 0;
     }
 
     public boolean isConsumeFluid() {
-        return !input.fluids.isEmpty();
+        return input.fluids.length > 0;
     }
 
-    public boolean isConsumeItem() {
-        return !input.items.isEmpty();
+    public boolean isOutputFluid() {
+        return output.fluids.length > 0;
     }
 
     public boolean isConsumePower() {
@@ -74,20 +57,32 @@ public class Recipe {
         return output.heat > 0f;
     }
 
-    public boolean hasItem() {
+    public boolean isConsumePayload() {
+        return input.payloads.length > 0;
+    }
+
+    public boolean isOutputPayload() {
+        return output.payloads.length > 0;
+    }
+
+    public boolean hasItems() {
         return isConsumeItem() || isOutputItem();
     }
-    
-    public boolean hasFluid() {
+
+    public boolean hasFluids() {
         return isConsumeFluid() || isOutputFluid();
     }
-    
+
     public boolean hasPower() {
         return isConsumePower() || isOutputPower();
     }
 
     public boolean hasHeat() {
         return isConsumeHeat() || isOutputHeat();
+    }
+
+    public boolean hasPayloads() {
+        return isConsumePayload() || isOutputPayload();
     }
 
     public int maxItemAmount() {
@@ -106,12 +101,16 @@ public class Recipe {
         return Math.max(input.heat, output.heat);
     }
 
+    public int maxPayloadAmount() {
+        return Math.max(input.maxPayloadAmount(), output.maxPayloadAmount());
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
-            "input=" + input +
-            "output=" + output +
-            "craftTime" + craftTime +
-            "}";
+                "input=" + input +
+                "output=" + output +
+                "craftTime" + craftTime +
+                "}";
     }
 }

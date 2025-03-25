@@ -1,7 +1,7 @@
 package technologium.content;
 
 import arc.struct.Seq;
-import mindustry.game.Objectives;
+import mindustry.game.Objectives.*;
 
 import static mindustry.content.TechTree.*;
 import static mindustry.content.Liquids.*;
@@ -10,6 +10,7 @@ import static technologium.content.TPlanets.*;
 import static technologium.content.TItems.*;
 import static technologium.content.TLiquids.*;
 import static technologium.content.TUnitTypes.*;
+import static technologium.content.TSectors.*;
 
 public class TTechTrees {
     public static void load(){
@@ -23,19 +24,20 @@ public class TTechTrees {
 
                 //region production
 
-                node(darkDrill, () -> {
-                    node(metallicDrill);
-                    node(darkPlasmaBore, () -> {
+                node(metallicDrill, () -> {
+                    node(advancedDrill);
+                    node(metallicPlasmaBore, () -> {
                         node(miniPlasmaBore);
-                        node(goldExtractor);
                     });
                 });
 
                 //region crafting
 
-                node(arcFurnace, () -> {
-                    node(enricher);
-                    node(constructor, () -> {
+                node(arcFurnace,
+                Seq.with(new OnSector(pegmatiteMountains)), () -> {
+                    node(mixer, Seq.with(new Research(theimpossible)), () -> {});
+                    node(filter, Seq.with(new Research(theimpossible)), () -> {});
+                    node(itemConstructor, Seq.with(new Research(theimpossible)), () -> {
                         //node(arcSmelter);
                     });
                 });
@@ -47,16 +49,20 @@ public class TTechTrees {
 
                 //region distribution
 
-                node(darkConveyor, () -> {
-                    node(darkRouter, () -> {
-                        node(darkDistributor);
-                        node(darkJunction);
-                        node(darkBridgeConveyor, () -> {
-                            node(plasmaDriver);
+                node(metallicConveyor, () -> {
+                    node(metallicRouter, () -> {
+                        node(metallicDistributor);
+                        node(metallicJunction);
+                        node(metallicBridgeConveyor, () -> {
+                            node(mechanicalDriver);
                         });
-                        node(darkContainer, () -> {
-                            node(darkUnloader, () -> {
-                                node(darkVault);
+                        node(metallicOverflowGate, () -> {
+                            node(metallicUnderflowGate);
+                        });
+                        node(metallicSorter);
+                        node(metallicContainer, () -> {
+                            node(metallicUnloader, () -> {
+                                node(metallicVault);
                             });
                         });
                     });
@@ -68,6 +74,7 @@ public class TTechTrees {
                     node(improvedLiquidJunction, () -> {
                         node(improvedLiquidRouter);
                         node(improvedLiquidBridge);
+                        node(improvedLiquidSorter);
                         node(improvedLiquidContainer);
                     });
                     node(thermoConduit);
@@ -84,42 +91,94 @@ public class TTechTrees {
 
                 //region logic
 
-                node(energeticProcessor, () -> {
-                    node(plasmaProcessor);
-                    node(switchBlock);
-                    node(message);
-                    node(cell, () -> {
-                        node(bank);
-                        node(stringCell);
+                node(message, () -> {
+                    node(energeticProcessor, () -> {
+                        node(plasmaProcessor, () -> {
+                            node(gammaProcessor);
+                        });
+                        node(switchBlock);
+                        node(cell, () -> {
+                            node(bank);
+                            node(stringCell);
+                        }); 
+                        node(borderlessDisplayMini, () -> {
+                            node(borderlessDisplay);
+                            node(projector);
+                        });
+                    });
+                });
+
+                //region effect
+
+                node(radar, () -> {
+
+                });
+
+                //region walls
+
+                node(metallicWall, () -> {
+                    node(metallicWallLarge);
+                    node(armoredWall, () -> {
+                        node(armoredWallLarge);
+                    });
+                });
+
+                //region turrets
+
+                node(comet, () -> {
+                    node(constellation);
+                });
+
+                //region units
+
+                node(unitFabricator, () -> {
+                    node(cobra, () -> {
                     }); 
-                    node(miniDisplay, () -> {
-                        node(display);
-                        node(projector);
+                    node(blade, () -> {
+                        node(saber, () -> {
+                        });
+                    });
+                    node(mercury, () -> {
+                    });
+                    node(metallicPayloadConveyor, () -> { 
                     });
                 });
             });
+        
+                //region items
 
-            //region items
-
-            node(hematite, () -> {
-                node(tin);
-                node(pegmatite, () -> {
-                    node(lithium);
+            nodeProduce(hematite, () -> {
+                nodeProduce(tin, () -> {});
+                nodeProduce(pegmatite, () -> {
+                    nodeProduce(lithium, () -> {});
                 });
-                node(darkMetal, () -> {
-                    node(enrichedMetal);
-                    node(cog);
-                    node(bauxite, () -> {
-                        node(enrichedAluminium);
-                        node(aluminium, () -> {
-                            node(cannedNeoplasm, () -> {
-                                node(trainedNeoplasm); 
+                nodeProduce(darkMetal, () -> {
+                    nodeProduce(enrichedMetal, () -> {});
+                    nodeProduce(cog, () -> {
+                        nodeProduce(armorPlate, () -> {});
+                        nodeProduce(bioprocessor, () -> {
+                            nodeProduce(advBioprocessor, () -> {});
+                        });
+                        nodeProduce(shieldGen, () -> {
+                            nodeProduce(advShieldGen, () -> {});
+                        });
+                        nodeProduce(accumulator, () -> {
+                            nodeProduce(advAccumulator, () -> {});
+                        });
+                        nodeProduce(memoryCard, () -> {});
+                    });
+                    nodeProduce(bauxite, () -> {
+                        nodeProduce(enrichedAluminium, () -> {});
+                        nodeProduce(aluminium, () -> {
+                            nodeProduce(cannedNeoplasm, () -> {
+                                nodeProduce(trainedNeoplasm, () -> {}); 
                             });
-                            node(gold, () -> {
-                                node(goldGlass);
-                                node(uranium, () -> {
-                                    node(uraniumCell);
-                                    node(stalinium);
+                            nodeProduce(gold, () -> {
+                                nodeProduce(goldGlass, () -> {});
+                                nodeProduce(uranium, () -> {
+                                    nodeProduce(enrichedUranium, () -> {
+                                        nodeProduce(uraniumCell, () -> {});
+                                    });
                                 });
                             });
                         });
@@ -129,11 +188,17 @@ public class TTechTrees {
 
             //region liquids
             
-            node(neoplasm, () -> {
-                node(water, () -> {
-                    node(liquidNitrogen);
-                    node(carbon);
-                    node(liquidPlasma);
+            nodeProduce(neoplasm, () -> {
+                nodeProduce(water, () -> {
+                });
+            });
+
+            //region sectors
+
+            node(initialization, () -> {
+                node(pegmatiteMountains, 
+                Seq.with(new SectorComplete(initialization)), () -> {
+
                 });
             });
         });

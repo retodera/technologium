@@ -1,13 +1,8 @@
 package technologium.world.blocks.logic;
 
 import arc.Core;
-import arc.graphics.Blending;
-import arc.graphics.Color;
-import arc.graphics.Texture;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.graphics.gl.FrameBuffer;
 import arc.util.Tmp;
 import mindustry.Vars;
@@ -30,22 +25,22 @@ public class BorderlessDisplay extends LogicDisplay{
 
             if (Vars.renderer.drawDisplays) {
                 Draw.draw(Draw.z(), () -> {
-                    if (this.buffer == null) {
-                        this.buffer = new FrameBuffer(displaySize, displaySize);
-                        this.buffer.begin(Pal.darkerMetal);
-                        this.buffer.end();
+                    if (buffer == null) {
+                        buffer = new FrameBuffer(displaySize, displaySize);
+                        buffer.begin(Pal.darkerMetal);
+                        buffer.end();
                     }
                 });
-                if (!this.commands.isEmpty()) {
+                if (!commands.isEmpty()) {
                 Draw.draw(Draw.z(), () -> {
                     Tmp.m1.set(Draw.proj());
-                    Draw.proj(0.0F, 0.0F, (float)displaySize, (float)displaySize);
-                    this.buffer.begin();
-                    Draw.color(this.color);
-                    Lines.stroke(this.stroke);
+                    Draw.proj(0, 0, displaySize, displaySize);
+                    buffer.begin();
+                    Draw.color(color);
+                    Lines.stroke(stroke);
 
-                    while(!this.commands.isEmpty()) {
-                        long c = this.commands.removeFirst();
+                    while(!commands.isEmpty()) {
+                        long c = commands.removeFirst();
                         byte type = DisplayCmd.type(c);
                         int x = unpackSign(DisplayCmd.x(c));
                         int y = unpackSign(DisplayCmd.y(c));
@@ -55,49 +50,52 @@ public class BorderlessDisplay extends LogicDisplay{
                         int p4 = unpackSign(DisplayCmd.p4(c));
                         switch (type) {
                             case 0:
-                                Core.graphics.clear((float)x / 255.0F, (float)y / 255.0F, (float)p1 / 255.0F, 1.0F);
+                                Core.graphics.clear(x / 255.0F, y / 255.0F, p1 / 255.0F, 1.0F);
                                 break;
                             case 1:
-                                Draw.color(this.color = Color.toFloatBits(x, y, p1, p2));
+                                Draw.color(color = Color.toFloatBits(x, y, p1, p2));
                             case 2:
                             case 11:
                             default:
                                 break;
                             case 3:
-                                Lines.stroke(this.stroke = (float)x);
+                                Lines.stroke(stroke = x);
                                 break;
                             case 4:
-                                Lines.line((float)x, (float)y, (float)p1, (float)p2);
+                                Lines.line(x, y, p1, p2);
                                 break;
                             case 5:
-                                Fill.crect((float)x, (float)y, (float)p1, (float)p2);
+                                Fill.crect(x, y, p1, p2);
                                 break;
                             case 6:
-                                Lines.rect((float)x, (float)y, (float)p1, (float)p2);
+                                Lines.rect(x, y, p1, p2);
                                 break;
                             case 7:
-                                Fill.poly((float)x, (float)y, Math.min(p1, maxSides), (float)p2, (float)p3);
+                                Fill.poly(x, y, Math.min(p1, maxSides), p2, p3);
                                 break;
                             case 8:
-                                Lines.poly((float)x, (float)y, Math.min(p1, maxSides), (float)p2, (float)p3);
+                                Lines.poly(x, y, Math.min(p1, maxSides), p2, p3);
                                 break;
                             case 9:
-                                Fill.tri((float)x, (float)y, (float)p1, (float)p2, (float)p3, (float)p4);
+                                Fill.tri(x, y, p1, p2, p3, p4);
                                 break;
                             case 10:
                                 TextureRegion icon = Fonts.logicIcon(p1);
-                                Draw.rect(Fonts.logicIcon(p1), (float)x, (float)y, (float)p2, (float)p2 / icon.ratio(), (float)p3);
+                                Draw.rect(Fonts.logicIcon(p1), x, y, p2, p2 / icon.ratio(), p3);
                             }
                         }
-                        this.buffer.end();
+                        buffer.end();
                         Draw.proj(Tmp.m1);
                         Draw.reset();
                     });
                 }
                 Draw.blend(Blending.disabled);
                 Draw.draw(Draw.z(), () -> {
-                    if (this.buffer != null) {
-                        Draw.rect(Draw.wrap((Texture)this.buffer.getTexture()), this.x, this.y, (float)(32 * size) * Draw.scl, (float)(-32 * size) * Draw.scl);
+                    if (buffer != null) {
+                        TextureRegion draw = Draw.wrap(buffer.getTexture());
+                        draw.setHeight(size * 4);
+                        draw.setWidth(size * 4);
+                        Draw.rect(draw, x, y, 32 * size * Draw.scl, -32 * size * Draw.scl);
                     }
                 });
                 Draw.blend();

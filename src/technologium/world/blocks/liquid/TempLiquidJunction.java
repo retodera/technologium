@@ -10,31 +10,24 @@ import static mindustry.Vars.tilesize;
 
 public class TempLiquidJunction extends LiquidJunction {
     public float maxTemp = 0.65f, baseChance = 0.06f;
+    /**how much damage will be dealt per tick */
+    public float damage = 2 / 60f;
     public Effect explodeEffect = Fx.generatespark;
 
     public TempLiquidJunction(String name) {
         super(name);
+        solid = false;
         placeableLiquid = true;
     }
 
     public class TempLiquidJunctionBuild extends LiquidJunctionBuild {
-
         @Override
-
         public Building getLiquidDestination(Building source, Liquid liquid){
-            if(!enabled) return this;
-
-            if(Mathf.chance(this.delta() * baseChance * (liquid.temperature - maxTemp))) {
-                this.damage(4f);
-                explodeEffect.at(this.x + Mathf.range(this.block.size * tilesize / 2f), this.y + Mathf.range(this.block.size * tilesize / 2f));
+            if(liquid.temperature > maxTemp) damage(damage * (maxTemp - liquid.temperature));
+            if(Mathf.chance(delta() * baseChance * (liquid.temperature - maxTemp))) {
+                explodeEffect.at(x + Mathf.range(block.size * tilesize / 2f), y + Mathf.range(block.size * tilesize / 2f));
             }
-            
-            int dir = (source.relativeTo(tile.x, tile.y) + 4) % 4;
-            Building next = nearby(dir);
-            if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
-                return this;
-            }
-            return next.getLiquidDestination(this, liquid);
+            return super.getLiquidDestination(source, liquid);
         }
     }
 }
