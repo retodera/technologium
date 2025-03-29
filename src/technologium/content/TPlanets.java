@@ -52,7 +52,7 @@ public class TPlanets {
             atmosphereRadIn = 0.05f;
             atmosphereRadOut = 0.5f;
             orbitSpacing = 30f;
-            orbitRadius = 100f;
+            orbitRadius = 50f;
             icon = "kudol";
             clearSectorOnLose = true;
             defaultEnv = Env.terrestrial | Env.scorching | Env.oxygen;

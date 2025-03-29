@@ -15,8 +15,8 @@ import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.gen.Icon;
 import mindustry.mod.Mods.*;
-import mindustry.type.Item;
 import mindustry.ui.*;
+import mindustry.world.Block;
 import mindustry.world.blocks.*;
 //"yonked the code from Dusted Lands lol" - IceWorld
 public class TEmojis {
@@ -63,11 +63,13 @@ public class TEmojis {
 
         int purePage = Fonts.def.getRegions().indexOf(t -> t.texture == pure);
         int gennedPage = Fonts.def.getRegions().indexOf(t -> t.texture == genned);
-        Seq<Item> items = Vars.content.items();
-        items.remove(TItems.theimpossible); //no.
+
+        Seq<UnlockableContent> exclude = new Seq<>();
+        exclude.addAll(TBlocks.leptineItemBlock, TBlocks.leptineTree, TItems.theimpossible);
+
         Seq.<UnlockableContent>withArrays(
-                        Vars.content.blocks(),
-                        items,
+                        Seq.with(Vars.content.blocks()).removeAll(b -> exclude.contains(b)),// so it would return a Seq, not a boolean
+                        Seq.with(Vars.content.items()).removeAll(i -> exclude.contains(i)), 
                         Vars.content.liquids(),
                         Vars.content.units(),
                         Vars.content.statusEffects()

@@ -11,7 +11,7 @@ import static technologium.graphics.TPal.*;
 public class TItems {
     public static Item
     /* standart */ volcanicSand, hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, negativium, cannedNeoplasm,
-        trainedNeoplasm, uranium, enrichedUranium, uraniumCell, stalinium, rknium, enrichedMetal, enrichedAluminium,
+        trainedNeoplasm, uranium, enrichedUranium, uraniumCell, rethium, rknium, enrichedMetal, enrichedAluminium,
     /* technologies */ cog, armorPlate, rotor, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator,
         advAccumulator, shieldGen, advShieldGen, technologiumKudol,
     /* fruits */ leptine, leptineSeed,
@@ -40,7 +40,7 @@ public class TItems {
             cost = 0.75f;
         }};
 
-        tin = new Item("tin", tin1) {{
+        tin = new Item("tin", tin3) {{
             hardness = 1;
             cost = 0.5f;
         }};
@@ -54,7 +54,7 @@ public class TItems {
             cost = 0.75f;
         }};
 
-        pegmatite = new Item("pegmatite", kaut1) {{
+        pegmatite = new Item("pegmatite", kaut3) {{
             hardness = 1;
             cost = 0.5f;
         }};
@@ -67,11 +67,11 @@ public class TItems {
             cost = 1f;
         }};
 
-        goldGlass = new Item("gold-glass", ggl3) {{
+        goldGlass = new Item("gold-glass", acid3) {{
             cost = 1.25f;
         }};
 
-        negativium = new Item("negativium", orange1) {{
+        negativium = new Item("negativium", orange3) {{
             flammability = 5f;
             explosiveness = 5f;
         }};
@@ -101,7 +101,7 @@ public class TItems {
             radioactivity = 0.94f;
         }};
 
-        stalinium = new Item("stalinium", red3) {{
+        rethium = new Item("rethium", red3) {{
             cost = 10f;
             radioactivity = 1f;
         }};
@@ -120,7 +120,7 @@ public class TItems {
             cost = 4f;
         }};
 
-        rknium = new Item("rknium", tin2) {{
+        rknium = new Item("rknium", tin1) {{
             cost = 0f;
         }};
 
@@ -132,23 +132,23 @@ public class TItems {
             cost = 0f;
         }};
 
-        bioprocessor = new Item("bioprocessor", brown5) {{
+        bioprocessor = new Item("bioprocessor", brown4) {{
             cost = 6f;
             flammability = 0.25f;
             explosiveness = 0.25f;
         }};
 
-        advBioprocessor = new Item("adv-bioprocessor", brown4) {{
+        advBioprocessor = new Item("adv-bioprocessor", brown5) {{
             cost = 10f;
             flammability = 0.5f;
             explosiveness = 0.5f;
         }};
 
-        accumulator = new Item("accumulator", lithium2) {{
+        accumulator = new Item("accumulator", lithium1) {{
             cost = 6f;     
         }};
 
-        advAccumulator = new Item("adv-accumulator", lithium1) {{
+        advAccumulator = new Item("adv-accumulator", lithium2) {{
             cost = 10f;     
         }};
 
@@ -156,11 +156,11 @@ public class TItems {
             cost = 6f;     
         }};
 
-        shieldGen = new Item("shield-gen", gold2) {{
+        shieldGen = new Item("shield-gen", gold1) {{
             cost = 6f;     
         }};
 
-        advShieldGen = new Item("adv-shield-gen", gold1) {{
+        advShieldGen = new Item("adv-shield-gen", gold2) {{
             cost = 10f;     
         }};
 
@@ -175,6 +175,7 @@ public class TItems {
 
         leptineSeed = new Fruit("leptine-seed", kaut2) {{
             result = leptine;
+            ((Fruit)leptine).seed = this;
             growTimeMin = 1200f;
             growTimeMax = 1800f;
         }};
@@ -210,11 +211,12 @@ public class TItems {
 
         theimpossible = new Item("theimpossible", red3) {{
             cost = flammability = explosiveness = radioactivity = charge = hardness = 2147483647;
+            hidden = !debug;
         }};
 
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,
-                stalinium, rknium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator,
+                rethium, rknium, cog, rotor, armorPlate, pegmatite, enrichedMetal, enrichedAluminium, bioprocessor, accumulator,
                 leptine, leptineSeed);
         mitaItems.addAll(
                 mitanium, mitalite, milane, cappite

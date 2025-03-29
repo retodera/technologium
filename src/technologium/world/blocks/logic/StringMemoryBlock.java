@@ -100,10 +100,12 @@ public class StringMemoryBlock extends Block{
                         else rebuild();
                     }).width(75);
                     tt.button(Icon.upload, Styles.cleari, () -> {
-                        Core.app.setClipboardText(String.join(" ",memory));
+                        Core.app.setClipboardText("["+String.join(",",memory)+"]");
                     }).size(40).tooltip("@memoryblock.copy");
                     tt.button(Icon.download, Styles.cleari, () -> {
-                        String[] m = Core.app.getClipboardText().split(" ");
+                        String vars = Core.app.getClipboardText();
+                        vars.replace("[", "").replace("]", "");
+                        String[] m = vars.split(",");
                         if(m.length == memory.length)
                             for(int i = 0; i < m.length; i++) memory[i] = m[i];
                     }).size(40).tooltip("@memoryblock.paste");

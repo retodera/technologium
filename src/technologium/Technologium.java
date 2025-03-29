@@ -95,6 +95,7 @@ public class Technologium extends Mod {
             }).width(260);
             show();
         }};
+
         Log.info("[TECHNOLOGIUM initialization complete]");
     }
 }

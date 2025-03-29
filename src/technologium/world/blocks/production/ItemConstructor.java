@@ -6,7 +6,9 @@ import multicraft.*;
 import arc.struct.Seq;
 import arc.Core;
 import arc.graphics.g2d.Draw;
+import mindustry.content.Fx;
 import mindustry.entities.Effect;
+
 import mindustry.world.draw.*;
 
 import static mindustry.Vars.*;
@@ -24,9 +26,12 @@ public class ItemConstructor extends MultiCrafter {
     public float armMove = 4f;
     /** effects used by arms */
     public Effect[] armFx = {};
-    /** offset of the effect */
-    public float fxOffsetX = 0f, fxOffsetY = 8f;    
-    private TextureRegion[] armTex;
+    /** offset of the arm effect (relative to the arm) */
+    public float armFxOffsetX = 0f, armFxOffsetY = 8f;
+    /** construction speed; in ticks */
+    public float speed = 60f;
+    private int choose = 0, choose2 = 0;
+    public TextureRegion[] armTex;
 
     public ItemConstructor(String name) {
         super(name);
@@ -41,9 +46,19 @@ public class ItemConstructor extends MultiCrafter {
             Core.atlas.find(name + "-arm1", name + "-arm"));
     }
 
+    @Override
+    public void init() {
+        super.init();
+        resolvedRecipes.each(r -> {
+            r.craftTime = Seq.with(r.input.items).sum(i -> i.amount) * speed;
+            r.craftEffect = Fx.smokeCloud;
+        });
+    }
+
     public class ItemConstructorBuild extends MultiCrafterBuild {
         private int armC = Mathf.clamp(armCount, 1, 16);
         private Seq<AssembleArm> arms = new Seq<>(armC);
+        private boolean chosen = false;
         private Rand rand = new Rand();
 
         @Override
@@ -67,6 +82,11 @@ public class ItemConstructor extends MultiCrafter {
                 if(last == draw.drawers.length) return;
 
                 drawArms();
+                
+                float a = Draw.getColor().a;
+                Draw.alpha(Mathf.floor(craftingTime / speed) / (getCurRecipe().craftTime / speed));
+                Draw.rect(getCurRecipe().output.items[0].item.fullIcon, x, y);
+                Draw.alpha(a);
 
                 //continue drawing drawers after the DrawDefault
                 for(int i = last; i < draw.drawers.length; i++) draw.drawers[i].draw(this);
@@ -81,11 +101,19 @@ public class ItemConstructor extends MultiCrafter {
             for(int i = 0; i < armC; i++) {
                 AssembleArm a = arms.get(i);
                 float r = a.r + 360 / armC * i;
+
+                //this is what we russians call "a crutch": craftingTime % speed > 49 && craftingTime % speed < 51
+                //if it works, don't touch it.
+                if(!chosen) {
+                    choose = craftingTime % speed > 49 && craftingTime % speed < 51 ? rand.nextInt(armC) : -1;
+                    choose2 = craftingTime % speed > 49 && craftingTime % speed < 51 ? rand.nextInt(armC) : -1;
+                }
     
                 //randomly cause the assembly arms to stop & move forward
-                if(rand.nextInt() % 200 / (i + 1) == 1 && a.dir != 0 && warmup != 0 && !state.isPaused()) {
+                if((i == choose || i == choose2) && a.dir != 0 && warmup != 0 && !state.isPaused()) {
                     a.ndir = -a.dir;
                     a.dir = 0;
+                    chosen = true;
                 }
     
                 //rotation
@@ -102,8 +130,8 @@ public class ItemConstructor extends MultiCrafter {
                         y + Mathf.sinDeg(r) * armsOffset - Mathf.sinDeg(r) * Mathf.sinDeg(a.m) * armMove + armsY,
                         r + 90);
                     if(a.m > 88 && a.m < 92 && i <= armFx.length && armFx[i] != null && a.fx)  {
-                            armFx[i].at(x + armsX + Mathf.cosDeg(r) * (armsOffset - fxOffsetY) + Mathf.sinDeg(r) * fxOffsetX,
-                                y + armsY + Mathf.sinDeg(r) * (armsOffset - fxOffsetY) - Mathf.cosDeg(r) * fxOffsetX);
+                            armFx[i].at(x + armsX + Mathf.cosDeg(r) * (armsOffset - armFxOffsetY) + Mathf.sinDeg(r) * armFxOffsetX,
+                                y + armsY + Mathf.sinDeg(r) * (armsOffset - armFxOffsetY) - Mathf.cosDeg(r) * armFxOffsetX);
                                 a.fx = false;
                         }
                             
@@ -111,6 +139,7 @@ public class ItemConstructor extends MultiCrafter {
                         a.dir = a.ndir;
                         a.fx = true;
                         a.m = 0;
+                        chosen = false;
                     }
                 }
             }

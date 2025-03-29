@@ -23,7 +23,7 @@ public class TempLiquidRouter extends LiquidRouter{
         @Override
         public void updateTile(){
             super.updateTile();
-            if(liquids.current().temperature > maxTemp) damage(damage * (maxTemp - liquids.current().temperature) * liquids.currentAmount() / liquidCapacity);
+            if(liquids.current().temperature > maxTemp) damage(damage * (liquids.current().temperature - maxTemp) * liquids.currentAmount() / liquidCapacity);
             if(Mathf.chance(this.delta() * baseChance * (liquids.current().temperature - maxTemp) * liquids.currentAmount() / liquidCapacity)) {
                 explodeEffect.at(x + Mathf.range(block.size * tilesize / 2f), y + Mathf.range(block.size * tilesize / 2f));
             }

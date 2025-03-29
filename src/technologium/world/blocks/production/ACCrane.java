@@ -142,11 +142,11 @@ public class ACCrane extends GenericCrafter {
     }
 
     public class ACCraneBuild extends GenericCrafterBuild {
-        private float rot = (rotate ? rotation * 90f : 0);
-        private float ext = 8f;
-        protected Seq<Link> links = new Seq<>();
-        protected Seq<PotBuild> harvest = new Seq<>(), plant = new Seq<>();
-        protected PotBuild target;
+        private float rot = (rotate ? rotation * 90f : 0), pastRot;
+        private float ext = 8f, pastExt;
+        public Seq<Link> links = new Seq<>();
+        public Seq<PotBuild> harvest = new Seq<>(), plant = new Seq<>();
+        public PotBuild target;
         protected int targetPos = -1;
 
         @Override
@@ -180,6 +180,8 @@ public class ACCrane extends GenericCrafter {
 
         @Override
         public void updateTile() {
+            pastRot = rot;
+            pastExt = ext;
             for(Link link : links) {
                 link.lastBuild = world.build(link.x, link.y);
                 PotBuild b = (PotBuild)link.lastBuild;
@@ -208,7 +210,9 @@ public class ACCrane extends GenericCrafter {
                 }
             }
 
-            if (!links.isEmpty() && efficiency > 0 && (power == null || power.status > 0)) {    
+            warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+
+            if (!links.isEmpty() && (power == null || power.status > 0)) {    
                 consPower.trigger(this);
                 
                 sortByRange(harvest);
@@ -227,11 +231,11 @@ public class ACCrane extends GenericCrafter {
                     }
                 }
                 if(((target == null || world.build(targetPos) == null || !(world.build(targetPos) instanceof PotBuild) || links.find(l -> l.lastBuild == target) == null)
-                  || ((target != null && target.fruit() != null) ? items.get(target.fruit) == itemCapacity : true)) && !fruits(true).isEmpty() && plant.size > 0) {
+                  || ((target != null && target.fruit() != null) ? items.get(target.fruit) == itemCapacity : true)) && items.sum((i, c) -> i instanceof Fruit && ((Fruit)i).plantable && c > 0 ? 1 : 0) > 0 && plant.size > 0) {
                     PotBuild trgt;
                     for(int i = 0; i < plant.size; i++) {
                         trgt = plant.get(i);
-                        if(trgt.prefere() != null ? items.has(trgt.prefere()) : !fruits(true).isEmpty()) {
+                        if(trgt.prefere() != null ? items.has(trgt.prefere()) : items.sum((it, c) -> it instanceof Fruit && ((Fruit)it).plantable && c > 0 ? 1 : 0) > 0) {
                             target = trgt;
                             targetPos = target.pos();
                             break;
@@ -269,8 +273,6 @@ public class ACCrane extends GenericCrafter {
                     }
                 }
 
-                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
-
                 if (outputsLiquid) {
                     for (LiquidStack output : outputLiquids) {
                         Liquid fluid = output.liquid;
@@ -302,6 +304,15 @@ public class ACCrane extends GenericCrafter {
             }
 
             dumpOutputs();
+        }
+
+        public boolean isMoving() {
+            return pastRot != rot || pastExt != ext;
+        }
+
+        @Override
+        public boolean shouldConsume() {
+            return enabled && (target != null || isMoving() || links.find(l -> (PotBuild)l.lastBuild != null && ((PotBuild)l.lastBuild).fruit != null) != null);
         }
 
         @Override

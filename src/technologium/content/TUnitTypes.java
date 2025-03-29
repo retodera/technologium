@@ -49,11 +49,12 @@ public class TUnitTypes {
             armor = 1;
             hitSize = 10f;
             itemCapacity = 15;
-            drag = 0.15f;
+            drag = 0.09f;
             speed = 0.5f;
+            accel = 0.12f;
             flying = false;
             canBoost = true;
-            boostMultiplier = 1.5f;
+            boostMultiplier = 4f;
             fogRadius = 0f;
             engineOffset = 5f;
             buildSpeed = 1.2f;
@@ -62,6 +63,7 @@ public class TUnitTypes {
             mineFloor = true;
             mineSpeed = 6f;
             mineTier = 1;
+            mineRange = 42.5f;
             coreUnitDock = true;
             weapons.add(new RepairBeamWeapon() {{
                 reload = 20f;

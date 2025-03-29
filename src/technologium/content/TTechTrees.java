@@ -27,7 +27,8 @@ public class TTechTrees {
                 node(metallicDrill, () -> {
                     node(advancedDrill);
                     node(metallicPlasmaBore, () -> {
-                        node(miniPlasmaBore);
+                        node(miniPlasmaBore, () -> {
+                        });
                     });
                 });
 
@@ -37,7 +38,7 @@ public class TTechTrees {
                 Seq.with(new OnSector(pegmatiteMountains)), () -> {
                     node(mixer, Seq.with(new Research(theimpossible)), () -> {});
                     node(filter, Seq.with(new Research(theimpossible)), () -> {});
-                    node(itemConstructor, Seq.with(new Research(theimpossible)), () -> {
+                    node(itemConstructor, Seq.with(new OnSector(noMansLand)), () -> {
                         //node(arcSmelter);
                     });
                 });
@@ -54,12 +55,13 @@ public class TTechTrees {
                         node(metallicDistributor);
                         node(metallicJunction);
                         node(metallicBridgeConveyor, () -> {
-                            node(mechanicalDriver);
+                            node(mechanicalDriver, () -> {
+                            });
                         });
                         node(metallicOverflowGate, () -> {
                             node(metallicUnderflowGate);
                         });
-                        node(metallicSorter);
+                        node(metallicSorter, () -> {});
                         node(metallicContainer, () -> {
                             node(metallicUnloader, () -> {
                                 node(metallicVault);
@@ -85,7 +87,7 @@ public class TTechTrees {
                 node(thermalPlate, () -> {
                     node(energeticNode, () -> {
                         node(energeticNodeLarge);
-                        node(lithiumBattery); 
+                        node(lithiumBattery, () -> {}); 
                     });
                 });
 
@@ -111,7 +113,7 @@ public class TTechTrees {
                 //region effect
 
                 node(radar, () -> {
-
+                    node(longRangeRadar, () -> {});
                 });
 
                 //region walls
@@ -154,9 +156,9 @@ public class TTechTrees {
                 });
                 nodeProduce(darkMetal, () -> {
                     nodeProduce(enrichedMetal, () -> {});
-                    nodeProduce(cog, () -> {
+                    node(cog, Seq.with(new Research(itemConstructor)), () -> {
                         nodeProduce(armorPlate, () -> {});
-                        nodeProduce(bioprocessor, () -> {
+                        node(bioprocessor, Seq.with(new Research(trainedNeoplasm)), () -> {
                             nodeProduce(advBioprocessor, () -> {});
                         });
                         nodeProduce(shieldGen, () -> {
@@ -173,7 +175,7 @@ public class TTechTrees {
                             nodeProduce(cannedNeoplasm, () -> {
                                 nodeProduce(trainedNeoplasm, () -> {}); 
                             });
-                            nodeProduce(gold, () -> {
+                            nodeProduce(gold, Seq.with(new Research(mixer)), () -> {
                                 nodeProduce(goldGlass, () -> {});
                                 nodeProduce(uranium, () -> {
                                     nodeProduce(enrichedUranium, () -> {
@@ -190,6 +192,9 @@ public class TTechTrees {
             
             nodeProduce(neoplasm, () -> {
                 nodeProduce(water, () -> {
+                    nodeProduce(liquidNitrogen, () -> {
+
+                    });
                 });
             });
 
@@ -198,7 +203,9 @@ public class TTechTrees {
             node(initialization, () -> {
                 node(pegmatiteMountains, 
                 Seq.with(new SectorComplete(initialization)), () -> {
-
+                    node(noMansLand, 
+                    Seq.with(new SectorComplete(pegmatiteMountains)), () -> {
+                    });
                 });
             });
         });

@@ -5,7 +5,7 @@ import static technologium.content.TPlanets.*;
 
 public class TSectors {
     public static SectorPreset
-    /* Kudol */ initialization, pegmatiteMountains;
+    /* Kudol */ initialization, pegmatiteMountains, noMansLand;
 
     public static void load() {
 
@@ -19,6 +19,12 @@ public class TSectors {
         pegmatiteMountains = new SectorPreset("pegmatiteMountains", kudol, 46) {{
             difficulty = 2;
             captureWave = 20;
+            showSectorLandInfo = true;
+        }};
+
+        noMansLand = new SectorPreset("noMansLand", kudol, 202) {{
+            difficulty = 3;
+            captureWave = 30;
             showSectorLandInfo = true;
         }};
     }

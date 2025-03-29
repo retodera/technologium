@@ -11,15 +11,18 @@ public class Fruit extends Item {
     public float juiciness = 0f, seedChance = 0f;
     /** growing time in ticks */
     public float growTimeMin = 600f, growTimeMax = 900f;
-    /** the tree that will be growing (drawn) when planted in a pot */
+    /** tree of this fruit */
     public Block tree = Blocks.pine;
     /** whether this can be planted */
     public boolean plantable = true;
     /** the item that will result from the tree being harvested */
     public Item result = this;
+    /** seed of this fruit */
+    public Item seed = this;
 
     public Fruit(String name, Color color) {
         super(name, color);
+        cost = 0;
     }
 
     public Fruit(String name) {

@@ -12,7 +12,6 @@ public class SettingsMenuDialog {
     public SettingsMenuDialog() {
         ui.settings.hidden(this::apply);
         ui.settings.addCategory("Technologium", "t-technologium", table -> {
-            table.checkPref("tmusic", true);
             table.checkPref("tlogo", true);
             table.checkPref("tdebug", false, d -> debug = d);
             table.checkPref("tdiscord", true);

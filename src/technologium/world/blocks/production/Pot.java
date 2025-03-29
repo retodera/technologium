@@ -77,7 +77,8 @@ public class Pot extends Block {
         private Fruit prefere;
 
         public void updateTile() {
-            crane = (ACCraneBuild)world.build(cranePos);
+            Building build = world.build(cranePos);
+            if(build instanceof ACCraneBuild) crane = (ACCraneBuild)build;
             if(crane == null) {
                 crane = null;
                 fruit = null;
