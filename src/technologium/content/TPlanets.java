@@ -13,13 +13,14 @@ import static technologium.TVars.*;
 public class TPlanets {
     public static Planet
     /* stars */ beled,
-        /* planets */ kudol, venjer, nobata, itinbu, mita;
+        /* planets */ kudol, venjer, tarpis, sagit, mita;
 
     public static void load() {
 
         beled = new Planet("beled", null, 15f) {{
             bloom = true;
             accessible = alwaysUnlocked = TVars.debug;
+            icon = "beled";
             meshLoader = () -> new SunMesh(
                 this, 8,
                 5, 0.5, 2, 1.8, 1,
@@ -34,6 +35,7 @@ public class TPlanets {
 
         kudol = new Planet("kudol", beled, 2f, 3) {{
             generator = new SerpuloPlanetGenerator(); // TODO make generator
+            generator.defaultLoadout = TLoadouts.coreTorch;
             meshLoader = () -> new MultiMesh(
                 new NoiseMesh(this, 2281337, 6, 1.9f, 7, 0.75f, 0.75f, 1.2f, Color.valueOf("331b0b"), Color.valueOf("a35721"), 7, 0.7f, 0.75f, 0.53f),
                 new NoiseMesh(this, 1337228, 6, 1.9f, 7, 0.75f, 0.75f, 1.2f, Color.valueOf("8f6b48"), Color.valueOf("bf8f60"), 7, 0.7f, 0.75f, 0.53f)
@@ -67,6 +69,7 @@ public class TPlanets {
                 r.fog = true;
                 r.staticFog = true;
                 r.coreDestroyClear = true;
+                r.coreIncinerates = true;
                 r.onlyDepositCore = false;
             };
             unlockedOnLand.add(TBlocks.coreTorch);

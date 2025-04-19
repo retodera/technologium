@@ -22,37 +22,31 @@ What will come out faster: Mindustry V8 or Technologium 1.0 (Full Kudol Campaign
 ## Overview
 </div>
 
-### Currently, there are 70 blocks: 
-- 21 environment (floors, walls, ores) (3 WIP)
-- 2 turrets
-- 6 production
-- 10 distribution
-- 6 liquid
-- 8 power
-- 4 crafting
-- 4 walls
-- 2 units
-- 8 effect
-- 11 logic
+### Blocks
+There are alot of blocks. I decided to stop counting each one.
+
+Just know that there's alot of blocks, and there will be much more.
 
 ### There are also:
-- 7 units (1 WIP)
-- 35 items (most of them are unobtainable/useless) (4 WIP)
-- 4 liquids (unobtainable)
+- 9 units (1 WIP)
+- 37 items (most of them are unobtainable/useless) (4 WIP)
+- 5 liquids (unobtainable/useless)
 - 3 status effects (1 WIP)
 - 2 teams (1 WIP)
 
-### Ideas & Planets
-
+### Mechanics
 The mod has alot of special items called "technologies". They are crafted from other items or technologies They exist so it would be a bit harder to make everything. The idea for that was taken from Factorio.
 
-Kudol is a volcanic planet with pegmatite formations and neoplastic infection. The idea was taken from Erekir. It'll be like a tutorial to the mod itself. After completion, access to Venjer and Nobata will be open.
+In the future updates, there will be a [kinetic force mechanic](PLANS#kinetic-force--stress). It will work just like in Project Unity or in a minecraft mod Create. Various blocks will create and require kinetic force.
+
+### Planets
+Kudol is a volcanic planet with pegmatite formations and neoplastic infection. The idea was taken from Erekir. It'll be like a tutorial to the mod itself. After completion, access to Venjer and Tarpis will be open.
 
 Venjer at first was randomly made up, until the Factorio Space Age DLC came out. Now, Venjer will be a little copy of Gleba planet. Also, it'll be the hardest planet.
 
-Nobata is a gas giant, randomly made us as well. Since it has no surface, you'll have to [collect liquids and build out of them](PLANS#build-out-of-liquids). You'll also need to make [lifting force](PLANS#lifting-force) in order to expand.
+Tarpis is a gas giant, randomly made us as well. Since it has no surface, you'll have to [collect liquids and build out of them](PLANS#build-out-of-liquids). You'll also need to make [lifting force](PLANS#lifting-force) in order to expand.
 
-Itinbu is Nobata's moon, with icy surface and strong winds. The [icy floor](PLANS#icy-floor) will make units slide, the strong wind will move them. The sectors will be small, the campaign will be short.
+Sagit is Tarpis' moon, with icy surface and strong winds. The [icy floor](PLANS#icy-floor) will make units slide, the strong wind will move them. The sectors will be small, the campaign will be short.
 
 [discordb]: https://img.shields.io/discord/1320403715483762780?style=for-the-badge&label=discord
 [commitb]: https://img.shields.io/github/last-commit/retodera/technologium?style=for-the-badge&label=last%20update

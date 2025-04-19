@@ -11,7 +11,6 @@ import mindustry.gen.*;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.TreeBlock;
 import mindustry.world.meta.BuildVisibility;
-import technologium.content.TBlocks;
 import technologium.type.Fruit;
 import technologium.world.blocks.environment.ItemBlock.ItemBuild;
 import technologium.world.blocks.production.ACCrane.ACCraneBuild;
@@ -21,10 +20,11 @@ import static mindustry.Vars.*;
 public class GrowingTreeBlock extends TreeBlock {
     /**fruit that this tree will drop upon full growth */
     public @Nullable Fruit fruit;
-    public float growTimeMin = 4800f, growTimeMax = 10800f;
-    public float fallTimeMin = 4800f, fallTimeMax = 10800f;
+    public float growTimeMin = 6400f, growTimeMax = 14400f;
+    public float fallTimeMin = 8000f, fallTimeMax = 17600f;
     public int fruitFallDist = 2;
     public Rand random = new Rand();
+    public ItemBlock dropBlock;
 
     public GrowingTreeBlock(String name) {
         super(name);
@@ -104,7 +104,7 @@ public class GrowingTreeBlock extends TreeBlock {
                 grow += Time.delta;
                 grow = Math.min(grow, growTime);
             }
-            else if(fruit != null) {
+            else if(fruit != null || dropBlock != null) {
                 Seq<Tile> availableTiles = new Seq<>();
                 for(int x = 0; x < fruitFallDist*2+1; x++) 
                     for(int y = 0; y < fruitFallDist*2+1; y++) {
@@ -117,18 +117,21 @@ public class GrowingTreeBlock extends TreeBlock {
                 if(fallTime == 0) fallTime = Mathf.random(fallTimeMin, fallTimeMax);
                 fall += Time.delta;
                 fall = Math.min(fall, fallTime);
-                if(fall == fallTime && !availableTiles.isEmpty()) {
-                    int rand = random.nextInt(availableTiles.size);
+                if(fall == fallTime) {
                     fall = fallTime = 0;
-                    int i = 0;
-                    for(Tile t : availableTiles) {
-                        if(rand == i && t.build == null) {
-                            t.setNet(TBlocks.leptineItemBlock);
-                            ((ItemBuild)t.build).parentPos = parent == null ? pos() : parent.pos();
+                    if(!availableTiles.isEmpty()) {
+                        int rand = random.nextInt(availableTiles.size);
+                        int i = 0;
+                        for(Tile t : availableTiles) {
+                            if(rand == i && t.build == null && dropBlock != null) {
+                                t.setNet(dropBlock);
+                                if (t.build != null)
+                                    ((ItemBuild)t.build).parentPos = parent == null ? pos() : parent.pos();
+                            }
+                            else if(rand == i && t.build.block.hasItems && t.build.acceptItem(this, fruit) && fruit != null)
+                                t.build.handleItem(this, fruit);
+                            i++;
                         }
-                        else if(rand == i && t.build.block.hasItems && t.build.acceptItem(this, fruit))
-                            t.build.handleItem(this, fruit);
-                        i++;
                     }
 
                 }
@@ -156,6 +159,11 @@ public class GrowingTreeBlock extends TreeBlock {
             Draw.rectv(reg, x, y, w, h, rot, (vec) -> {
                 vec.add(Mathf.sin(vec.y * 3 + Time.time, scl, mag) + Mathf.sin(vec.x * 3 - Time.time, 70, 0.8f), Mathf.cos(vec.x * 3 + Time.time + 8, scl + 6, mag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time, 50, 0.2f));
             });
+        }
+
+        @Override
+        public String getDisplayName() {
+            return block.localizedName + (team == player.team() || team == Team.derelict || team.emoji.isEmpty() ? "" : " " + team.emoji);
         }
 
         @Override

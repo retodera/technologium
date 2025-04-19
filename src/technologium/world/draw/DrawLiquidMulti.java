@@ -46,9 +46,10 @@ public class DrawLiquidMulti extends DrawLiquidTile {
         if(build.liquids == null) return;
         float sum = build.liquids.sum((l, a) -> exclude.contains(l) ? 0 : a);
         if(Mathf.zero(sum)) return;
+        int ls = (int)build.liquids.sum((l, a) -> Mathf.zero(a) ? 0 : 1);
         build.liquids.each((l, a) -> {
             if(exclude.contains(l)) return;
-            drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, l, a / (build.block.liquidCapacity - sum + a) * alpha);
+            drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, l, a / build.block.liquidCapacity / ls * alpha);
         });
     }
 }

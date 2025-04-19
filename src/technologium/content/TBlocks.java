@@ -48,13 +48,16 @@ import technologium.world.blocks.storage.*;
 import technologium.world.blocks.production.*;
 import technologium.world.blocks.power.*;
 import technologium.world.blocks.environment.*;
+import technologium.graphics.TPal;
 import technologium.type.*;
 import multicraft.*;
 
+import static multicraft.RecipeSwitchStyle.*;
 import static mindustry.Vars.*;
 import static technologium.TVars.*;
 import static mindustry.type.ItemStack.*;
 import static technologium.graphics.TPal.*;
+import static technologium.world.meta.TAttributes.*;
 
 public class TBlocks {
 
@@ -64,16 +67,18 @@ public class TBlocks {
     volcanicStone, volcanicSand, volcanicCrater, thermalStone, acidFloor, neoplasticFloor,
     pegmatiteStone, miStone,
 
-    neoplasticLiquid, hydrochloricAcidLiquid, lavaLiquid,
+    neoplasticLiquid, shallowNeoplasm, hydrochloricAcidLiquid, lavaLiquid,
+
+    darkMetalFloor1, darkMetalFloor2, darkMetalFloor3, darkMetalFloor4, darkMetalFloor5,
 
     //environment - ores
     hematiteOre, tinWallOre, bauxiteOre,
 
     //environment - walls
     volcanicWall, volcanicSandWall, acidWall, neoplasticWall, neoplasticTree, neoplasticTreeBloom, pegmatiteWall,
-    miWall, mitaHide,
+    miWall, mitaHide, darkWall, oldDarkWall,
 
-    leptineTree,
+    leptineTree, neoplasticVine,
 
     //environment - props
     volcanicBoulder, volcanicSandBoulder, pegmatiteBoulder,
@@ -81,10 +86,10 @@ public class TBlocks {
     leptineItemBlock,
 
     //turrets - kudol
-    comet, constellation,
+    comet, constellation, meteor, strike, needle,
 
     //production - kudol
-    metallicPlasmaBore, miniPlasmaBore, metallicDrill, advancedDrill, pot, agriculturalCrane,
+    metallicPlasmaBore, miniPlasmaBore, manualDrill, metallicDrill, advancedDrill, pot, agriculturalCrane,
 
     //distribution - kudol
     metallicConveyor, metallicJunction, metallicRouter, metallicDistributor, metallicBridgeConveyor,
@@ -92,7 +97,7 @@ public class TBlocks {
 
     //liquds - kudol
     improvedConduit, thermoConduit, improvedLiquidJunction, improvedLiquidRouter, improvedLiquidBridge, improvedLiquidSorter,
-    improvedLiquidContainer,
+    improvedLiquidContainer, liquidPump,
 
     //power - kudol
     thermalPlate, thermalGenerator, energeticNode, energeticNodeLarge, lithiumBattery, largeLithiumBattery, solarPanel,
@@ -100,13 +105,15 @@ public class TBlocks {
 
     //crafting - kudol
     arcFurnace, arcSmelter, atmosphericCondenser, trainingCenter, acidElectrolyzer, itemConstructor, mixer, filter,
-    blockCrafter,
+    blockCrafter, packer,
 
     //defense - kudol
     metallicWall, metallicWallLarge, armoredWall, armoredWallLarge,
 
     //units - kudol
-    unitFabricator, metallicPayloadConveyor,
+    unitFabricator, unitRefabricator,
+    
+    metallicPayloadConveyor, largePayloadConveyor,
 
     //effect - kudol
     coreTorch, coreBlaze, metallicUnloader, metallicContainer, metallicVault,
@@ -115,10 +122,6 @@ public class TBlocks {
 
     //logic - kudol
     switchBlock, message, energeticProcessor, plasmaProcessor, gammaProcessor, omegaProcessor, cell, bank, borderlessDisplayMini, borderlessDisplay, stringCell, projector;
-
-    public static final Attribute
-    goldAttr = Attribute.add("gold"),
-    neoplasmAttr = Attribute.add("neoplasm");
 
     public static void load() {
         
@@ -139,6 +142,7 @@ public class TBlocks {
 
         acidWall = new StaticWall("acid-wall") {{
             variants = 3;
+            buildVisibility = debug ? BuildVisibility.hidden : BuildVisibility.debugOnly;
         }};
 
         neoplasticWall = new StaticWall("neoplastic-wall") {{
@@ -169,6 +173,16 @@ public class TBlocks {
             fruit = (Fruit)TItems.leptine;
         }};
 
+        darkWall = new StaticWall("dark-wall") {{
+            variants = 5; 
+        }};
+
+        oldDarkWall = new StaticWall("dark-wall-old") {{
+            variants = 5; 
+        }};
+
+        //endregion
+
         //region environment - floors
 
         volcanicStone = new Floor("volcanic-stone", 4) {{
@@ -197,6 +211,7 @@ public class TBlocks {
 
         acidFloor = new Floor("acid-floor", 3) {{
             wall = acidWall;
+            buildVisibility = debug ? BuildVisibility.hidden : BuildVisibility.debugOnly;
         }};
 
         neoplasticFloor = new Floor("neoplastic-floor", 3) {{
@@ -229,7 +244,16 @@ public class TBlocks {
             statusDuration = 720f;
         }};
 
+        shallowNeoplasm = new ShallowLiquid("shallow-neoplasm") {{
+            speedMultiplier = 0.5f;
+            albedo = 0.9f;
+            supportsOverlay = true;
+            statusDuration = 240f;
+            set(neoplasticLiquid, neoplasticFloor);
+        }};
+
         hydrochloricAcidLiquid = new Floor("hydrochloric-acid-liquid") {{
+            buildVisibility = debug ? BuildVisibility.hidden : BuildVisibility.debugOnly;
             isLiquid = true;
             liquidDrop = TLiquids.hydrochloricAcid;
             cacheLayer = CacheLayer.water;
@@ -244,7 +268,7 @@ public class TBlocks {
         }};
 
         lavaLiquid = new Floor("lava-liquid") {{
-            attributes.set(Attribute.heat, 4f);
+            attributes.set(Attribute.heat, 1.75f);
             isLiquid = true;
             liquidDrop = TLiquids.lava;
             cacheLayer = CacheLayer.slag;
@@ -258,6 +282,22 @@ public class TBlocks {
             statusDuration = 360f;
         }};
 
+        neoplasticVine = new GrowingVine("neoplastic-vine") {{
+            variants = 3;
+        }};
+
+        darkMetalFloor1 = new Floor("dark-metal-floor-1", 0);
+
+        darkMetalFloor2 = new Floor("dark-metal-floor-2", 0);
+
+        darkMetalFloor3 = new Floor("dark-metal-floor-3", 0);
+
+        darkMetalFloor4 = new Floor("dark-metal-floor-4", 0);
+
+        darkMetalFloor5 = new Floor("dark-metal-floor-5", 0);
+
+        //endregion
+
         //region environment - ores
 
         hematiteOre = new OreBlock("hematite-ore", TItems.hematite);
@@ -267,6 +307,8 @@ public class TBlocks {
         }};
 
         bauxiteOre = new OreBlock("bauxite-ore", TItems.bauxite);
+
+        //endregion
 
         //region environment - props
 
@@ -282,7 +324,11 @@ public class TBlocks {
             variants = 2;
         }};
 
-        leptineItemBlock = new ItemBlock("itemblock-leptine", TItems.leptine);
+        leptineItemBlock = new ItemBlock("itemblock-leptine", TItems.leptine){{
+            ((GrowingTreeBlock)leptineTree).dropBlock = this;
+        }};
+
+        //endregion
 
         //region turrets - kudol
 
@@ -291,8 +337,7 @@ public class TBlocks {
             researchCost = with(TItems.hematite, 50, TItems.tin, 40);
             envEnabled |= Env.space;
             range = 80f;
-            health = 180;
-            size = 1;
+            health = 380;
             recoil = 2f;
             reload = 60f;
             consumePower(0.25f);
@@ -310,26 +355,28 @@ public class TBlocks {
         constellation = new PowerTurret("constellation") {{
             requirements(Category.turret, with(TItems.darkMetal, 75, TItems.tin, 55, TItems.lithium, 30));
             envEnabled |= Env.space;
-            health = 240;
-            size = 1;
+            health = 650;
+            size = 2;
             recoil = 1f;
             reload = 15f;
             range = 175f;
-            consumePower(25 / 60f);
+            shootY = 4f;
+            consumePower(50 / 60f);
             shootSound = Sounds.lasershoot;
-            outlineColor = darkerOutline; 
+            outlineColor = darkerOutline;
+            squareSprite = false; 
             minWarmup = 0.96f;
             shootWarmupSpeed = 0.1f;
             drawer = new DrawTurret("kudol-"){{
                 parts.add(new RegionPart("-side"){{
                     mirror = true;
                     under = true;
-                    moveX = 1.2f;
-                    moveY = 0f;
-                    moveRot = -5;
+                    moveX = 2.75f;
+                    moveY = -0.5f;
+                    moveRot = -45;
                     heatProgress = PartProgress.warmup;
                     heatColor = tin1.cpy().a(0.9f);
-                    moves.add(new PartMove(PartProgress.recoil, 0.5f, -0.5f, -10));
+                    moves.add(new PartMove(PartProgress.recoil, -0.5f, -0.5f, -10));
                 }},
                 new RegionPart("-mid"){{
                     under = true;
@@ -337,7 +384,8 @@ public class TBlocks {
                 new RegionPart("-gun"){{
                     mirror = true;
                     under = true;
-                    moveX = moveY = 1.25f;
+                    moveX = 1.25f;
+                    moveY = -1.25f;
                     progress = PartProgress.warmup;
                     heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
                     heatColor = tin1.cpy().a(0.9f);
@@ -347,7 +395,7 @@ public class TBlocks {
             shoot = new ShootAlternate(5f){{
                 shots = 2;
             }};
-            shootType = new BasicBulletType(5f, 25f){{
+            shootType = new BasicBulletType(5f, 15f){{
                 buildingDamageMultiplier = 0.25f;
                 lifetime = 35f;
                 frontColor = tin1;
@@ -359,6 +407,177 @@ public class TBlocks {
                 trailEffect = Fx.disperseTrail;
             }};
         }};
+
+        meteor = new ItemTurret("meteor") {{
+            requirements(Category.turret, with(TItems.darkMetal, 60, TItems.aluminium, 45, TItems.lithium, 40, TItems.cog, 30));
+            size = 2;
+            health = 890;
+            recoil = 2f;
+            reload = 120f;
+            range = 245f;
+            shootSound = Sounds.artillery;
+            shootEffect = Fx.shootBig;
+            outlineColor = darkerOutline;
+            squareSprite = false;
+            ammoPerShot = 3;
+            maxAmmo = 20;
+            targetAir = false;
+            shake = 2f;
+            minWarmup = 0.86f;
+            rotateSpeed = 1.8f;
+            drawer = new DrawTurret("kudol-"){{
+                parts.addAll(
+                    new RegionPart("-bottom"){{
+                        mirror = false;
+                    }},
+                    new RegionPart("-gun"){{
+                        heatProgress = PartProgress.recoil;
+                        heatColor = TPal.red1;
+                        progress = PartProgress.recoil;
+                        moveY = -3f;
+                        mirror = false;
+                    }}
+                );
+            }};
+            ammo(
+                TItems.lithium, new ArtilleryBulletType(2.5f, 140, "shell") {{
+                    lifetime = 98f;
+                    height = 9f;
+                    width = 7f;
+                    splashDamageRadius = 24f;
+                    splashDamage = 140f;
+                    scaledSplashDamage = true;
+                    status = StatusEffects.blasted;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    frontColor = TPal.lithium3;
+                    backColor = TPal.lithium2;
+                    hitEffect = new MultiEffect(Fx.explosion, Fx.smoke);
+                    hitSound = Sounds.explosion;
+                }}
+            );
+        }};
+
+        strike = new ItemTurret("strike") {{
+            requirements(Category.turret, with(TItems.hematite, 45, TItems.tin, 25)); 
+            researchCost = with(TItems.hematite, 70, TItems.tin, 50);
+            health = 410;
+            recoil = 2f;
+            reload = 20f;
+            range = 160f;
+            shootSound = Sounds.shootSnap;
+            shootEffect = Fx.shootSmall;
+            outlineColor = darkerOutline;
+            ammoPerShot = 2;
+            maxAmmo = 30;
+            shootY = 6f;
+            targetAir = false;
+            shoot = new ShootAlternate(5f);
+            drawer = new DrawTurret("kudol-"){{
+                parts.addAll(
+                    new RegionPart("-guns"){{
+                        heatProgress = PartProgress.recoil;
+                        heatColor = TPal.red1;
+                        progress = PartProgress.recoil;
+                        moveY = -1f;
+                        mirror = false;
+                    }},
+                    new RegionPart("-top"){{
+                        mirror = false;
+                    }}
+                );
+            }};
+            ammo(TItems.tin, new BasicBulletType(3f, 5f){{
+                lifetime = 50f;
+                height = 9f;
+                width = 7f;
+                ammoMultiplier = 3f;
+                frontColor = TPal.tin3;
+                backColor = TPal.tin2;
+                hitEffect = Fx.explosion;
+                fragBullets = 3;
+                fragVelocityMin = 0.75f;
+                fragVelocityMax = 2f;
+                fragLifeMin = 0.25f;
+                fragLifeMax = 0.75f;
+                fragBullet = new BasicBulletType(){{
+                    damage = 5f;
+                    height = 7f;
+                    width = 5f;
+                    frontColor = TPal.brown5;
+                    backColor = TPal.brown3;
+                    hitEffect = Fx.explosion;
+                }};
+            }},
+            TItems.darkMetal, new BasicBulletType(3f, 15f){{
+                lifetime = 50f;
+                height = 9f;
+                width = 7f;
+                ammoMultiplier = 5f;
+                frontColor = TPal.dark5;
+                backColor = TPal.dark3;
+                hitEffect = Fx.explosion;
+                fragBullets = 5;
+                fragVelocityMin = 0.75f;
+                fragVelocityMax = 2f;
+                fragLifeMin = 0.25f;
+                fragLifeMax = 0.75f;
+                fragBullet = new BasicBulletType(){{
+                    damage = 8f;
+                    height = 7f;
+                    width = 5f;
+                    frontColor = TPal.dark5;
+                    backColor = TPal.dark3;
+                    hitEffect = Fx.explosion;
+                }};
+            }});
+        }};
+
+        needle = new LiquidTurret("needle") {{
+            requirements(Category.turret, with(TItems.darkMetal, 65, TItems.tin, 40, TItems.goldGlass, 30, TItems.lithium, 25));
+            health = 720;
+            size = 2;
+            recoil = 0f;
+            reload = 2f;
+            liquidCapacity = 240f;
+            range = 150f;
+            outlineColor = darkerOutline;
+            shootEffect = Fx.shootLiquid;
+            shootCone = 50f;
+            flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
+            drawer = new DrawTurret("kudol-"){{
+                parts.addAll(
+                    new RegionPart("-gun"){{
+                        mirror = false;
+                    }},
+                    new RegionPart("-side"){{
+                        mirror = true;
+                        progress = PartProgress.warmup;
+                        moveX = 1f;
+                        moveY = -3f;
+                        moveRot = -10f;
+                    }}
+                );
+            }};
+            ammo(
+                Liquids.neoplasm, new LiquidBulletType(Liquids.neoplasm){{
+                    knockback = 1f;
+                    damage = 0.4f;
+                    drag = 0.01f;
+                }},
+                Liquids.water, new LiquidBulletType(Liquids.water){{
+                    knockback = 1f;
+                    damage = 0.4f;
+                    drag = 0.01f;
+                }},
+                TLiquids.lava, new LiquidBulletType(TLiquids.lava){{
+                    knockback = 1f;
+                    damage = 6f;
+                    drag = 0.01f;
+                }}
+            );
+        }};
+
+        //endregion
 
         //region production - kudol
 
@@ -372,7 +591,7 @@ public class TBlocks {
             tier = 1;
             range = 6;
             boostHeatColor = heatColor = lithium3;
-            consumeLiquid(TLiquids.lava, 0.5f / 60f).boost();
+            consumeLiquid(Liquids.water, 0.5f / 60f).boost();
         }};
 
         miniPlasmaBore = new BeamDrill("mini-plasma-bore") {{
@@ -385,14 +604,25 @@ public class TBlocks {
             tier = 1;
             range = 6;
             boostHeatColor = heatColor = lithium3;
-            consumeLiquid(TLiquids.lava, 0.4f / 60f).boost();
+            consumeLiquid(Liquids.water, 0.4f / 60f).boost();
+        }};
+
+        manualDrill = new ManualDrill("manual-drill") {{
+            requirements(Category.production, with(TItems.hematite, 6, TItems.tin, 2));
+            alwaysUnlocked = true;
+            health = 110;
+            tier = 2;
+            drillTime = 130f;
+            size = 1;
+            hasLiquids = false;
+            liquidBoostIntensity = 1f;
         }};
 
         metallicDrill = new Drill("metallic-drill") {{
             requirements(Category.production, with(TItems.hematite, 10, TItems.tin, 8));
             researchCost = with(TItems.hematite, 20, TItems.tin, 16);
             consumePower(5 / 60f);
-            health = 110;
+            health = 160;
             tier = 1;
             drillTime = 210f;
             size = 1;
@@ -403,23 +633,23 @@ public class TBlocks {
         advancedDrill = new Drill("advanced-drill") {{
             requirements(Category.production, with(TItems.darkMetal, 25, TItems.tin, 15, TItems.lithium, 10));
             consumePower(35 / 60f);
-            health = 240;
+            health = 330;
             tier = 2;
             drillTime = 130f;
             size = 2;
-            liquidBoostIntensity = 1f;
+            consumeLiquid(Liquids.water, 5 / 60f).boost();
         }};
 
         pot = new Pot("pot") {{
             requirements(Category.production, with(TItems.darkMetal, 20, TItems.aluminium, 15, TItems.tin, 15, TItems.volcanicSand, 40));
-            health = 50;
+            health = 120;
             size = 1;
             squareSprite = false;
         }};
 
         agriculturalCrane = new ACCrane("agricultural-crane") {{
             requirements(Category.production, with(TItems.darkMetal, 130, TItems.aluminium, 85, TItems.tin, 120, TItems.lithium, 64, TItems.cog, 40));
-            health = 460;
+            health = 850;
             size = 3;
             hasPower = true;
             liquidCapacity = 240f;
@@ -433,70 +663,72 @@ public class TBlocks {
             );
         }};
 
+        //endregion
+
         //region distribution - kudol
 
         metallicConveyor = new TConveyor("metallic-conveyor") {{
             requirements(Category.distribution, with(TItems.hematite, 1));
             researchCost = with(TItems.hematite, 10);
             drawTop = true;
-            health = 40;
+            health = 60;
             speed = 0.075f;
             displayedSpeed = 10.4f;
-            junctionReplacement = metallicJunction;
-            bridgeReplacement = metallicBridgeConveyor;
         }};
 
         metallicJunction = new Junction("metallic-junction") {{
             requirements(Category.distribution, with(TItems.hematite, 2));
             researchCost = with(TItems.hematite, 15);
-            health = 60;
+            health = 90;
             speed = 13;
             capacity = 8;
+            ((TConveyor)metallicConveyor).junctionReplacement = this;
         }};
 
         metallicRouter = new Router("metallic-router") {{
             requirements(Category.distribution, with(TItems.hematite, 3));
             researchCost = with(TItems.hematite, 25);
-            health = 80;
+            health = 120;
             speed = 14f;
         }};
 
         metallicDistributor = new Router("metallic-distributor") {{
             requirements(Category.distribution, with(TItems.hematite, 12, TItems.tin, 8));
-            health = 160;
+            health = 180;
             speed = 14f;
             size = 2;
         }};
 
         metallicBridgeConveyor = new BufferedItemBridge("metallic-bridge-conveyor") {{
             requirements(Category.distribution, with(TItems.hematite, 22, TItems.tin, 12));
-            health = 130;
+            health = 160;
             speed = 60f;
             range = 5;
+            ((TConveyor)metallicConveyor).bridgeReplacement = this;
         }};
 
         metallicSorter = new TSorter("metallic-sorter") {{
             requirements(Category.distribution, with(TItems.hematite, 5, TItems.tin, 5));
             researchCost = with(TItems.hematite, 10, TItems.tin, 10);
-            health = 60;
+            health = 100;
         }};
 
         metallicOverflowGate = new OverflowGate("metallic-overflow-gate") {{
             requirements(Category.distribution, with(TItems.hematite, 8, TItems.tin, 8));
             researchCost = with(TItems.hematite, 10, TItems.tin, 10);
-            health = 70;
+            health = 100;
         }};
 
         metallicUnderflowGate = new OverflowGate("metallic-underflow-gate") {{
             requirements(Category.distribution, with(TItems.hematite, 8, TItems.tin, 8));
             researchCost = with(TItems.hematite, 10, TItems.tin, 10);
-            health = 70;
+            health = 100;
             invert = true;
         }};
 
         mechanicalDriver = new MassDriver("mechanical-driver") {{
             requirements(Category.distribution, with(TItems.darkMetal, 50, TItems.aluminium, 75, TItems.lithium, 40, TItems.cog, 50));
-            health = 350;
+            health = 560;
             size = 2;
             itemCapacity = 60;
             reload = 100f;
@@ -506,33 +738,35 @@ public class TBlocks {
         }};
 
         fusedJunction = new OmniJunction("fused-junction") {{ 
-            requirements(Category.distribution, with(TItems.hematite, 5, TItems.tin, 5, TItems.goldGlass, 5));
+            requirements(Category.distribution, with(TItems.hematite, 4, TItems.tin, 4, TItems.goldGlass, 4));
             health = 120;
         }};
+
+        //endregion
 
         //region liquid - kudol
 
         improvedConduit = new TempConduit("improved-conduit") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.tin, 4, TItems.goldGlass, 2));
-            health = 60;
+            requirements(Category.liquid, with(TItems.darkMetal, 1, TItems.tin, 2, TItems.goldGlass, 1));
+            health = 110;
         }};
 
         thermoConduit = new TempConduit("thermo-conduit") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.tin, 8, TItems.goldGlass, 4, TItems.rethium, 2));
-            health = 160;
+            requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.tin, 4, TItems.goldGlass, 2, TItems.rethium, 1));
+            health = 250;
             maxTemp = 5f;
         }};
 
         improvedLiquidJunction = new TempLiquidJunction("improved-liquid-junction") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.tin, 8, TItems.goldGlass, 4));
-            health = 90;
+            requirements(Category.liquid, with(TItems.darkMetal, 2, TItems.tin, 4, TItems.goldGlass, 2));
+            health = 130;
             ((Conduit)improvedConduit).junctionReplacement = this;
             ((Conduit)thermoConduit).junctionReplacement = this;
         }};
 
         improvedLiquidRouter = new TempLiquidRouter("improved-liquid-router") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 6, TItems.tin, 12, TItems.goldGlass, 6));
-            health = 120;
+            requirements(Category.liquid, with(TItems.darkMetal, 3, TItems.tin, 6, TItems.goldGlass, 3));
+            health = 150;
             liquidCapacity = 30f;
             placeableLiquid = true;
             underBullets = true;
@@ -540,8 +774,8 @@ public class TBlocks {
         }};
 
         improvedLiquidBridge = new TempLiquidBridge("improved-liquid-bridge") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.tin, 30, TItems.goldGlass, 20));
-            health = 140;
+            requirements(Category.liquid, with(TItems.darkMetal, 10, TItems.tin, 20, TItems.goldGlass, 10));
+            health = 170;
             fadeIn = moveArrows = false;
             arrowSpacing = 6f;
             range = 5;
@@ -551,7 +785,7 @@ public class TBlocks {
         }};
 
         improvedLiquidContainer = new TempLiquidRouter("improved-liquid-container") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.tin, 40, TItems.goldGlass, 12));
+            requirements(Category.liquid, with(TItems.darkMetal, 20, TItems.tin, 50, TItems.goldGlass, 15));
             health = 540;
             liquidCapacity = 800f;
             size = 2;
@@ -561,16 +795,34 @@ public class TBlocks {
         }};
 
         improvedLiquidSorter = new LiquidSorter("improved-liquid-sorter") {{
-            requirements(Category.liquid, with(TItems.darkMetal, 10, TItems.tin, 10, TItems.goldGlass, 40));
-            health = 80;    
+            requirements(Category.liquid, with(TItems.darkMetal, 4, TItems.tin, 8, TItems.goldGlass, 4));
+            health = 160;    
         }};
+
+        liquidPump = new Pump("liquid-pump") {{
+            requirements(Category.liquid, with(TItems.darkMetal, 30, TItems.tin, 25, TItems.goldGlass, 15, TItems.lithium, 10));
+            size = 2;
+            pumpAmount = 7.5f / 60f;
+            liquidCapacity = 200;
+            consumePower(55 / 60f);
+            drawer = new DrawMulti(
+                new DrawRegion("-bottom"),
+                new DrawLiquidTile() {{
+                    padding = 1f;
+                }},
+                new DrawRegion("-rotator", 7f, true),
+                new DrawDefault()
+            );
+        }};
+
+        //endregion
 
         //region power - kudol
 
         thermalPlate = new ThermalGenerator("thermal-plate") {{
             requirements(Category.power, with(TItems.hematite, 10, TItems.tin, 10));
             researchCost = with(TItems.hematite, 10, TItems.tin, 10);
-            health = 120;
+            health = 230;
             powerProduction = 8 / 60f;
             floating = true;
             generateEffect = Fx.redgeneratespark;
@@ -583,9 +835,9 @@ public class TBlocks {
         }};
 
         thermalGenerator = new ThermalGenerator("thermal-generator") {{
-            requirements(Category.power, with(TItems.darkMetal, 50, TItems.tin, 30, TItems.lithium, 40));
+            requirements(Category.power, with(TItems.darkMetal, 30, TItems.tin, 30, TItems.lithium, 20));
             size = 2;
-            health = 230;
+            health = 480;
             powerProduction = 24 / 60f;
             floating = true;
             generateEffect = Fx.redgeneratespark;
@@ -598,17 +850,17 @@ public class TBlocks {
         }};
 
         solarPanel = new TSolarGenerator("solar-panel") {{
-            requirements(Category.power, with(TItems.darkMetal, 40, TItems.tin, 30, TItems.goldGlass, 50, TItems.lithium, 60));
+            requirements(Category.power, with(TItems.darkMetal, 40, TItems.accumulator, 20, TItems.goldGlass, 30, TItems.lithium, 30));
             size = 2;
-            health = 220;
-            powerProduction = 40 / 60f;
+            health = 440;
+            powerProduction = 25 / 60f;
         }};
 
         lithiumCombustionChamber = new ConsumeGenerator("lithium-combustion-chamber") {{
-            requirements(Category.power, with(TItems.darkMetal, 110, TItems.armorPlate, 30, TItems.tin, 60, TItems.goldGlass, 80, TItems.lithium, 40));
+            requirements(Category.power, with(TItems.darkMetal, 75, TItems.armorPlate, 10, TItems.tin, 40, TItems.goldGlass, 20, TItems.lithium, 20));
             size = 2;
-            health = 370;
-            powerProduction = 110 / 60f;
+            health = 570;
+            powerProduction = 280 / 60f;
             squareSprite = false;
             liquidCapacity = 100f;
             drawer = new DrawMulti(
@@ -622,18 +874,18 @@ public class TBlocks {
         }};
 
         energeticNode = new DrawerPowerNode("energetic-node") {{
-            requirements(Category.power, with(TItems.hematite, 25, TItems.tin, 15));
-            researchCost = with(TItems.hematite, 25, TItems.tin, 15);
-            health = 60;
+            requirements(Category.power, with(TItems.hematite, 15, TItems.tin, 10));
+            researchCost = with(TItems.hematite, 30, TItems.tin, 20);
+            health = 110;
             maxNodes = 5;
             laserRange = 10;
             squareSprite = false;
-            laserColor1 = lithium3;
+            laserColor1 = lithium3.cpy().mul(1.5f);
             laserColor2 = lithium2;
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new DrawPower(){{
-                    emptyLightColor = lithium1;
+                    emptyLightColor = lithium2;
                     fullLightColor = lithium3;
                 }}
             );
@@ -642,17 +894,17 @@ public class TBlocks {
 
         energeticNodeLarge = new DrawerPowerNode("energetic-node-large") {{
             requirements(Category.power, with(TItems.darkMetal, 30, TItems.lithium, 12, TItems.tin, 25));
-            health = 190;
+            health = 370;
             size = 2;
             maxNodes = 15;
             laserRange = 25;
             squareSprite = false;
-            laserColor1 = lithium3;
+            laserColor1 = lithium3.cpy().mul(1.5f);
             laserColor2 = lithium2;
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new DrawPower(){{
-                    emptyLightColor = lithium1;
+                    emptyLightColor = lithium2;
                     fullLightColor = lithium3;
                 }}
             );
@@ -660,17 +912,16 @@ public class TBlocks {
         }};
 
         lithiumBattery = new Battery("lithium-battery") {{
-            requirements(Category.power, with(TItems.darkMetal, 35, TItems.lithium, 15));
-            researchCost = with(TItems.darkMetal, 35, TItems.tin, 15);
-            researchCostMultiplier = 1f;
+            requirements(Category.power, with(TItems.darkMetal, 25, TItems.lithium, 10));
+            researchCost = with(TItems.darkMetal, 250, TItems.lithium, 100);
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new DrawPower(){{
-                    emptyLightColor = lithium1;
+                    emptyLightColor = lithium2;
                     fullLightColor = lithium3;
                 }}
             );
-            health = 80;
+            health = 220;
             baseExplosiveness = 3;
             consumePowerBuffered(2000f);
         }};
@@ -680,16 +931,18 @@ public class TBlocks {
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new DrawPower(){{
-                    emptyLightColor = lithium1;
+                    emptyLightColor = lithium2;
                     fullLightColor = lithium3;
                 }}
             );
-            health = 270;
+            health = 530;
             size = 2;
             squareSprite = false;
             baseExplosiveness = 8;
-            consumePowerBuffered(15000f);
+            consumePowerBuffered(24000f);
         }};
+
+        //endregion
 
         //region crafting - kudol
 
@@ -698,8 +951,9 @@ public class TBlocks {
             researchCost = with(TItems.hematite, 100, TItems.tin, 80, TItems.pegmatite, 40);
             health = 320;
             size = 2;
-            itemCapacity = 10;
             squareSprite = false;
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.4f;
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
                 new DrawDefault(),
@@ -784,21 +1038,79 @@ public class TBlocks {
             );
         }};
 
+        arcSmelter = new MultiCrafter("arc-smelter") {{
+            requirements(Category.crafting, with(TItems.darkMetal, 60, TItems.armorPlate, 50, TItems.lithium, 50, TItems.cog, 30, TItems.gold, 10));
+            health = 750;
+            size = 4;
+            squareSprite = false;
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.9f;
+            staticCraftEffect = new RadialEffect(Fx.surgeCruciSmoke, 4, 90f, 6f) {{
+                rotationOffset = 45f;
+            }};
+            drawer = new DrawMulti(
+                new DrawRegion("-bottom"),
+                new DrawCrucibleFlame() {{
+                    flameRad = 5;
+                    circleSpace = 3;
+                }},
+                new DrawDefault()
+            );
+            resolvedRecipes = Seq.with(
+                // enriched metal -> dark metal
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.enrichedMetal, 1);
+                        power = 75 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.darkMetal, 1); 
+                    }};
+                    craftTime = 60f;
+                }},
+                // enriched aluminium -> aluminium
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.enrichedAluminium, 1);
+                        power = 75 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.aluminium, 1); 
+                    }};
+                    craftTime = 60f;
+                }},
+                // gold & aluminium -> gold glass
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.aluminium, 1, TItems.gold, 1);
+                        power = 95 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.goldGlass, 2); 
+                    }};
+                    craftTime = 120f;
+                }}
+            );
+        }};
+
         itemConstructor = new ItemConstructor("item-constructor") {{
             requirements(Category.crafting, with(TItems.darkMetal, 80, TItems.aluminium, 50, TItems.tin, 40, TItems.lithium, 35));
-            health = 460;
+            health = 730;
             size = 4;
             itemCapacity = 30;
+            liquidCapacity = 160;
             squareSprite = false;
-            menu = "detailed";
+            switchStyle = detailed;
+            consumeLiquid(Liquids.water, 40 / 60f).boost();
             armFx = new Effect[] {
+                Fx.absorb,
+                Fx.generate,
                 Fx.generatespark,
-                Fx.generatespark,
-                Fx.generatespark,
-                Fx.generatespark
+                Fx.formsmoke
             };
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
+                new DrawLiquidMulti(2f, 0.75f),
                 new DrawDefault(),
                 new DrawRegion("-top")
             );
@@ -826,7 +1138,7 @@ public class TBlocks {
                 // dark metal & aluminium & tin & lithium & trained neoplasm -> bioprocessor
                 new Recipe() {{
                     input = new IOEntry() {{
-                        items = with(TItems.darkMetal, 6, TItems.aluminium, 4, TItems.tin, 4, TItems.lithium, 2, TItems.trainedNeoplasm, 1);
+                        items = with(TItems.darkMetal, 3, TItems.aluminium, 2, TItems.tin, 2, TItems.lithium, 1, TItems.trainedNeoplasm, 1);
                         power = 80 / 60f;
                     }};
                     output = new IOEntry() {{
@@ -836,19 +1148,29 @@ public class TBlocks {
                 // dark metal & aluminium & tin & lithium -> accumulator
                 new Recipe() {{
                     input = new IOEntry() {{
-                        items = with(TItems.darkMetal, 6, TItems.aluminium, 4, TItems.tin, 4, TItems.lithium, 4);
+                        items = with(TItems.darkMetal, 2, TItems.aluminium, 1, TItems.lithium, 2);
                         power = 80 / 60f;
                     }};
                     output = new IOEntry() {{
                         items = with(TItems.accumulator, 1);                        
+                    }};
+                }},
+                // dark metal & tin -> tin can
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.darkMetal, 1, TItems.tin, 1);
+                        power = 80 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.tinCan, 1);                        
                     }};
                 }}
             );
         }};
 
         mixer = new MultiCrafter("mixer") {{ 
-            requirements(Category.crafting, with(TItems.darkMetal, 50, TItems.aluminium, 40, TItems.lithium, 25));
-            health = 350;
+            requirements(Category.crafting, with(TItems.cog, 90, TItems.darkMetal, 50, TItems.aluminium, 40, TItems.lithium, 25));
+            health = 530;
             size = 3;
             itemCapacity = 10;
             squareSprite = false;
@@ -874,9 +1196,9 @@ public class TBlocks {
                         power = 40/60f;
                     }};
                     output = new IOEntry() {{
-                        items = with(TItems.enrichedMetal, 2);
+                        items = with(TItems.enrichedMetal, 6);
                     }};
-                    craftTime = 240f;
+                    craftTime = 180f;
                 }},
                 // bauxite -> enriched aluminium
                 new Recipe() {{
@@ -885,15 +1207,15 @@ public class TBlocks {
                         power = 40/60f;
                     }};
                     output = new IOEntry() {{
-                        items = with(TItems.enrichedAluminium, 2);
+                        items = with(TItems.enrichedAluminium, 6);
                     }};
-                    craftTime = 240f;
+                    craftTime = 180f;
                 }},
                 // uranium -> enriched uranium
                 new Recipe() {{
                     input = new IOEntry() {{
-                        items = with(TItems.uranium, 4);
-                        power = 40/60f;
+                        items = with(TItems.uranium, 6);
+                        power = 50/60f;
                     }};
                     output = new IOEntry() {{
                         items = with(TItems.enrichedUranium, 1);
@@ -903,25 +1225,25 @@ public class TBlocks {
                 // pegmatite -> lithium
                 new Recipe() {{
                     input = new IOEntry() {{
-                        items = with(TItems.pegmatite, 4);
-                        power = 40/60f;
+                        items = with(TItems.pegmatite, 6);
+                        power = 50/60f;
                     }};
                     output = new IOEntry() {{
-                        items = with(TItems.lithium, 1);
+                        items = with(TItems.lithium, 3);
                     }};
-                    craftTime = 300f;
+                    craftTime = 120f;
                 }}
             );
         }};
 
         filter = new MultiCrafter("filter"){{
-            requirements(Category.crafting, with(TItems.darkMetal, 85, TItems.aluminium, 65, TItems.lithium, 40));
-            health = 260;
-            hasItems = hasLiquids = hasPower = true;
+            requirements(Category.crafting, with(TItems.darkMetal, 85, TItems.aluminium, 65, TItems.cog, 40, TItems.lithium, 40));
+            health = 460;
             size = 2;
             itemCapacity = 30;
             liquidCapacity = 100;
             rotate = false;
+            menu = "detailed";
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
                 new DrawLiquidMulti(),
@@ -930,75 +1252,204 @@ public class TBlocks {
                 new DrawDefault()
             );
             resolvedRecipes = Seq.with(
+                // volcanic sand -> gold
                 new Recipe() {{
                     input = new IOEntry() {{
                         items = with(TItems.volcanicSand, 15);
-                        power = 35/60f;
+                        power = 35 / 60f;
                     }};
                     output = new IOEntry() {{
                         items = with(TItems.gold, 1);
                     }};
                     craftTime = 480f;
                 }},
+                // volcanic sand & water -> gold
                 new Recipe() {{
                     input = new IOEntry() {{
-                        items = with(TItems.volcanicSand, 10);
+                        items = with(TItems.volcanicSand, 15);
                         fluids = LiquidStack.with(Liquids.water, 30 / 60f);
-                        power = 35/60f;
+                        power = 35 / 60f;
                     }};
                     output = new IOEntry() {{
-                        items = with(TItems.gold, 1);
+                        items = with(TItems.gold, 2);
                     }};
-                    craftTime = 480f;
+                    craftTime = 300f;
+                }},
+                // lithium & neoplasm -> water
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.lithium, 1);
+                        fluids = LiquidStack.with(Liquids.neoplasm, 45 / 60f);
+                        power = 50 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        fluids = LiquidStack.with(Liquids.water, 25 / 60f);
+                    }};
+                    craftTime = 90f;
                 }}
             );
         }};
+
+        packer = new MultiCrafter("packer"){{
+            requirements(Category.crafting, with(TItems.darkMetal, 50, TItems.cog, 50, TItems.goldGlass, 35, TItems.lithium, 25));
+            health = 420;
+            size = 2;
+            rotate = false;
+            squareSprite = false;
+            liquidCapacity = 200;
+            drawer = new DrawMulti(
+                new DrawRegion("-bottom"),
+                new DrawLiquidMulti(1.8f, 1f),
+                new DrawDefault()
+            );
+            resolvedRecipes = Seq.with(
+                // neoplasm -> canned neoplasm
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.tinCan, 1);
+                        fluids = LiquidStack.with(Liquids.neoplasm, 50 / 60f);
+                        power = 30 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.cannedNeoplasm, 1);
+                    }};
+                    craftTime = 60f;
+                }},
+                // canned neoplasm -> neoplasm
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.cannedNeoplasm, 1);
+                        power = 30 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.tinCan, 1);
+                        fluids = LiquidStack.with(Liquids.neoplasm, 50 / 60f);
+                    }};
+                    craftTime = 60f;
+                }}
+            );
+        }};
+
+        trainingCenter = new MultiCrafter("training-center") {{
+            requirements(Category.crafting, with(TItems.darkMetal, 210, TItems.aluminium, 140, TItems.cog, 50, TItems.accumulator, 20));
+            health = 1160;
+            size = 5;
+            rotate = false;
+            squareSprite = false;
+            liquidCapacity = 250;
+            switchStyle = detailed;
+            consumeLiquid(Liquids.water, 80 / 60f).boost();
+            optionalMultiplier = 1.5f;
+            drawer = new DrawMulti(
+                new DrawDefault(),
+                new TDrawGlowRegion("-heat"){{
+                    layer = 30.5f;
+                }},
+                new DrawLiquidMulti(16f, 1f),
+                new DrawRegion("-rotator", 0.25f, true){{
+                    layer = 30.75f;
+                }},
+                new TDrawGlowRegion("-rotator-heat"){{
+                    rotate = true;
+                    rotateSpeed = 0.25f;
+                    color = TPal.neoplasm4;
+                    layer = 30.8f;
+                }},
+                new DrawRegion("-top"){{
+                    layer = 30.9f;
+                }},
+                new TDrawGlowRegion("-top-heat"){{
+                    layer = 31f;
+                }}
+            );
+            resolvedRecipes = Seq.with(
+                // canned neoplasm -> trained neoplasm
+                new Recipe() {{
+                    input = new IOEntry() {{
+                        items = with(TItems.cannedNeoplasm, 1, TItems.gold, 1, TItems.lithium, 1);
+                        power = 75 / 60f;
+                    }};
+                    output = new IOEntry() {{
+                        items = with(TItems.trainedNeoplasm, 1);
+                    }};
+                    craftTime = 900f;
+                }} 
+            );
+        }};
+
+        //endregion
 
         //region defense - kudol
 
         metallicWall = new Wall("metallic-wall") {{
             requirements(Category.defense, with(TItems.hematite, 8, TItems.tin, 4));
-            health = 360;
+            health = 440;
             researchCostMultiplier = 0.2f;
         }};
 
         metallicWallLarge = new Wall("metallic-wall-large") {{
             requirements(Category.defense, with(TItems.hematite, 32, TItems.tin, 16));
-            scaledHealth = 360;
+            scaledHealth = 440;
             size = 2;
         }};
 
         armoredWall = new Wall("armored-wall") {{
             requirements(Category.defense, with(TItems.darkMetal, 12, TItems.armorPlate, 8));
-            health = 700;
+            health = 720;
         }};
 
         armoredWallLarge = new Wall("armored-wall-large") {{
             requirements(Category.defense, with(TItems.darkMetal, 48, TItems.armorPlate, 32));
-            scaledHealth = 700;
+            scaledHealth = 720;
             size = 2;
         }};
+
+        //endregion
 
         //region units - kudol
 
         unitFabricator = new UnitFactory("unit-fabricator") {{
-            requirements(Category.units, with(TItems.darkMetal, 260, TItems.aluminium, 110, TItems.lithium, 85));
+            requirements(Category.units, with(TItems.darkMetal, 70, TItems.aluminium, 55, TItems.lithium, 30));
             size = 3;
-            health = 440;
-            consumePower(3f);
+            health = 640;
+            consumePower(150 / 60f);
             plans = Seq.with(
-                new UnitPlan(TUnitTypes.cobra, 900f, with(TItems.darkMetal, 60, TItems.tin, 40, TItems.bioprocessor, 1)),
-                new UnitPlan(TUnitTypes.blade, 1200f, with(TItems.darkMetal, 140, TItems.aluminium, 90, TItems.lithium, 75, TItems.accumulator, 24, TItems.bioprocessor, 1)),
-                new UnitPlan(TUnitTypes.mercury, 750f, with(TItems.darkMetal, 55, TItems.aluminium, 70, TItems.lithium, 40, TItems.bioprocessor, 1))
+                new UnitPlan(TUnitTypes.cobra, 25 * 60f, with(TItems.darkMetal, 30, TItems.tin, 20, TItems.bioprocessor, 1)),
+                new UnitPlan(TUnitTypes.blade, 45 * 60f, with(TItems.darkMetal, 70, TItems.aluminium, 60, TItems.lithium, 60, TItems.accumulator, 20, TItems.bioprocessor, 1)),
+                new UnitPlan(TUnitTypes.mercury, 15 * 60f, with(TItems.darkMetal, 50, TItems.aluminium, 50, TItems.lithium, 40, TItems.bioprocessor, 1))
+            );
+        }};
+
+        unitRefabricator = new Reconstructor("unit-refabricator") {{
+            requirements(Category.units, with(TItems.darkMetal, 95, TItems.aluminium, 70, TItems.accumulator, 40, TItems.gold, 10));
+            size = 3;
+            health = 870;
+            consumePower(270 / 60f);
+            consumeLiquid(Liquids.water, 20 / 60f);
+            consumeItems(with(TItems.armorPlate, 45, TItems.accumulator, 30));
+            constructTime = 30 * 60f;
+            upgrades.addAll(
+                new UnitType[]{TUnitTypes.blade, TUnitTypes.saber},
+                new UnitType[]{TUnitTypes.mercury, TUnitTypes.mars},
+                new UnitType[]{TUnitTypes.cobra, TUnitTypes.python}
             );
         }};
 
         metallicPayloadConveyor = new PayloadConveyor("metallic-payload-conveyor") {{ 
-            requirements(Category.units, with(TItems.darkMetal, 50, TItems.tin, 35, TItems.lithium, 25));
+            requirements(Category.units, with(TItems.darkMetal, 10, TItems.tin, 5, TItems.lithium, 5));
             health = 160;
-            moveTime = 50f;
+            moveTime = 40f;
             size = 3;
         }};
+
+        largePayloadConveyor = new PayloadConveyor("large-payload-conveyor") {{
+            requirements(Category.units, with(TItems.darkMetal, 30, TItems.tin, 15, TItems.lithium, 10));
+            health = 160;
+            moveTime = 45f;
+            payloadLimit = size = 5;
+        }};
+
+        //endregion
 
         //region effect - kudol
 
@@ -1016,15 +1467,14 @@ public class TBlocks {
         coreBlaze = new TCoreBlock("core-blaze") {{
             requirements(Category.effect, with(TItems.darkMetal, 3000, TItems.tin, 2000, TItems.aluminium, 1600, TItems.gold, 500));
             size = 3;
-            health = 4500;
-            itemCapacity = 6000;
+            health = 5500;
+            itemCapacity = 8000;
             unitType = TUnitTypes.lonter;
             squareSprite = false;
         }};
 
         metallicContainer = new TStorageBlock("metallic-container") {{
-            requirements(Category.effect, with(TItems.darkMetal, 110, TItems.tin, 50, TItems.aluminium, 40));
-            researchCost = with(TItems.darkMetal, 200, TItems.tin, 140, TItems.aluminium, 60);
+            requirements(Category.effect, with(TItems.darkMetal, 50, TItems.tin, 30, TItems.aluminium, 40));
             size = 2;
             scaledHealth = 80;
             itemCapacity = 400;
@@ -1032,7 +1482,7 @@ public class TBlocks {
         }};
 
         metallicVault = new TStorageBlock("metallic-vault") {{
-            requirements(Category.effect, with(TItems.darkMetal, 450, TItems.tin, 180, TItems.aluminium, 105, TItems.gold, 60));
+            requirements(Category.effect, with(TItems.darkMetal, 120, TItems.tin, 80, TItems.aluminium, 95, TItems.gold, 10));
             size = 3;
             scaledHealth = 80;
             itemCapacity = 1500;
@@ -1045,7 +1495,7 @@ public class TBlocks {
         }};
 
         miniMender = new MendProjector("mini-mender") {{
-            requirements(Category.effect, with(TItems.darkMetal, 40, TItems.tin, 35, TItems.lithium, 30));
+            requirements(Category.effect, with(TItems.darkMetal, 20, TItems.tin, 15, TItems.lithium, 5));
             size = 1;
             health = 110;
             consumePower(48 / 60f);
@@ -1058,35 +1508,38 @@ public class TBlocks {
         }};
 
         miniShieldProjector = new ForceProjector("mini-shield-projector") {{
-            requirements(Category.effect, with(TItems.darkMetal, 130, TItems.tin, 60, TItems.lithium, 55, TItems.accumulator, 30, TItems.shieldGen, 10, TItems.bioprocessor, 10));
+            requirements(Category.effect, with(TItems.darkMetal, 90, TItems.tin, 60, TItems.lithium, 55, TItems.accumulator, 30, TItems.shieldGen, 10, TItems.bioprocessor, 5));
             size = 2;
             health = 310;
             consumePower(96 / 60f);
-            radius = 8 * 8f;
-            phaseRadiusBoost = 4 * 8f;
+            radius = 10 * 8f;
+            phaseRadiusBoost = 5 * 8f;
             sides = 16;
-            shieldHealth = 900f;
+            shieldHealth = 500f;
+            phaseShieldBoost = 400f;
             itemConsumer = consumeItem(TItems.shieldGen).boost();
         }};
         
         radar = new Radar("radar") {{
-            requirements(Category.effect, BuildVisibility.fogOnly, with(TItems.hematite, 60, TItems.tin, 15));
+            requirements(Category.effect, BuildVisibility.fogOnly, with(TItems.hematite, 40, TItems.tin, 15));
             researchCost = with(TItems.hematite, 90, TItems.tin, 30);
             size = 1;
             health = 210;
             consumePower(40 / 60f);
-            fogRadius = 13;
+            fogRadius = 18;
             outlineColor = darkerOutline;
         }};
 
         longRangeRadar = new Radar("long-range-radar") {{
-            requirements(Category.effect, BuildVisibility.fogOnly, with(TItems.darkMetal, 45, TItems.tin, 35, TItems.lithium, 30));
+            requirements(Category.effect, BuildVisibility.fogOnly, with(TItems.darkMetal, 35, TItems.tin, 15, TItems.lithium, 10));
             size = 2;
-            scaledHealth = 85f;
+            health = 340;
             consumePower(88 / 60f);
-            fogRadius = 25;
+            fogRadius = 40;
             outlineColor = darkerOutline;
         }};
+
+        //endregion
 
         //region logic
 
@@ -1096,27 +1549,27 @@ public class TBlocks {
         }};
 
         message = new MessageBlock("message") {{
-            requirements(Category.logic, with(TItems.darkMetal, 15, TItems.tin, 10));
+            requirements(Category.logic, with(TItems.darkMetal, 10, TItems.tin, 10));
             maxTextLength = 600;
             maxNewlines = 200;
             health = 80;
         }};
 
         cell = new MemoryBlock("cell") {{
-            requirements(Category.logic, with(TItems.darkMetal, 70, TItems.tin, 55, TItems.memoryCard, 40));
-            memoryCapacity = 256;
-            health = 120;
+            requirements(Category.logic, with(TItems.darkMetal, 30, TItems.tin, 25, TItems.memoryCard, 10));
+            memoryCapacity = 128;
+            health = 250;
         }};
 
         bank = new MemoryBlock("bank") {{
-            requirements(Category.logic, with(TItems.darkMetal, 220, TItems.tin, 150, TItems.lithium, 95, TItems.memoryCard, 160));
+            requirements(Category.logic, with(TItems.darkMetal, 90, TItems.tin, 70, TItems.lithium, 55, TItems.memoryCard, 50));
             size = 2;
-            memoryCapacity = 2048;
-            health = 275;
+            memoryCapacity = 1024;
+            health = 700;
         }};
 
         energeticProcessor = new LogicBlock("energetic-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 50, TItems.tin, 40, TItems.lithium, 25, TItems.bioprocessor, 5));
+            requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 35, TItems.lithium, 25, TItems.bioprocessor, 5));
             instructionsPerTick = 10;
             hasPower = true;
             squareSprite = false;
@@ -1126,7 +1579,7 @@ public class TBlocks {
         }};
 
         plasmaProcessor = new LogicBlock("plasma-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 120, TItems.aluminium, 80, TItems.lithium, 60, TItems.bioprocessor, 25, TItems.memoryCard, 20));
+            requirements(Category.logic, with(TItems.darkMetal, 60, TItems.aluminium, 80, TItems.lithium, 30, TItems.bioprocessor, 15, TItems.memoryCard, 10));
             instructionsPerTick = 24;
             size = 2;
             hasPower = true;
@@ -1137,7 +1590,7 @@ public class TBlocks {
         }};
 
         gammaProcessor = new LogicBlock("gamma-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 250, TItems.aluminium, 155, TItems.rethium, 20, TItems.lithium, 120, TItems.advBioprocessor, 40, TItems.memoryCard, 60));
+            requirements(Category.logic, with(TItems.darkMetal, 95, TItems.aluminium, 65, TItems.rethium, 5, TItems.lithium, 50, TItems.advBioprocessor, 20, TItems.memoryCard, 25));
             instructionsPerTick = 50;
             size = 3;
             hasPower = true;
@@ -1148,7 +1601,7 @@ public class TBlocks {
         }};
 
         omegaProcessor = new LogicBlock("omega-processor") {{
-            requirements(Category.logic, with(TItems.darkMetal, 500, TItems.aluminium, 300, TItems.rethium, 100, TItems.lithium, 400, TItems.advBioprocessor, 100, TItems.memoryCard, 120));
+            requirements(Category.logic, with(TItems.darkMetal, 100, TItems.aluminium, 85, TItems.rethium, 75, TItems.lithium, 75, TItems.advBioprocessor, 50, TItems.memoryCard, 50));
             instructionsPerTick = 90;
             size = 1;
             hasPower = true;
@@ -1159,14 +1612,14 @@ public class TBlocks {
         }};
 
         borderlessDisplay = new BorderlessDisplay("borderless-display") {{
-            requirements(Category.logic, with(TItems.darkMetal, 130, TItems.tin, 90, TItems.lithium, 80, TItems.bioprocessor, 40));
+            requirements(Category.logic, with(TItems.darkMetal, 95, TItems.tin, 45, TItems.lithium, 50, TItems.bioprocessor, 5));
             size = 4;
             displaySize = 200;
             health = 400;
         }};
 
-        borderlessDisplayMini = new BorderlessDisplay("borderless-display-mini") {{
-            requirements(Category.logic, with(TItems.darkMetal, 70, TItems.tin, 55, TItems.lithium, 45, TItems.bioprocessor, 25));
+        borderlessDisplayMini = new BorderlessDisplay("mini-borderless-display") {{
+            requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 35, TItems.lithium, 25, TItems.bioprocessor, 1));
             size = 2;
             displaySize = 100;
             health = 250;
@@ -1175,13 +1628,13 @@ public class TBlocks {
         stringCell = new StringMemoryBlock("string-cell") {{
             requirements(Category.logic, with(TItems.darkMetal, 40, TItems.tin, 25, TItems.lithium, 20, TItems.memoryCard, 32));
             memoryCapacity = 64;
-            health = 100;    
+            health = 250;    
         }};
 
         projector = new Projector("projector") {{
-            requirements(Category.logic, with(TItems.darkMetal, 90, TItems.lithium, 65, TItems.advBioprocessor, 40));
+            requirements(Category.logic, with(TItems.darkMetal, 60, TItems.lithium, 45, TItems.advBioprocessor, 20));
             size = 1;
-            health = 280;
+            health = 580;
             consumePower(0.75f);
         }};
     }

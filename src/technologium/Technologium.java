@@ -2,18 +2,21 @@ package technologium;
 
 import technologium.content.*;
 import technologium.world.*;
+import technologium.world.meta.*;
 import technologium.graphics.*;
 import mindustry.mod.*;
-import mindustry.type.Planet;
+import mindustry.type.*;
 import mindustry.ui.dialogs.BaseDialog;
+import mindustry.world.blocks.distribution.Router;
 import mindustry.Vars;
-import mindustry.gen.LogicIO;
+import mindustry.ctype.ContentType;
+import mindustry.gen.*;
 import arc.util.Log;
 import technologium.logic.*;
 import mindustry.logic.*;
 import arc.func.*;
 import arc.Core;
-import mindustry.gen.Icon;
+import arc.struct.Seq;
 
 import java.util.Arrays;
 
@@ -34,10 +37,13 @@ public class Technologium extends Mod {
         TMusic.load();
         TTeams.load();
         TStatusEffects.load();
+        TAttributes.load();
+        TWeathers.load();
         TItems.load();
         TLiquids.load();
         TUnitTypes.load();
         TBlocks.load();
+        TLoadouts.load();
         TPlanets.load();
         TSectors.load();
         TTechTrees.load();
@@ -76,19 +82,31 @@ public class Technologium extends Mod {
             ConfigProjector.ConfigProjectorStatement::new
         ).forEach(prov -> LogicIO.allStatements.add(prov));
 
+        Vars.content.blocks().each(b -> {
+            if(b instanceof Router) b.buildType = () -> ((Router)b).new RouterBuild() {
+                @Override
+                public boolean canControl() {
+                    return true;
+                }
+            };
+        });
+
         if(Core.settings.getBool("tdiscord")) new BaseDialog("[][#00afff]TECHNOLOGIUM::DISCORD") {{
-            cont.add("@jointdiscord").expandY();
+            cont.add("@jointdiscord").expandX();
             buttons.button("@openlink", Icon.discord, () -> {
                 if(!Core.app.openURI(TVars.tdiscordURL)) {
                     Vars.ui.showErrorMessage("@linkfail");
                     Core.app.setClipboardText(tdiscordURL);
                 }
             }).width(260);
+            if(Vars.mobile) buttons.row();
             buttons.button("@copylink", Icon.copy, () -> {
                 Core.app.setClipboardText(tdiscordURL);
                 Vars.ui.showInfoFade("@copied");
             }).width(260);
+            if(Vars.mobile) buttons.row();
             buttons.button("@back", Icon.left, () -> hide()).width(260);
+            if(Vars.mobile) buttons.row();
             buttons.button("@dontshow", Icon.cancel, () -> {
                 Core.settings.put("tdiscord", false);
                 hide();  

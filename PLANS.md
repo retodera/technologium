@@ -6,27 +6,19 @@
 ## Beled system
 ### Venjer
 - Hostile acid planet, where your enemy is the mutated nature all over the planet
-### Nobata
+### Tarpis
 - Brown gas giant, where there is no surface nor items
-### Itinbu
-- Nobata's icy moon with strong winds and small sectors
-## Takira system
- - will be added after completion of Beled system
-### Takira A
-Orange dwarf star
-### Takira B
-Brown dwarf star, similar to a planet
-### Wiernel
-Earth-like planet, orbiting in a system with Takira B around Takira A
+### Sagit
+- Tarpis's icy moon with strong winds and small sectors
 ## Mechanics
 ### Build out of liquids
-- for future Nobata campaign
+- for future Tarpis campaign
 - blocks that require not items but liquids to build
 ### Space platforms
 - factorio space age
 - will be very hard to make
 ### Lifting force
-- for future Nobata campaign
+- for future Tarpis campaign
 - lifters will create lifting force around themselfes
 - floors that require lifting force could be built in the radius of the lifters
 - if the lifting force is not present, the floor will be destroyed
@@ -52,19 +44,19 @@ Earth-like planet, orbiting in a system with Takira B around Takira A
 ### Interplanetary Launch Pad
 - launch pad but send to other planets, or perhaps moons/satellites
 ### Icy Floor
-- for future Itinbu campaign
+- for future Sagit campaign
 - when units walk/drive over, they slide as if they're on ice (they will)
 ### Deconstructable Floor
-- for future Nobata campaign
+- for future Tarpis campaign
 - would function exactly as told in the name
 ### Lifter
-- for future Nobata campaign
+- for future Tarpis campaign
 - could be built only on top of liquids, will create lifting force around itself in a radius
 - could be boosted by inputting fuel, will make more lifting force
 ### \[COMPLETED\] Sorter Conduit
 - sorter but for liquids + invert button (because yes)
 ### LiquidCoreBlock
-- for future Nobata campaign
+- for future Tarpis campaign
 - core but stores liquids instead of items
 - would also create lifting force
 - would require pressure to not be damaged
@@ -87,4 +79,4 @@ Earth-like planet, orbiting in a system with Takira B around Takira A
 
 <br> <br>
 And lots, LOTS of memes. A whole memepedia. Memes everywhere. MemeNoLogium.
-(though no "extremists' brainrot")
+(though no "extremists' brainrot" as i call it)

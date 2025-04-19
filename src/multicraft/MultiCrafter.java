@@ -1,3 +1,7 @@
+// instead of adding a dependency, i took the whole MultiCrafter and changed it.
+// credits to the creator of the mod, liplum
+// april 13: i just checked and MultiCrafter haven't had updates for almost a year, that's sick
+// (if you don't count the .gitignore update that was 2 weeks ago)
 package multicraft;
 
 import arc.*;
@@ -135,6 +139,13 @@ public class MultiCrafter extends PayloadBlock {
      */
     protected boolean showNameTooltip = false;
 
+    // added by Technologium
+
+    /** craft effect except it is shown not only when it crafted */
+    public Effect staticCraftEffect = Fx.none;
+    /** how much will be added to the efficiency */
+    public float optionalMultiplier = 1f;
+
     public MultiCrafter(String name) {
         super(name);
         update = true;
@@ -200,6 +211,8 @@ public class MultiCrafter extends PayloadBlock {
          * Serialized
          */
         public int curRecipeIndex = defaultRecipeIndex;
+        // added by Technologium
+        public float staticCraftEffectTime;
 
         public PayloadSeq payloads = new PayloadSeq();
         public @Nullable Vec2 commandPos;
@@ -222,16 +235,22 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            return hasItems &&
-                    getCurRecipe().input.itemsUnique.contains(item) &&
-                    items.get(item) < getMaximumAccepted(item);
+            return hasItems && 
+                (getCurRecipe().input.itemsUnique.contains(item)
+                //changed by Technologium
+                //consume items from optional consumers
+                || consumesItem(item))
+                && items.get(item) < getMaximumAccepted(item);
         }
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
             return hasLiquids &&
-                    getCurRecipe().input.fluidsUnique.contains(liquid) &&
-                    liquids.get(liquid) < liquidCapacity;
+                (getCurRecipe().input.fluidsUnique.contains(liquid)
+                //changed by Technologium
+                //consume liquids from optional consumers
+                || consumesLiquid(liquid)) &&
+                liquids.get(liquid) < liquidCapacity;
         }
 
         @Override
@@ -302,10 +321,16 @@ public class MultiCrafter extends PayloadBlock {
                     }
                 }
                 // particle fx
-                if (wasVisible && Mathf.chanceDelta(updateEffectChance))
+                if (wasVisible && Mathf.chanceDelta(updateEffectChance)) 
                     updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
+                // added by Technologium
+                if(wasVisible && staticCraftEffectTime >= 30) {
+                    staticCraftEffect.at(x, y);
+                    staticCraftEffectTime = 0;
+                }
             } else warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             totalProgress += warmup * Time.delta;
+            staticCraftEffectTime += warmup * Time.delta;
             
             if (moveInPayload()) {
                 yeetPayload(payload);
@@ -554,22 +579,30 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public void updateEfficiencyMultiplier() {
-            Recipe cur = getCurRecipe();
-            // When As HeatConsumer
-            if (isConsumeHeat && cur.isConsumeHeat()) {
-                efficiency *= efficiencyScale();
-                potentialEfficiency *= efficiencyScale();
-            }
+            // changed by Technologium
+            // it was not needed to put there a check for a heat consumer:
+            //
+            // Recipe cur = getCurRecipe();
+            // // When As HeatConsumer
+            // if (isConsumeHeat && cur.isConsumeHeat()) {
+            //     efficiency *= efficiencyScale();
+            //     potentialEfficiency *= efficiencyScale();
+            // }
+            //
+            // the check already exists in efficiencyScale() method
+
+            efficiency *= efficiencyScale();
+            potentialEfficiency *= efficiencyScale();
         }
 
         public float efficiencyScale() {
             Recipe cur = getCurRecipe();
-            // When As HeatConsumer
-            if (isConsumeHeat && cur.isConsumeHeat()) {
-                float heatRequirement = cur.input.heat;
-                float over = Math.max(heat - heatRequirement, 0f);
-                return Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency);
-            } else return 1f;
+            float heatRequirement = cur.input.heat;
+            float over = Math.max(heat - heatRequirement, 0f);
+            return (isConsumeHeat && cur.isConsumeHeat() ?
+                Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) : 1f)
+            //multicrafters should be able to boost
+            * (optionalConsumers.length == 0 ? 1 : (1 + optionalEfficiency * optionalMultiplier));
         }
 
         @Override

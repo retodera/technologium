@@ -1,7 +1,6 @@
 package technologium.logic;
 
 import arc.scene.ui.layout.Table;
-import arc.util.Log;
 import mindustry.logic.*;
 import mindustry.world.blocks.logic.MemoryBlock.MemoryBuild;
 import mindustry.world.blocks.logic.MessageBlock;

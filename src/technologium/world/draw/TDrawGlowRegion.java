@@ -1,7 +1,8 @@
 package technologium.world.draw;
 
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
+import mindustry.world.Block;
 import mindustry.gen.Building;
 import mindustry.world.draw.DrawGlowRegion;
 
@@ -34,5 +35,10 @@ public class TDrawGlowRegion extends DrawGlowRegion {
         Draw.reset();
         Draw.blend();
         Draw.z(z);
+    }
+
+    @Override
+    public TextureRegion[] icons(Block block){
+        return new TextureRegion[]{};
     }
 }

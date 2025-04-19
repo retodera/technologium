@@ -69,6 +69,13 @@ public class TPal {
             brown7 = Color.valueOf("b35f24"),
             brown8 = Color.valueOf("cc6d29"),
 
+            neoplasm1 = Color.valueOf("660312"),
+            neoplasm2 = Color.valueOf("7a091a"),
+            neoplasm3 = Color.valueOf("8c0f22"),
+            neoplasm4 = Color.valueOf("9e172c"),
+            neoplasm5 = Color.valueOf("e05438"),
+            neoplasm6 = Color.valueOf("f98f4a"),
+
             bgray1 = Color.valueOf("1a1511"),
             bgray2 = Color.valueOf("332a24"),
             bgray3 = Color.valueOf("42362d"),

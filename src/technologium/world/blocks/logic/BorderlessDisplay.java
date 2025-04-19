@@ -92,10 +92,7 @@ public class BorderlessDisplay extends LogicDisplay{
                 Draw.blend(Blending.disabled);
                 Draw.draw(Draw.z(), () -> {
                     if (buffer != null) {
-                        TextureRegion draw = Draw.wrap(buffer.getTexture());
-                        draw.setHeight(size * 4);
-                        draw.setWidth(size * 4);
-                        Draw.rect(draw, x, y, 32 * size * Draw.scl, -32 * size * Draw.scl);
+                        Draw.rect(Draw.wrap(buffer.getTexture()), x, y, 32 * (float)size * Draw.scl, -32 * (float)size * Draw.scl);
                     }
                 });
                 Draw.blend();

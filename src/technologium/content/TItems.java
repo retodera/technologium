@@ -10,10 +10,10 @@ import static technologium.graphics.TPal.*;
 
 public class TItems {
     public static Item
-    /* standart */ volcanicSand, hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, negativium, cannedNeoplasm,
+    /* standart */ volcanicSand, solidNeoplasm, hematite, darkMetal, tin, bauxite, aluminium, pegmatite, lithium, gold, goldGlass, negativium, cannedNeoplasm,
         trainedNeoplasm, uranium, enrichedUranium, uraniumCell, rethium, rknium, enrichedMetal, enrichedAluminium,
     /* technologies */ cog, armorPlate, rotor, laser, sparkPlug, bioprocessor, advBioprocessor, memoryCard, radiator, heatElement, accumulator,
-        advAccumulator, shieldGen, advShieldGen, technologiumKudol,
+        advAccumulator, shieldGen, advShieldGen, technologiumKudol, tinCan,
     /* fruits */ leptine, leptineSeed,
     /* mitamitamitamitamitamitamitamitamitamitamitamitamitamitamitamita */
         mitanium, mitalite, milane, cappite,
@@ -29,6 +29,10 @@ public class TItems {
 
         volcanicSand = new Item("volcanic-sand", brown3) {{
             cost = 0.25f;
+        }};
+
+        solidNeoplasm = new Item("solid-neoplasm", neoplasm3) {{
+            cost = 0.5f;
         }};
 
         hematite = new Item("hematite", brown2) {{
@@ -106,6 +110,8 @@ public class TItems {
             radioactivity = 1f;
         }};
 
+        // endregion
+
         // region kudol technologies
 
         rotor = new Item("rotor", wnb3) {{
@@ -164,9 +170,15 @@ public class TItems {
             cost = 10f;     
         }};
 
+        tinCan = new Item("tin-can", tin2) {{
+            cost = 6f;     
+        }};
+
+        // endregion
+
         // region fruits
 
-        leptine = new Fruit("leptine", tin2) {{
+        leptine = new Fruit("leptine", kaut3) {{
             result = null;
             juiciness = 0.75f;
             plantable = false;
@@ -179,6 +191,8 @@ public class TItems {
             growTimeMin = 1200f;
             growTimeMax = 1800f;
         }};
+
+        // endregion
 
         // region mita
 
@@ -207,12 +221,16 @@ public class TItems {
             hidden = !misideRelease;
         }};
 
+        // endregion
+
         // region other
 
         theimpossible = new Item("theimpossible", red3) {{
             cost = flammability = explosiveness = radioactivity = charge = hardness = 2147483647;
             hidden = !debug;
         }};
+
+        // endregion
 
         kudolItems.addAll(
                 hematite, tin, darkMetal, bauxite, aluminium, lithium, gold, goldGlass, cannedNeoplasm, trainedNeoplasm, uranium, uraniumCell,

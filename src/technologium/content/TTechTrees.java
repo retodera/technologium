@@ -24,28 +24,24 @@ public class TTechTrees {
 
                 //region production
 
-                node(metallicDrill, () -> {
-                    node(advancedDrill);
-                    node(metallicPlasmaBore, () -> {
-                        node(miniPlasmaBore, () -> {
+                node(manualDrill, () -> {
+                    node(metallicDrill, () -> {
+                        node(advancedDrill);
+                        node(metallicPlasmaBore, () -> {
+                            node(miniPlasmaBore, () -> {
+                            });
                         });
                     });
                 });
 
                 //region crafting
 
-                node(arcFurnace,
-                Seq.with(new OnSector(pegmatiteMountains)), () -> {
-                    node(mixer, Seq.with(new Research(theimpossible)), () -> {});
-                    node(filter, Seq.with(new Research(theimpossible)), () -> {});
+                node(arcFurnace, Seq.with(new OnSector(pegmatiteMountains)), () -> {
+                    node(mixer, Seq.with(new SectorComplete(noMansLand)), () -> {});
+                    node(filter, Seq.with(new OnSector(goldenCrater)), () -> {});
                     node(itemConstructor, Seq.with(new OnSector(noMansLand)), () -> {
-                        //node(arcSmelter);
+                        node(arcSmelter, Seq.with(new OnSector(goldenCrater)), () -> {});
                     });
-                });
-
-                //region cores
-
-                node(coreBlaze, () -> {          
                 });
 
                 //region distribution
@@ -87,7 +83,13 @@ public class TTechTrees {
                 node(thermalPlate, () -> {
                     node(energeticNode, () -> {
                         node(energeticNodeLarge);
-                        node(lithiumBattery, () -> {}); 
+                        node(lithiumBattery, () -> {
+                            node(largeLithiumBattery);
+                        }); 
+                    });
+                    node(thermalGenerator, () -> {
+                        node(lithiumCombustionChamber);
+                        node(solarPanel);
                     });
                 });
 
@@ -115,8 +117,13 @@ public class TTechTrees {
                 node(radar, () -> {
                     node(longRangeRadar, () -> {});
                 });
+                node(miniMender, () -> {
+                    node(miniShieldProjector);
+                });
+                node(coreBlaze, () -> {          
+                });
 
-                //region walls
+                //region defense
 
                 node(metallicWall, () -> {
                     node(metallicWallLarge);
@@ -129,6 +136,12 @@ public class TTechTrees {
 
                 node(comet, () -> {
                     node(constellation);
+                    node(strike, () -> {
+                        node(meteor, () -> {
+                        });
+                        node(needle, () -> {
+                        });
+                    });
                 });
 
                 //region units
@@ -137,23 +150,33 @@ public class TTechTrees {
                     node(cobra, () -> {
                     }); 
                     node(blade, () -> {
-                        node(saber, () -> {
+                        node(saber, Seq.with(new Research(unitRefabricator)), () -> {
                         });
                     });
                     node(mercury, () -> {
+                        node(mars, Seq.with(new Research(unitRefabricator)), () -> {
+                        });
                     });
-                    node(metallicPayloadConveyor, () -> { 
+                    node(cobra, () -> {
+                        node(python, Seq.with(new Research(unitRefabricator)), () -> { 
+                        });
+                    });
+                    node(metallicPayloadConveyor, () -> {
+                        node(largePayloadConveyor);
+                    });
+                    node(unitRefabricator, Seq.with(new Research(armorPlate), new Research(water), new Research(theimpossible)), () -> {
                     });
                 });
             });
         
-                //region items
+            //region items
 
             nodeProduce(hematite, () -> {
                 nodeProduce(tin, () -> {});
                 nodeProduce(pegmatite, () -> {
                     nodeProduce(lithium, () -> {});
                 });
+                nodeProduce(solidNeoplasm, () -> {});
                 nodeProduce(darkMetal, () -> {
                     nodeProduce(enrichedMetal, () -> {});
                     node(cog, Seq.with(new Research(itemConstructor)), () -> {
@@ -205,6 +228,9 @@ public class TTechTrees {
                 Seq.with(new SectorComplete(initialization)), () -> {
                     node(noMansLand, 
                     Seq.with(new SectorComplete(pegmatiteMountains)), () -> {
+                        node(goldenCrater, 
+                        Seq.with(new SectorComplete(noMansLand)), () -> {
+                        });
                     });
                 });
             });

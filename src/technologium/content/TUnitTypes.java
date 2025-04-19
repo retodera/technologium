@@ -2,6 +2,7 @@ package technologium.content;
 
 import mindustry.ai.types.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
@@ -31,18 +32,18 @@ public class TUnitTypes {
     // kudol - legs
     blade, saber, impaler, secateurs, trident, incineration, destruction,
 
-    //special
+    // special
     metalstrong;
     public static void load() {
 
-        //region core units
+        // region core units
 
         quant = new KudolUnitType("quant") {{
             aiController = BuilderAI::new;
             constructor = MechUnit::create;
             isEnemy = false;
             createScorch = false;
-            canAttack = false;
+            targetable = hittable = canAttack = false;
             mechSideSway = 0.3f;
             mechStepParticles = true;
             health = 180;
@@ -79,7 +80,6 @@ public class TUnitTypes {
                 shootCone = 15f;
                 mirror = false;
                 repairSpeed = 3f;
-                fractionRepairSpeed = 0.04f;
                 targetUnits = false;
                 targetBuildings = true;
                 autoTarget = false;
@@ -96,7 +96,9 @@ public class TUnitTypes {
             constructor = UnitEntity::create;
             isEnemy = false;
             createScorch = false;
+            targetable = hittable = canAttack = false;
             health = 270;
+            fogRadius = 0f;
             armor = 2;
             hitSize = 16f;
             itemCapacity = 40;
@@ -105,7 +107,8 @@ public class TUnitTypes {
             accel = 0.18f;
             aiController = BuilderAI::new;
             flying = true;
-            engineOffset = 7f;
+            engineSize = 0;
+            setEnginesMirror(new UnitEngine(6.2f, -6.2f, 2.5f, -45), new UnitEngine(6.2f, 6.2f, 2.5f, 45));
             buildSpeed = 1.6f;
             buildRange = 350f;
             mineWalls = true;
@@ -126,10 +129,8 @@ public class TUnitTypes {
                 autoTarget = true;
                 targetUnits = true;
                 targetBuildings = true;
-                repairSpeed = 2.5f;
-                fractionRepairSpeed = 0.0375f;
+                repairSpeed = 2.2f;
                 beamWidth = 0.9f;
-                aimDst = 1f;
                 bullet = new BulletType(){{
                     maxRange = 75f;
                 }};
@@ -147,10 +148,8 @@ public class TUnitTypes {
                 autoTarget = true;
                 targetUnits = true;
                 targetBuildings = true;
-                repairSpeed = 2.5f;
-                fractionRepairSpeed = 0.0375f;
+                repairSpeed = 2.2f;
                 beamWidth = 0.9f;
-                aimDst = 1f;
                 noAttack = false;
                 bullet = new BulletType(){{
                     maxRange = 75f;
@@ -158,14 +157,15 @@ public class TUnitTypes {
             }});
         }};
 
-        //endregion
+        // endregion
 
-        //region kudol - laser
+        // region kudol - laser
 
         blade = new KudolUnitType("blade") {{
             constructor = MechUnit::create;
             speed = 0.7f;
             health = 265;
+            armor = 5;
             hitSize = 12f;
             aiController = GroundAI::new;
             rotateSpeed = 3f;
@@ -187,7 +187,7 @@ public class TUnitTypes {
                 alwaysContinuous = true;
                 mirror = false;
                 bullet = new ContinuousLaserBulletType() {{
-                    damage = 10f;
+                    damage = 5f;
                     length = 50f;
                     width = 5f;
                     shake = 0.2f;
@@ -206,6 +206,7 @@ public class TUnitTypes {
             rotateSpeed = 2f;
             speed = 0.8f;
             health = 540;
+            armor = 10;
             hitSize = 18f;
             aiController = GroundAI::new;
             mechSideSway = 0.2f;
@@ -232,7 +233,7 @@ public class TUnitTypes {
                 alwaysContinuous = true;
                 mirror = false;
                 bullet = new ContinuousLaserBulletType() {{
-                    damage = 25f;
+                    damage = 4f;
                     length = 60f;
                     width = 4f;
                     shake = 0.2f;
@@ -258,7 +259,7 @@ public class TUnitTypes {
                 alwaysContinuous = true;
                 mirror = false;
                 bullet = new ContinuousLaserBulletType() {{
-                    damage = 3f;
+                    damage = 4f;
                     length = 60f;
                     width = 4f;
                     shake = 0.2f;
@@ -271,15 +272,16 @@ public class TUnitTypes {
             }});
         }};
 
-        //endregion
+        // endregion
 
-        //region kudol - sniper
+        // region kudol - sniper
 
         cobra = new KudolUnitType("cobra") {{
             constructor = MechUnit::create;
             speed = 0.8f;
             health = 220;
             hitSize = 12f;
+            armor = 4;
             aiController = GroundAI::new;
             mineSpeed = 0f;
             flying = false;
@@ -298,16 +300,58 @@ public class TUnitTypes {
                 mirror = false;
                 bullet = new BasicBulletType() {{
                     damage = 30f;
-                    speed = 5f;
-                    lifetime = 60f;
+                    speed = 4.5f;
+                    lifetime = 40f;
                     frontColor = TPal.gold3;
                     backColor = TPal.gold1;
                 }};
             }});
         }};
-        //endregion
 
-        //region kudol - air
+        python = new KudolUnitType("python") {{
+            constructor = MechUnit::create;
+            speed = 0.6f;
+            health = 680;
+            hitSize = 18f;
+            armor = 7;
+            aiController = GroundAI::new;
+            mineSpeed = 0f;
+            flying = false;
+            canBoost = false;
+            buildSpeed = 0;
+            itemCapacity = 50;
+            faceTarget = false;
+            targetAir = false;
+            weapons.add(new Weapon("t-python-gun") {{
+                x = 6f;
+                y = 0f;
+                shootY = 4f;
+                rotate = true;
+                rotateSpeed = 0.8f;
+                reload = 90f;
+                recoil = 2f;
+                shootSound = Sounds.artillery;
+                mirror = true;
+                alternate = true;
+                bullet = new BasicBulletType() {{
+                    collidesAir = false;
+                    height = 11;
+                    width = 7f;
+                    damage = 45f;
+                    splashDamage = 20f;
+                    splashDamageRadius = 25f;
+                    speed = 3f;
+                    lifetime = 85f;
+                    frontColor = TPal.gold3;
+                    backColor = TPal.gold1;
+                    despawnEffect = hitEffect = Fx.explosion;
+                }};
+            }});
+        }};
+
+        // endregion
+
+        // region kudol - air
 
         mercury = new KudolUnitType("mercury") {{
             constructor = UnitEntity::create;
@@ -315,6 +359,7 @@ public class TUnitTypes {
             drag = 0.15f;
             accel = 0.1f;
             health = 190;
+            armor = 3;
             hitSize = 14f;
             aiController = FlyingAI::new;
             mineSpeed = 0f;
@@ -347,12 +392,77 @@ public class TUnitTypes {
             }});
         }};
 
-        //region special (cringe)
+        mars = new KudolUnitType("mars") {{
+            constructor = UnitEntity::create;
+            speed = 3f;
+            drag = 0.15f;
+            accel = 0.09f;
+            health = 450;
+            armor = 6;
+            hitSize = 18f;
+            aiController = FlyingAI::new;
+            mineSpeed = 0f;
+            flying = true;
+            buildSpeed = 0;
+            itemCapacity = 60;
+            engineOffset = 7f;
+            engineSize = 4f;
+            aimDst = 24f;
+            weapons.add(new PointDefenseWeapon("t-mars-nanogun") {{
+                x = 6f;
+                y = -2f;
+                reload = 7f;
+                targetInterval = 7f;
+                targetSwitchInterval = 10f;
+                bullet = new BulletType() {{
+                    shootSound = Sounds.lasershoot;
+                    shootEffect = Fx.sparkShoot;
+                    hitEffect = Fx.pointHit;
+                    maxRange = 90f;
+                    damage = 40f;
+                }};
+            }},
+            new Weapon("t-mars-minigun") {{
+                x = 0;
+                y = 6f;
+                layerOffset = -0.01f;
+                top = false;
+                shootY = 2f;
+                recoil = 1.5f;
+                rotate = false;
+                shootSound = Sounds.missile;
+                mirror = false;
+                reload = 60f;
+                shoot = new ShootBarrel() {{
+                    barrels = new float[] {
+                        -1.5f, 2f, 0,
+                        0, 2f, 0,
+                        1.5f, 2f, 0  
+                    };
+                    shots = 8;
+                    shotDelay = 5f;
+                }};
+                bullet = new BasicBulletType() {{
+                    damage = 10f;
+                    speed = 4f;
+                    lifetime = 20f;
+                    frontColor = TPal.orange3;
+                    backColor = hitColor = trailColor = TPal.orange1;
+                    hitEffect = despawnEffect = Fx.blastExplosion;
+                }};
+            }});
+        }};
+
+        // endregion
+
+        // region special (cringe)
+
         metalstrong = new KudolUnitType("metalstrong"){{
             constructor = MechUnit::create;
             hidden = !TVars.debug;
             speed = 1f;
             health = 500000;
+            armor = 200;
             hitSize = 16f;
             mineSpeed = 0f;
             flying = false;
@@ -384,5 +494,8 @@ public class TUnitTypes {
                 end = 150;
             }});
         }};
+    
+        // endregion
+
     }
 }

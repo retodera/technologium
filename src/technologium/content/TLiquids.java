@@ -12,7 +12,7 @@ public class TLiquids {
         hydrochloricAcid = new Liquid("hydrochloric-acid", TPal.acid3) {{
             effect = TStatusEffects.corrosion;
             boilPoint = 2f;
-            gasColor = TPal.acid1;
+            gasColor = TPal.acid3;
             viscosity = 0.3f;
             temperature = 0.7f;
             incinerable = false;
@@ -36,13 +36,15 @@ public class TLiquids {
 
         liquidPlasma = new Liquid("liquid-plasma", TPal.plasma3) {{
             temperature = 2.8f;
-            boilPoint = 4.5f;
+            boilPoint = 0.1f;
+            gasColor = TPal.plasma3;
             incinerable = false;
         }};
 
         lava = new Liquid("lava", TPal.orange3) {{
             temperature = 1.4f;
             boilPoint = 1f;
+            gasColor = TPal.orange3;
             incinerable = false;
         }};
     }

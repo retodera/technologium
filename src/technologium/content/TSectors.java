@@ -1,32 +1,33 @@
 package technologium.content;
 
-import mindustry.type.SectorPreset;
+import technologium.type.TSectorPreset;
 import static technologium.content.TPlanets.*;
 
 public class TSectors {
-    public static SectorPreset
-    /* Kudol */ initialization, pegmatiteMountains, noMansLand;
+    public static TSectorPreset
+    /* Kudol */ initialization, pegmatiteMountains, noMansLand, goldenCrater;
 
     public static void load() {
 
-        initialization = new SectorPreset("initialization", kudol, 0) {{
+        initialization = new TSectorPreset("initialization", kudol, 0) {{
             alwaysUnlocked = true;
             difficulty = 1;
             captureWave = 10;
-            showSectorLandInfo = true;
         }};
 
-        pegmatiteMountains = new SectorPreset("pegmatiteMountains", kudol, 46) {{
-            difficulty = 2;
-            captureWave = 20;
-            showSectorLandInfo = true;
-        }};
-
-        noMansLand = new SectorPreset("noMansLand", kudol, 202) {{
+        pegmatiteMountains = new TSectorPreset("pegmatiteMountains", kudol, 46) {{
             difficulty = 3;
+            captureWave = 20;
+        }};
+
+        noMansLand = new TSectorPreset("noMansLand", kudol, 202) {{
+            difficulty = 4;
             captureWave = 30;
-            showSectorLandInfo = true;
+        }};
+
+        goldenCrater = new TSectorPreset("goldenCrater", kudol, 113) {{
+            difficulty = 3;
+            captureWave = 25;
         }};
     }
-
 }

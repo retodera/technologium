@@ -75,6 +75,11 @@ public class ACCrane extends GenericCrafter {
         else whitelist = Seq.with(Vars.content.items().select(i -> i instanceof Fruit && ((Fruit)i).plantable).toArray(Fruit.class));
     }
 
+    @Override
+    public boolean outputsItems() {
+        return true;
+    }
+
     public static byte[] compress(Seq<Link> links){
         try{
             var baos = new ByteArrayOutputStream();

@@ -19,7 +19,7 @@ import static mindustry.Vars.*;
 
 public class ItemBlock extends Block {
     /** if item is a fruit */
-    public float minPlantTime = 1800, maxPlantTime = 3600;
+    public float minGrowTime = 1800, maxGrowTime = 3600;
     public Item item;
 
     public ItemBlock(String name) {
@@ -56,7 +56,7 @@ public class ItemBlock extends Block {
     public class ItemBuild extends Building {
         public @Nullable Building parent;
         protected int parentPos = -1;
-        public float plantTime = 0, progress = 0;
+        public float growTime = 0, grow = 0;
 
         @Override
         public boolean collide(Bullet other) {
@@ -108,10 +108,10 @@ public class ItemBlock extends Block {
             parent = parent instanceof GrowingTreeBuild || parent instanceof ACCraneBuild ? parent : null;
             Fruit fruit = ((Fruit)item);
             if(!(item instanceof Fruit) || (fruit.tree == null && fruit.seed == null && ((Fruit)fruit.seed).tree == null)) return;
-            if(plantTime == 0) plantTime = Mathf.random(minPlantTime, maxPlantTime);
-            progress += Time.delta;
-            if(progress >= plantTime) {
-                progress = plantTime = 0;
+            if(growTime == 0) growTime = Mathf.random(minGrowTime, maxGrowTime);
+            grow += Time.delta;
+            if(grow >= growTime) {
+                grow = growTime = 0;
                 tile.setNet(fruit.seed == fruit && fruit.seed != null ? fruit.tree : ((Fruit)fruit.seed).tree);
                 ((GrowingTreeBuild)tile.build).parentPos = parentPos;
             }
@@ -119,15 +119,15 @@ public class ItemBlock extends Block {
 
         @Override
         public void write(Writes write) {
-            write.f(plantTime);
-            write.f(progress);
+            write.f(growTime);
+            write.f(grow);
             write.i(parent == null ? -1 : parent.pos());
         }
 
         @Override
         public void read(Reads read, byte revision) {
-            plantTime = read.f();
-            progress = read.f();
+            growTime = read.f();
+            grow = read.f();
             parentPos = read.i();
         }
     }

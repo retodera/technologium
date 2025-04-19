@@ -8,6 +8,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
+import arc.util.io.*;
 
 import mindustry.world.draw.*;
 
@@ -143,6 +144,36 @@ public class ItemConstructor extends MultiCrafter {
                     }
                 }
             }
+        }
+
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+            write.i(armC);
+            for(AssembleArm a : arms) {
+                write.f(a.r);
+                write.f(a.m);
+                write.i(a.dir);
+                write.i(a.ndir);
+                write.bool(a.fx);
+            };
+            write.bool(chosen);
+        }
+
+        @Override
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
+            armC = read.i();
+            arms = new Seq<>();
+            for(int i = 0; i < armC; i++) arms.add(new AssembleArm());
+            for(AssembleArm a : arms) {
+                a.r = read.f();
+                a.m = read.f();
+                a.dir = read.i();
+                a.ndir = read.i();
+                a.fx = read.bool();
+            };
+            chosen = read.bool();
         }
     }
 
