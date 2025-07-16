@@ -4,6 +4,8 @@ import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.world.blocks.liquid.LiquidBridge;
+import technologium.world.meta.TStats;
+
 import static mindustry.Vars.*;
 
 //same feature as TempConduit
@@ -16,6 +18,12 @@ public class TempLiquidBridge extends LiquidBridge {
     public TempLiquidBridge(String name) {
         super(name);
         placeableLiquid = true;
+    }
+    
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.addPercent(TStats.maxTemp, maxTemp);
     }
 
     public class TempLiquidBridgeBuild extends LiquidBridgeBuild {

@@ -4,6 +4,7 @@ import static mindustry.Vars.tilesize;
 
 import arc.math.Mathf;
 import mindustry.world.blocks.liquid.LiquidRouter;
+import technologium.world.meta.TStats;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 
@@ -17,6 +18,12 @@ public class TempLiquidRouter extends LiquidRouter{
     public TempLiquidRouter(String name) {
         super(name);
         placeableLiquid = true;
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.addPercent(TStats.maxTemp, maxTemp);
     }
 
     public class TempLiquidRouterBuild extends LiquidRouterBuild {

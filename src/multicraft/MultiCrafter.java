@@ -143,8 +143,10 @@ public class MultiCrafter extends PayloadBlock {
 
     /** craft effect except it is shown not only when it crafted */
     public Effect staticCraftEffect = Fx.none;
-    /** how much will be added to the efficiency */
-    public float optionalMultiplier = 1f;
+    /** static craft effect interval */
+    public float staticCraftEffectInterval = 30f;
+    /** by how much will efficiency be multiplied */
+    public float optionalIntensity = 1f;
 
     public MultiCrafter(String name) {
         super(name);
@@ -212,7 +214,8 @@ public class MultiCrafter extends PayloadBlock {
          */
         public int curRecipeIndex = defaultRecipeIndex;
         // added by Technologium
-        public float staticCraftEffectTime;
+        public float sceTime;
+        public float speed;
 
         public PayloadSeq payloads = new PayloadSeq();
         public @Nullable Vec2 commandPos;
@@ -285,10 +288,10 @@ public class MultiCrafter extends PayloadBlock {
         @Override
         public float edelta() {
             Recipe cur = getCurRecipe();
-            if (cur.input.power > 0f) return this.efficiency *
+            if (cur.input.power > 0f) return efficiency *
                     Mathf.clamp(getCurPowerStore() / cur.input.power) *
-                    this.delta();
-            else return this.efficiency * this.delta();
+                    delta();
+            else return efficiency * delta();
         }
 
         @Override
@@ -304,8 +307,9 @@ public class MultiCrafter extends PayloadBlock {
             // cool down
             if (efficiency > 0 && (!hasPower || getCurPowerStore() >= cur.input.power)) {
                 // if <= 0, instantly produced
-                if (craftTimeNeed > 0f) craftingTime += edelta();
-                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+                if (craftTimeNeed > 0f) craftingTime += edelta() * warmup;
+                speed = Mathf.lerp(1, optionalIntensity, optionalEfficiency) * efficiency;
+                warmup = Mathf.approachDelta(warmup, warmupTarget() * speed, warmupSpeed);
                 if (hasPower) {
                     float powerChange = (cur.output.power - cur.input.power) * delta();
                     if (!Mathf.zero(powerChange))
@@ -324,13 +328,13 @@ public class MultiCrafter extends PayloadBlock {
                 if (wasVisible && Mathf.chanceDelta(updateEffectChance)) 
                     updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
                 // added by Technologium
-                if(wasVisible && staticCraftEffectTime >= 30) {
+                if(wasVisible && sceTime >= staticCraftEffectInterval) {
                     staticCraftEffect.at(x, y);
-                    staticCraftEffectTime = 0;
+                    sceTime = 0;
                 }
             } else warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             totalProgress += warmup * Time.delta;
-            staticCraftEffectTime += warmup * Time.delta;
+            sceTime += warmup * Time.delta;
             
             if (moveInPayload()) {
                 yeetPayload(payload);
@@ -599,10 +603,7 @@ public class MultiCrafter extends PayloadBlock {
             Recipe cur = getCurRecipe();
             float heatRequirement = cur.input.heat;
             float over = Math.max(heat - heatRequirement, 0f);
-            return (isConsumeHeat && cur.isConsumeHeat() ?
-                Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) : 1f)
-            //multicrafters should be able to boost
-            * (optionalConsumers.length == 0 ? 1 : (1 + optionalEfficiency * optionalMultiplier));
+            return isConsumeHeat && cur.isConsumeHeat() ? Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) : 1f;
         }
 
         @Override
@@ -630,8 +631,8 @@ public class MultiCrafter extends PayloadBlock {
         public void rebuildHoveredInfo() {
             try {
                 Table info = hoveredInfo;
-                if (info != null) {
-                    info.clear();
+                if (Vars.ui.hudfrag.blockfrag.hover() == this) { // if(info != null)            won't work as intended.
+                    info.clear();                                // if(Vars.ui.hudfrag.blockfrag.hover() == this) will.
                     display(info);
                 }
             } catch (Exception ignored) {
@@ -702,7 +703,7 @@ public class MultiCrafter extends PayloadBlock {
         IOEntry entry = isInput ? recipe.input : recipe.output;
         int i = 0;
         for (ItemStack stack : entry.items) {
-            Cell<ItemImage> iconCell = mat.add(new ItemImage(stack.item.uiIcon, stack.amount))
+            Cell<TItemImage> iconCell = mat.add(new TItemImage(stack.item.uiIcon, stack.amount))
                     .pad(2f);
             if (isInput) iconCell.left();
             else iconCell.right();

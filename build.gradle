@@ -16,18 +16,17 @@ java{
 }
 
 ext{
-    //the build number that this mod is made for
-    mindustryVersion = 'v146'
+    mindustryVersion = 'v149'
     jabelVersion = "93fde537c7"
-    //windows sucks
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
     sdkRoot = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk"
 }
 
-//java 8 backwards compatibility flag
 allprojects{
-    tasks.withType(JavaCompile){
-        options.compilerArgs.addAll(['--release', '8'])
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.compilerArgs.addAll(['--release', '17'])
+        }
     }
 }
 
@@ -38,7 +37,6 @@ dependencies{
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
 
-//force arc version
 configurations.all{
     resolutionStrategy.eachDependency { details ->
         if(details.requested.group == 'com.github.Anuken.Arc'){
@@ -47,38 +45,29 @@ configurations.all{
     }
 }
 
-tasks.register('jarAndroid') { 
-    dependsOn "jar" 
- 
-    doLast { 
-        if (!sdkRoot || !new File(sdkRoot).exists()) throw new GradleException("No valid Android SDK found. Ensure that ANDROID_HOME is set to your Android SDK directory."); 
- 
-        def platformRoot = new File("$sdkRoot/platforms/").listFiles().sort().reverse().find { f -> new File(f, "android.jar").exists() }
- 
-        if (!platformRoot) throw new GradleException("No android.jar found. Ensure that you have an Android platform installed.") 
- 
-        //collect dependencies needed for desugaring 
-        def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect { "--classpath $it.path" }.join(" ") 
- 
-        String d8 = "C:\\Users\\retod\\AppData\\Local\\Android/Sdk\\build-tools\\35.0.1\\d8-modification.bat"
- 
-        //dex and desugar files - this requires d8 in your PATH 
-        "$d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar" 
-        .execute(null,new File("$rootDir/build/libs/")) 
- 
-        // if(!base.getLibsDirectory().file("${project.archivesBaseName}Android.jar").get().getAsFile().exists()){throw new Throwable("\n\n<<<Not that>>>\n\n")}
-    } 
+task jarAndroid{
+    dependsOn "jar"
+
+    doLast{
+        def platformRoot = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\platforms\\android-34"
+
+        def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect{ "--classpath $it.path" }.join(" ")
+
+        def d8 = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\build-tools\\35.0.1\\d8-modification.bat"
+
+        "$d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
+            .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
+    }
 }
 
-
 jar{
-    archiveFileName = "technologiumDesktop.jar"
+    archiveFileName = "${base.archivesBaseName}Desktop.jar"
 
     from{
         configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
     }
 
-    from(projectDir){
+    from(rootDir){
         include "mod.hjson"
     }
 
@@ -87,18 +76,23 @@ jar{
     }
 }
 
-task deploy(type: Jar){
-    dependsOn jar
+tasks.register('deploy', Jar) {
     dependsOn jarAndroid
+    dependsOn jar
+    archiveFileName = "${base.archivesBaseName}.jar"
 
-    archiveFileName = "technologium.jar"
+    from {
+        [
+            zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"),
+            zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")
+        ]
+    }
 
-    from{ [zipTree("$buildDir/libs/technologiumDesktop.jar"), zipTree("$buildDir/libs/technologiumAndroid.jar")] }
-
-    doLast{
-        delete{
-            delete "$buildDir/libs/technologiumDesktop.jar"
-            delete "$buildDir/libs/technologiumAndroid.jar"
+    doLast {
+        delete {
+            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
+            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
         }
     }
 }
+

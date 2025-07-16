@@ -16,8 +16,8 @@ import mindustry.ctype.*;
 import mindustry.gen.Icon;
 import mindustry.mod.Mods.*;
 import mindustry.ui.*;
-import mindustry.world.Block;
 import mindustry.world.blocks.*;
+
 //"yonked the code from Dusted Lands lol" - IceWorld
 public class TEmojis {
     public static int id;
@@ -65,7 +65,7 @@ public class TEmojis {
         int gennedPage = Fonts.def.getRegions().indexOf(t -> t.texture == genned);
 
         Seq<UnlockableContent> exclude = new Seq<>();
-        exclude.addAll(TBlocks.leptineItemBlock, TBlocks.leptineTree, TItems.theimpossible);
+        exclude.addAll(TItems.theimpossible);
 
         Seq.<UnlockableContent>withArrays(
                         Seq.with(Vars.content.blocks()).removeAll(b -> exclude.contains(b)),// so it would return a Seq, not a boolean
@@ -76,9 +76,10 @@ public class TEmojis {
                 ).removeAll(u -> u.minfo.mod != mod)
                 .map(c -> new GenData(c.uiIcon.texture == pure, c.name, c.uiIcon))
                 .add(new GenData(true, "kaut", Core.atlas.find("t-team-kaut")))
-                .add(new GenData(true, "aihasto", Core.atlas.find("t-team-mita")))
 
                 .add(new GenData(true, "technologium", Core.atlas.find("t-technologium")))
+                .add(new GenData(true, "muigolonhcet", Core.atlas.find("t-muigolonhcet")))
+                .add(new GenData(true, "iconKudol", Core.atlas.find("t-iconKudol")))
                 .add(new GenData(true, "mms", Core.atlas.find("t-mms")))
                 .add(new GenData(true, "mms-idc", Core.atlas.find("t-mms-idc")))
                 .add(new GenData(true, "mms-angry", Core.atlas.find("t-mms-angry")))
@@ -91,7 +92,6 @@ public class TEmojis {
                 .add(new GenData(true, "beled", Core.atlas.find("t-beled"), true))
                 .add(new GenData(true, "kudol", Core.atlas.find("t-kudol"), true))
                 .add(new GenData(true, "venjer", Core.atlas.find("t-venjer"), true))
-                .add(new GenData(true, "mitaplanet", Core.atlas.find("t-mitaplanet"), true))
                 .each(data -> {
                     TextureRegion region = data.glyphRegion;
                     id--;
@@ -125,7 +125,6 @@ public class TEmojis {
                 });
 
         TTeams.kaut.emoji = Reflect.<ObjectMap<String, String>>get(Fonts.class, "stringIcons").get(TTeams.kaut.name, "");
-        TTeams.mita.emoji = Reflect.<ObjectMap<String, String>>get(Fonts.class, "stringIcons").get(TTeams.mita.name, "");
     };
 
     public static class GenData {

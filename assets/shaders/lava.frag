@@ -1,8 +1,8 @@
 #define HIGHP
 
 //copy of slag.frag, just changed colors
-#define S2 vec3(95.0, 63.0, 32.0) / 100.0
-#define S1 vec3(90.0, 56.0, 22.0) / 100.0
+#define S2 vec3(100.0, 74.0, 48.0) / 100.0
+#define S1 vec3(100.0, 63.0, 28.0) / 100.0
 #define NSCALE 200.0 / 2.0
 
 uniform sampler2D u_texture;

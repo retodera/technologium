@@ -6,6 +6,9 @@ import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.type.Item;
+import mindustry.type.ItemStack;
+import technologium.type.ItemTechnology;
 
 public class Recipe {
     public IOEntry input;
@@ -19,6 +22,18 @@ public class Recipe {
     public Effect craftEffect = Fx.none;
 
     public Recipe() {}
+
+    public Recipe(Item technology) {
+        if(!(technology instanceof ItemTechnology)) throw new ArcRuntimeException("The item in the method Recipe(Item) has to be an instance of ItemTechnology.");
+        ItemTechnology tech = (ItemTechnology)technology;
+        input = new IOEntry() {{
+            items = tech.itemReq;
+            fluids = tech.liquidReq;
+        }};
+        output = new IOEntry() {{
+            items = ItemStack.with(tech, tech.outputAmount);
+        }};
+    }
 
     public void cacheUnique() {
         input.cacheUnique();

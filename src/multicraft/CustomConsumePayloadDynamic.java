@@ -7,6 +7,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
+import multicraft.ui.TItemImage;
 
 /** Copy of {@linkplain ConsumePayloadDynamic} that takes a PayloadStack[] */
 public class CustomConsumePayloadDynamic extends Consume {
@@ -64,7 +65,7 @@ public class CustomConsumePayloadDynamic extends Consume {
         table.table(c -> {
             int i = 0;
             for(PayloadStack stack : pay){
-                c.add(new ReqImage(new ItemImage(stack.item.uiIcon, Math.round(stack.amount * multiplier.get(build))),
+                c.add(new ReqImage(new TItemImage(stack.item.uiIcon, Math.round(stack.amount * multiplier.get(build))),
                 () -> inv.contains(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);
                 if(++i % 4 == 0) c.row();
             }

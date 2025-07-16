@@ -2,6 +2,7 @@ package technologium.world.blocks.liquid;
 
 import arc.math.Mathf;
 import mindustry.world.blocks.liquid.Conduit;
+import technologium.world.meta.TStats;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 
@@ -18,6 +19,12 @@ public class TempConduit extends Conduit {
         super(name);
         rotate = true;
         placeableLiquid = true;
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.addPercent(TStats.maxTemp, maxTemp);
     }
 
     public class TempConduitBuild extends ConduitBuild {

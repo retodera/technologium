@@ -1,7 +1,7 @@
 package technologium.world.blocks.environment;
 
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.Events;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.Seq;
 import arc.util.*;
@@ -11,20 +11,15 @@ import mindustry.gen.*;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.TreeBlock;
 import mindustry.world.meta.BuildVisibility;
+import technologium.game.TEventType.TTrigger;
 import technologium.type.Fruit;
-import technologium.world.blocks.environment.ItemBlock.ItemBuild;
-import technologium.world.blocks.production.ACCrane.ACCraneBuild;
 
 import static mindustry.Vars.*;
 
 public class GrowingTreeBlock extends TreeBlock {
-    /**fruit that this tree will drop upon full growth */
-    public @Nullable Fruit fruit;
+    public Fruit fruit;
     public float growTimeMin = 6400f, growTimeMax = 14400f;
-    public float fallTimeMin = 8000f, fallTimeMax = 17600f;
-    public int fruitFallDist = 2;
     public Rand random = new Rand();
-    public ItemBlock dropBlock;
 
     public GrowingTreeBlock(String name) {
         super(name);
@@ -53,16 +48,13 @@ public class GrowingTreeBlock extends TreeBlock {
 
     @Override
     public boolean canBreak(Tile tile) {
-        return ((GrowingTreeBuild)tile.build).parent != null;
+        return false;
     }
 
     public class GrowingTreeBuild extends Building {
-        public @Nullable Building parent;
-        protected int parentPos = -1;
         public float grow = 0;
         public float growTime = 0;
-        public float fall = 0;
-        public float fallTime = 0;
+        public boolean grown = false;
 
         @Override
         public boolean collide(Bullet other) {
@@ -93,8 +85,6 @@ public class GrowingTreeBlock extends TreeBlock {
                 team = Team.derelict;
                 indexer.addIndex(tile);
             }
-            parent = world.build(parentPos);
-            parent = parent instanceof GrowingTreeBuild || parent instanceof ACCraneBuild ? parent : null;
             if(growTime <= 0) {
                 if(fruit.seed != null) growTime = Mathf.random(((Fruit)fruit.seed).growTimeMin, ((Fruit)fruit.seed).growTimeMax);
                 else if(fruit != null) growTime = Mathf.random(fruit.growTimeMin, fruit.growTimeMax);
@@ -104,38 +94,9 @@ public class GrowingTreeBlock extends TreeBlock {
                 grow += Time.delta;
                 grow = Math.min(grow, growTime);
             }
-            else if(fruit != null || dropBlock != null) {
-                Seq<Tile> availableTiles = new Seq<>();
-                for(int x = 0; x < fruitFallDist*2+1; x++) 
-                    for(int y = 0; y < fruitFallDist*2+1; y++) {
-                        Tile t = world.tile(tile.x + x - fruitFallDist, tile.y + y - fruitFallDist);
-                        if(t == null) continue;
-                        if(t.build == null || (t.block().hasItems && t.build.acceptItem(this, fruit))) availableTiles.addUnique(t);
-                        else availableTiles.remove(t);
-                    }
-                
-                if(fallTime == 0) fallTime = Mathf.random(fallTimeMin, fallTimeMax);
-                fall += Time.delta;
-                fall = Math.min(fall, fallTime);
-                if(fall == fallTime) {
-                    fall = fallTime = 0;
-                    if(!availableTiles.isEmpty()) {
-                        int rand = random.nextInt(availableTiles.size);
-                        int i = 0;
-                        for(Tile t : availableTiles) {
-                            if(rand == i && t.build == null && dropBlock != null) {
-                                t.setNet(dropBlock);
-                                if (t.build != null)
-                                    ((ItemBuild)t.build).parentPos = parent == null ? pos() : parent.pos();
-                            }
-                            else if(rand == i && t.build.block.hasItems && t.build.acceptItem(this, fruit) && fruit != null)
-                                t.build.handleItem(this, fruit);
-                            i++;
-                        }
-                    }
-
-                }
-
+            else if(!grown) {
+                grown = true;
+                Events.fire(TTrigger.treeGrown);
             }
         }
 
@@ -150,7 +111,7 @@ public class GrowingTreeBlock extends TreeBlock {
             float mag = 0.2f;
             TextureRegion shad = variants == 0 ? customShadowRegion : variantShadowRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantShadowRegions.length - 1))];
             if (shad.found()) {
-                Draw.z(69);
+                Draw.z(69); //nice
                 Draw.rect(shad, tile.worldx() + shadowOffset * growPercent(), tile.worldy() + shadowOffset * growPercent(), shad.width * shad.scl() * growPercent(), shad.height * shad.scl() * growPercent(), rot);
             }
 
@@ -185,9 +146,6 @@ public class GrowingTreeBlock extends TreeBlock {
             super.write(write);
             write.f(grow);
             write.f(growTime);
-            write.f(fall);
-            write.f(fallTime);
-            write.i(parent == null ? -1 : parent.pos());
         }
         
         @Override
@@ -195,9 +153,6 @@ public class GrowingTreeBlock extends TreeBlock {
             super.read(read, revision);
             grow = read.f();
             growTime = read.f();
-            fall = read.f();
-            fallTime = read.f();
-            parentPos = read.i();
         }
     }
 }

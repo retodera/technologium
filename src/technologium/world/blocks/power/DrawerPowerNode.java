@@ -11,7 +11,6 @@ import mindustry.world.blocks.power.PowerNode;
 import mindustry.core.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.world.draw.*;
-import mindustry.world.meta.BlockStatus;
 
 import static mindustry.Vars.*;
 

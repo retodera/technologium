@@ -16,12 +16,12 @@ import technologium.type.Fruit;
 import static mindustry.Vars.*;
 
 public class GrowingVine extends TreeBlock {
-    /**fruit that this tree will drop upon full growth */
-    public @Nullable Fruit fruit;
     public float growTimeMin = 3200f, growTimeMax = 9600f;
     public float multTimeMin = 3200f, multTimeMax = 9600f;
     public Rand random = new Rand();
-    public float damage = 1 / 60f;
+    public float damage = 60f;
+    /** ticks per damage */
+    public float damageInterval = 60f;
 
     public GrowingVine(String name) {
         super(name);
@@ -60,6 +60,7 @@ public class GrowingVine extends TreeBlock {
         public float growTime = 0;
         public float mult = 0;
         public float multTime = 0;
+        private float damageCounter = 0;
 
         @Override
         public boolean collide(Bullet other) {
@@ -130,7 +131,13 @@ public class GrowingVine extends TreeBlock {
                     for(int y = 0; y < 3; y++) {
                         Tile t = world.tile(tile.x + x - 1, tile.y + y - 1);
                         if(t == null) continue;
-                        if(t.build != null && (team == Team.derelict || team != t.build.team)) t.build.damage(damage);
+                        if(t.build != null && (team == Team.derelict || team != t.build.team)) {
+                            damageCounter += Time.delta;
+                            if(damageCounter >= damageInterval) {
+                                damageCounter = 0;
+                                t.build.damage(damage);
+                            }
+                        };
                     }
             }
         }

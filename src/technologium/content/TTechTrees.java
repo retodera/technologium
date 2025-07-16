@@ -14,37 +14,37 @@ import static technologium.content.TSectors.*;
 
 public class TTechTrees {
     public static void load(){
-        //region kudol
-
         TPlanets.kudol.techTree = nodeRoot("kudol", kudol, () -> {
 
-            //region blocks
+            // region blocks
 
             node(coreTorch, () -> {
 
-                //region production
+                // region production
 
-                node(manualDrill, () -> {
-                    node(metallicDrill, () -> {
-                        node(advancedDrill);
-                        node(metallicPlasmaBore, () -> {
-                            node(miniPlasmaBore, () -> {
-                            });
+                node(metallicDrill, () -> {
+                    node(advancedDrill);
+                    node(metallicPlasmaBore, () -> {
+                        node(miniPlasmaBore, () -> {
                         });
                     });
                 });
 
-                //region crafting
+                // endregion
+
+                // region crafting
 
                 node(arcFurnace, Seq.with(new OnSector(pegmatiteMountains)), () -> {
-                    node(mixer, Seq.with(new SectorComplete(noMansLand)), () -> {});
+                    node(enricher, Seq.with(new SectorComplete(noMansLand)), () -> {});
                     node(filter, Seq.with(new OnSector(goldenCrater)), () -> {});
                     node(itemConstructor, Seq.with(new OnSector(noMansLand)), () -> {
                         node(arcSmelter, Seq.with(new OnSector(goldenCrater)), () -> {});
                     });
                 });
 
-                //region distribution
+                // endregion
+
+                // region distribution
 
                 node(metallicConveyor, () -> {
                     node(metallicRouter, () -> {
@@ -66,7 +66,9 @@ public class TTechTrees {
                     });
                 });
 
-                //region liquids
+                // endregion
+
+                // region liquids
 
                 node(improvedConduit, () -> {
                     node(improvedLiquidJunction, () -> {
@@ -75,10 +77,12 @@ public class TTechTrees {
                         node(improvedLiquidSorter);
                         node(improvedLiquidContainer);
                     });
-                    node(thermoConduit);
+                    node(advancedConduit);
                 });
 
-                //region power
+                // endregion
+
+                // region power
 
                 node(thermalPlate, () -> {
                     node(energeticNode, () -> {
@@ -89,11 +93,12 @@ public class TTechTrees {
                     });
                     node(thermalGenerator, () -> {
                         node(lithiumCombustionChamber);
-                        node(solarPanel);
                     });
                 });
 
-                //region logic
+                // endregion
+
+                // region logic
 
                 node(message, () -> {
                     node(energeticProcessor, () -> {
@@ -101,9 +106,9 @@ public class TTechTrees {
                             node(gammaProcessor);
                         });
                         node(switchBlock);
-                        node(cell, () -> {
-                            node(bank);
-                            node(stringCell);
+                        node(memoryCell, () -> {
+                            node(memoryBank);
+                            node(stringMemoryCell);
                         }); 
                         node(borderlessDisplayMini, () -> {
                             node(borderlessDisplay);
@@ -112,7 +117,9 @@ public class TTechTrees {
                     });
                 });
 
-                //region effect
+                // endregion
+
+                // region effect
 
                 node(radar, () -> {
                     node(longRangeRadar, () -> {});
@@ -123,7 +130,9 @@ public class TTechTrees {
                 node(coreBlaze, () -> {          
                 });
 
-                //region defense
+                // endregion
+
+                // region defense
 
                 node(metallicWall, () -> {
                     node(metallicWallLarge);
@@ -132,7 +141,9 @@ public class TTechTrees {
                     });
                 });
 
-                //region turrets
+                // endregion
+
+                // region turrets
 
                 node(comet, () -> {
                     node(constellation);
@@ -144,7 +155,9 @@ public class TTechTrees {
                     });
                 });
 
-                //region units
+                // endregion
+
+                // region units
 
                 node(unitFabricator, () -> {
                     node(cobra, () -> {
@@ -167,9 +180,13 @@ public class TTechTrees {
                     node(unitRefabricator, Seq.with(new Research(armorPlate), new Research(water), new Research(theimpossible)), () -> {
                     });
                 });
+
+                // endregion
             });
         
-            //region items
+            // endregion
+
+            // region items
 
             nodeProduce(hematite, () -> {
                 nodeProduce(tin, () -> {});
@@ -198,11 +215,9 @@ public class TTechTrees {
                             nodeProduce(cannedNeoplasm, () -> {
                                 nodeProduce(trainedNeoplasm, () -> {}); 
                             });
-                            nodeProduce(gold, Seq.with(new Research(mixer)), () -> {
-                                nodeProduce(goldGlass, () -> {});
-                                nodeProduce(uranium, () -> {
-                                    nodeProduce(enrichedUranium, () -> {
-                                        nodeProduce(uraniumCell, () -> {});
+                            nodeProduce(gold, Seq.with(new Research(enricher)), () -> {
+                                nodeProduce(goldGlass, () -> {
+                                    nodeProduce(molybdenum, () -> { 
                                     });
                                 });
                             });
@@ -211,7 +226,9 @@ public class TTechTrees {
                 });
             });
 
-            //region liquids
+            // endregion
+
+            // region liquids
             
             nodeProduce(neoplasm, () -> {
                 nodeProduce(water, () -> {
@@ -221,7 +238,9 @@ public class TTechTrees {
                 });
             });
 
-            //region sectors
+            // endregion
+
+            // region sectors
 
             node(initialization, () -> {
                 node(pegmatiteMountains, 
@@ -234,10 +253,10 @@ public class TTechTrees {
                     });
                 });
             });
+
+            // endregion
         });
-
-        //region venjer
-
+        
         TPlanets.venjer.techTree = nodeRoot("venjer", venjer, () -> {
         });
     }

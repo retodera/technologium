@@ -1,15 +1,15 @@
 name: t
 java: true
-minGameVersion: 145
+minGameVersion: 147
 main: technologium.Technologium
 displayName: "[[]#00fff2]Technologium"
 description: "[accent]<RU>[[]]
 \n[[]#00fff2]Technologium[[]] будет очередным большим модом для Mindustry. Уже многое запланировано, хотя практически ничто из этого не сделано.
 \n
 \nМод будет содержать в себе 2 солнечные системы, может даже больше; множество новых механик, много кампаний, ещё больше блоков, особенно предметов, жидкостей, юнитов и не только.
-\nПока что, только один человек - retodera - работает над модом. Но, если вы хороший спрайтер/кодер, вы можете помочь мне с всем этим. 
+\nПока что, только один человек - retodera - работает над модом. Но, если вы хороший спрайтер/маппер/кодер, вы можете помочь мне с всем этим. 
 Если это не так, вы всё ещё можете мотивировать меня, поставив звёздочку на репозитории.
-\nВы также можете присоединиться к нашему говносерверу Дискорд в репозитории.
+\nВы также можете присоединиться к нашему Дискорд в репозитории.
 \n[[]#7f7f7f]Мод должен расти.[[]]
 \n
 \n
@@ -17,17 +17,20 @@ description: "[accent]<RU>[[]]
 \n[[]#00fff2]Technologium[[]] will be another big mod for Mindustry. There's already so much planned, though practically none of it is finished.
 \n
 \nThe mod will contain a whole 2 solar systems, or maybe even more; lots of new mechanics, many campaigns, even more blocks, especially items, liquids, units and not only.
-\nFor now, only one person - retodera - works on the mod. But, if you're a good spriter/coder, you could help me with all of this. 
+\nFor now, only one person - retodera - works on the mod. But, if you're a good spriter/mapper/coder, you could help me with all of this. 
 If not, you could still motivate me by giving a star on the repository.
 \nYou also could join our shitty Discord server in the repository.
 \n[[]#7f7f7f]The mod must grow.[[]]"
-author: "[[]#ff]retodera[[]] - основатель мода и единственный работающий над ним
-\nА также благодарности:
-\nxDer - генератор идей
-\nПризрак - основатель сервера Дискорд
-\nnadocd - иногда помогает с кодом
-\ngkugfk3 - сделал саундтрек
-\nИ все, кто поставили звёздочку <3"
-subtitle: help me.
-version: v0.4
+author: "
+[[]#ff]retodera[[]] - Основатель мода; кодер, спрайтер, маппер
+\n[[]#ffffff7f]Призрак[[]] - Основатель сервера Discord; кодер
+\n[[]#2f2f75]gkugfk3[[]] - Звуковой дизайнер
+\n[[]#e5072f]Gor[[]] - Маппер
+\n[[]orange]xDer[[]] - Главный генератор идей
+\n[[]#ff3f3f]Kosmo[[]] - Заместитель генератора идей
+\n[[]#7f7f7f]И многие другие, которые тоже давали идеи...[[]]
+
+\nИ благодарности всем, кто поставил звёздочку <3"
+subtitle: Supremacy of Ъ.
+version: v0.4.3
 repo: retodera/technologium

@@ -10,10 +10,10 @@ import mindustry.Vars;
 public class ConfigProjector {
 
     public static class ConfigProjectorInstruction implements LExecutor.LInstruction {
-        int block, projSize, displaySize, x, y;
+        public LVar block, projSize, displaySize, x, y;
 
         public ConfigProjectorInstruction() {}
-        public ConfigProjectorInstruction(int block, int projSize, int displaySize, int x, int y) {
+        public ConfigProjectorInstruction(LVar block, LVar projSize, LVar displaySize, LVar x, LVar y) {
             this.block = block;
             this.projSize = projSize;
             this.displaySize = displaySize;
@@ -23,31 +23,24 @@ public class ConfigProjector {
 
         @Override
         public void run(LExecutor exec) {
-            Building build = exec.building(block);
+            Building build = block.building();
             if(build instanceof Projector.ProjectorBuild proj) {
-                proj.projSize = Mathf.clamp(exec.numf(projSize), 1, 16);
-                proj.displaySize = Mathf.clamp(exec.numi(displaySize), 1, 256);
-                proj.targetX = Mathf.clamp(exec.numf(x), proj.projSize / 2, Vars.world.width() - proj.projSize / 2);
-                proj.targetY = Mathf.clamp(exec.numf(y), proj.projSize / 2, Vars.world.height() - proj.projSize / 2);
+                proj.projSize = Mathf.clamp(projSize.numf(), 1, 16);
+                proj.displaySize = Mathf.clamp(displaySize.numi(), 1, 256);
+                proj.targetX = Mathf.clamp(x.numf(), proj.projSize / 2, Vars.world.width() - proj.projSize / 2);
+                proj.targetY = Mathf.clamp(y.numf(), proj.projSize / 2, Vars.world.height() - proj.projSize / 2);
             }
         }
     }
 
     public static class ConfigProjectorStatement extends LStatement {
-        public String block, projSize, displaySize, x, y;
-
-        public ConfigProjectorStatement() {
-            block = "projector1";
-            projSize = "size";
-            displaySize = "pixels";
-            x = "x";
-            y = "y";
-        }
+        public String block = "projector1", projSize = "1", displaySize = "128", x = "@thisx", y = "@thisy";
 
         public LCategory category() {
             return LCategory.block;
         }
 
+        @Override
         public void build(Table table) {
             table.clearChildren();
             table.add("configure ");
@@ -63,6 +56,7 @@ public class ConfigProjector {
             table.add(")");
         }
 
+        @Override
         public LExecutor.LInstruction build(LAssembler builder) {
             return new ConfigProjectorInstruction(builder.var(block), builder.var(projSize), builder.var(displaySize), builder.var(x), builder.var(y));
         }
@@ -77,6 +71,7 @@ public class ConfigProjector {
             return statement;
         }
 
+        @Override
         public void write(StringBuilder builder) {
             builder.append("configprojector ").append(block).append(" ").append(projSize).append(" ").append(displaySize).append(" ").append(x).append(" ").append(y);
         }

@@ -10,13 +10,10 @@ import technologium.world.blocks.logic.StringMemoryBlock.StringMemoryBuild;
 public class MemoryIO {
 
     public static class MemoryIOInstruction implements LExecutor.LInstruction {
-        public int ioMode;
-        public int result;
-        public int target;
-        public int id;
+        public LVar ioMode, result, target, id;
 
-        public MemoryIOInstruction(){}
-        public MemoryIOInstruction(int ioMode, int result, int target, int id){
+        public MemoryIOInstruction() {}
+        public MemoryIOInstruction(LVar ioMode, LVar result, LVar target, LVar id) {
             this.ioMode = ioMode;
             this.result = result;
             this.target = target;
@@ -25,37 +22,36 @@ public class MemoryIO {
 
         @Override
         public void run(LExecutor exec) {
-            boolean isWrite = exec.bool(ioMode);
-            Object obj = exec.building(target);
+            boolean isWrite = ioMode.bool();
+            Object obj = target.building(), res = result.obj();
+            int index = id.numi();
             String text;
-            if(exec.obj(result) instanceof String) text = (String)exec.obj(result);
-            else if(exec.obj(result) != null) text = exec.obj(result).toString();
+            if(res instanceof String str) text = str;
+            else if(res != null) text = res.toString();
             else text = "";
             if(obj instanceof MemoryBuild b){
-                int index = exec.numi(id);
                 if(!isWrite){
                     if(index < 0 || index >= b.memory.length){
-                        exec.setnum(result,0);
+                        result.setnum(0);
                         return;
                     }
-                    exec.setnum(result, b.memory[index]);
+                    result.setnum(b.memory[index]);
                 }
                 else {
                     if(index < 0 || index >= b.memory.length){
                         b.memory[index] = 0;
                         return;
                     }
-                    b.memory[index] = exec.num(result);
+                    b.memory[index] = result.num();
                 }
             }
             else if (obj instanceof StringMemoryBuild b) {
-                int index = exec.numi(id);
                 if(!isWrite){
                     if(index < 0 || index >= b.memory.length){
-                        exec.setobj(result,"");
+                        result.setobj("");
                         return;
                     }
-                    exec.setobj(result, b.memory[index]);
+                    result.setobj(b.memory[index]);
                 }
                 else {
                     if(index < 0 || index >= b.memory.length){
@@ -67,7 +63,7 @@ public class MemoryIO {
             }
             else if (obj instanceof MessageBuild b) {
                 MessageBlock bl = (MessageBlock)b.block;
-                if(!isWrite) exec.setobj(result, b.config());
+                if(!isWrite) result.setobj(b.config());
                 else if(b.message.toString() != text && text.length() <= bl.maxTextLength && bl.accessible()){
                     b.message.ensureCapacity(text.length());
                     b.message.setLength(0);
@@ -75,7 +71,7 @@ public class MemoryIO {
                 }
             }
             else {
-                if (!isWrite) exec.setobj(result, null);
+                if (!isWrite) result.setobj(null);
                 return;
             }
         }

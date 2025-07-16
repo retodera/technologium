@@ -102,6 +102,7 @@ public class TSorter extends Block{
 
     public class TSorterBuild extends Building{
         public boolean invert = false;
+        public boolean showItem = false;
         public @Nullable Item sortItem;
 
         @Override
@@ -124,6 +125,7 @@ public class TSorter extends Block{
                 Draw.color(sortItem.color);
                 Draw.rect(item, x, y);
                 Draw.color();
+                if(showItem) Draw.rect(sortItem.fullIcon, x, y, 4, 4);
             }
         }
 
@@ -178,7 +180,7 @@ public class TSorter extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            i rowCount = new i(), i = new i();
+            int[] rowCount = {0}, i = {0};
             ButtonGroup<ImageButton> group = new ButtonGroup<>();
             group.setMinCheckCount(0);
             Table cont = new Table().top();
@@ -188,16 +190,16 @@ public class TSorter extends Block{
                 cont.clearChildren();
 
                 for(Item item : Vars.content.items()){
-                    if(!item.unlockedNow() || Vars.state.rules.hiddenBuildItems.contains(item) || item.isHidden()) continue;
+                    if(!item.unlockedNow() || item.isHidden()) continue;
 
                     ImageButton button = cont.button(Tex.whiteui, Styles.clearNoneTogglei, Mathf.clamp(item.selectionSize, 0f, 40f), () -> control.input.config.hideConfig()).tooltip(item.localizedName).group(group).get();
                     button.changed(() -> configure(new Integer[] {button.isChecked() ? (int)item.id : -1, invert ? 1 : 0}));
                     button.getStyle().imageUp = new TextureRegionDrawable(item.uiIcon);
                     button.update(() -> button.setChecked(sortItem == item));
 
-                    if(i.add() % 4 == 3){
+                    if(i[0]++ % 4 == 3){
                         cont.row();
-                        rowCount.add();
+                        rowCount[0]++;
                     }
                 }
             };
@@ -217,12 +219,17 @@ public class TSorter extends Block{
             
             table.top().add(main);
             table.table(Styles.black6, t -> {
-                ImageButton button = t.button(Icon.refreshSmall, Styles.clearNoneTogglei, Mathf.clamp(36f, 0f, 40f), () -> {
+                ImageButton button = t.button(Icon.refreshSmall, Styles.clearNoneTogglei, 36f, () -> {
                     configure(new Integer[] {sortItem == null ? -1 : (int)sortItem.id, invert ? 0 : 1});
                     fx.at(x, y, size);
                     Vars.control.input.config.hideConfig();
                 }).tooltip(Core.bundle.format("lsorter.sort", invert ? Core.bundle.get("lsorter.inverted") : Core.bundle.get("lsorter.normal"))).get();
                 button.update(() -> button.setChecked(invert));
+                t.row();
+                ImageButton button2 = t.button(Icon.eyeSmall, Styles.clearNoneTogglei, 36f, () -> {
+                    showItem = !showItem;
+                }).tooltip(Core.bundle.get("lsorter.showitem")).get();
+                button2.update(() -> button2.setChecked(showItem));
             }).top();
         }
 
@@ -236,6 +243,7 @@ public class TSorter extends Block{
             super.write(write);
             write.s(sortItem == null ? -1 : sortItem.id);
             write.bool(invert);
+            write.bool(showItem);
         }
 
         @Override
@@ -243,19 +251,11 @@ public class TSorter extends Block{
             super.read(read, revision);
             sortItem = content.item(read.s());
             invert = read.bool();
+            showItem = read.bool();
 
             if(revision == 1){
                 new DirectionalItemBuffer(20).read(read);
             }
-        }
-
-        // "local variable i defined in an enclosing scope must be final or effetively final"
-        private class i {
-            int i = 0;
-
-            public i() {}
-            public int add() {return i++;}
-            public int get() {return i;}
         }
     }
 }

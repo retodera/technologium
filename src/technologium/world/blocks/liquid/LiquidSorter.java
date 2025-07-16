@@ -186,7 +186,7 @@ public class LiquidSorter extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            i rowCount = new i(), i = new i();
+            int[] rowCount = {0}, i = {0};
             ButtonGroup<ImageButton> group = new ButtonGroup<>();
             group.setMinCheckCount(0);
             Table cont = new Table().top();
@@ -203,9 +203,9 @@ public class LiquidSorter extends Block{
                     button.getStyle().imageUp = new TextureRegionDrawable(item.uiIcon);
                     button.update(() -> button.setChecked(sortItem == item));
 
-                    if(i.add() % 4 == 3){
+                    if(i[0]++ % 4 == 3){
                         cont.row();
-                        rowCount.add();
+                        rowCount[0]++;
                     }
                 }
             };
@@ -256,15 +256,6 @@ public class LiquidSorter extends Block{
             super.read(read, revision);
             sortItem = content.liquid(read.s());
             invert = read.bool();
-        }
-
-        // "local variable i defined in an enclosing scope must be final or effetively final"
-        private class i {
-            int i = 0;
-
-            public i() {}
-            public int add() {return i++;}
-            public int get() {return i;}
         }
     }
 }

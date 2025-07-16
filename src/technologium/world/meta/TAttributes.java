@@ -5,10 +5,14 @@ import mindustry.world.meta.Attribute;
 public class TAttributes {
     public static Attribute
     goldAttr,
-    neoplasmAttr;
+    neoplasmLiquid,
+    neoplasmWall,
+    pegmatiteWall;
 
     public static void load() {
         goldAttr = Attribute.add("gold");
-        neoplasmAttr = Attribute.add("neoplasm");
+        neoplasmLiquid = Attribute.add("neoplasm");
+        neoplasmWall = Attribute.add("neoplasm-wall");
+        pegmatiteWall = Attribute.add("pegmatite-wall");
     }
 }

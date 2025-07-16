@@ -2,16 +2,16 @@ package technologium.content;
 
 import arc.graphics.Color;
 import mindustry.game.Team;
+import technologium.graphics.TPal;
 
 //credits to FOS (Fictional Octo System) mod
 public class TTeams {
-    public static Team kaut, mita;
+    public static Team kaut;
     public static Team[] teams;
 
     public static void load(){
-        kaut = newTeam(28, "kaut", Color.valueOf("bf8f60"));
-        mita = newTeam(69, "mita", Color.valueOf("847cbf"));
-        teams = new Team[] {kaut, mita};
+        kaut = newTeam(28, "kaut", TPal.kaut3);
+        teams = new Team[] {kaut};
     }
 
     //modify any of 256 teams' properties

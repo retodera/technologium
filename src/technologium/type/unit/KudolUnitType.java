@@ -11,7 +11,7 @@ public class KudolUnitType extends UnitType {
         super(name);
         outlineColor = TPal.darkerOutline;
         envDisabled = Env.none;
-        ammoType = new ItemAmmoType(TItems.darkMetal);
+        ammoType = new ItemAmmoType(TItems.hematite);
         researchCostMultiplier = 8;
         isEnemy = true;
         createScorch = true;

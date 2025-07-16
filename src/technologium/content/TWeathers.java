@@ -43,7 +43,7 @@ public class TWeathers {
         }};
         
         neoplasticrain = new ProjectileWeather("neoplasticrain") {{
-            attrs.set(neoplasmAttr, 0.25f);
+            attrs.set(neoplasmLiquid, 0.25f);
             attrs.set(Attribute.light, -0.05f);
             color = TPal.neoplasm2;
             sound = Sounds.rain;
@@ -63,9 +63,8 @@ public class TWeathers {
                 collidesAir = false;
                 shootEffect = hitEffect = despawnEffect = Fx.none;
                 interaction = (build) -> {
-                    if(build.block.hasLiquids && build.liquids != null && build.liquids.get(Liquids.water) > 0) {
-                        Puddles.deposit(build.tile(), Liquids.neoplasm, 8);
-                    };
+                    if(build.block.hasLiquids && build.liquids != null && build.liquids.get(Liquids.water) > 0) 
+                        Puddles.deposit(build.tile, Liquids.neoplasm, 8);
                 };
             }};
         }};
@@ -82,7 +81,7 @@ public class TWeathers {
             maxAlpha = 0.8f;
             density = 2500f;
             baseSpeed = 5.5f;
-            attrs.set(neoplasmAttr, 1f);
+            attrs.set(neoplasmLiquid, 1f);
             attrs.set(Attribute.light, -0.35f);
             status = TStatusEffects.neoplasmCovered;
             statusDuration = 480;

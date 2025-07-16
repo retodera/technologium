@@ -6,6 +6,8 @@ import mindustry.entities.Effect;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.blocks.liquid.LiquidJunction;
+import technologium.world.meta.TStats;
+
 import static mindustry.Vars.tilesize;
 
 public class TempLiquidJunction extends LiquidJunction {
@@ -18,6 +20,12 @@ public class TempLiquidJunction extends LiquidJunction {
         super(name);
         solid = false;
         placeableLiquid = true;
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.addPercent(TStats.maxTemp, maxTemp);
     }
 
     public class TempLiquidJunctionBuild extends LiquidJunctionBuild {
