@@ -3,15 +3,20 @@ package technologium.entities.unit;
 import arc.struct.FloatSeq;
 import arc.struct.Seq;
 
+/**Modifies something in a unit. The value to modify is specified by name.
+ * @author nadocd
+ */
 public class ModificatorType {
     private static int count = 0;
     private static final Seq<ModificatorType> all = new Seq<>();
     public final int id;
     public final String name;
+    public final float multiplier;
 
-    public ModificatorType(String name) {
+    public ModificatorType(String name, float multiplier) {
         if(all.contains(mt->mt.name.equals(name)))throw new IllegalArgumentException("modifier '"+name+"' already exists");
         this.name = name;
+        this.multiplier = multiplier;
         id = count++;
         all.add(this);
     }
@@ -43,6 +48,6 @@ public class ModificatorType {
     }
 
     public static final ModificatorType
-            damageMultiplicative = new ModificatorType("damage");
+            damageModificator1 = new ModificatorType("damage", 1.5f);
     //TODO implement other modifiers
 }

@@ -27,6 +27,9 @@ import java.nio.FloatBuffer;
 import java.util.HashMap;
 
 //TODO implement other modifiers
+/**Modified MechUnit class to work with modificators.
+ * @author nadocd
+ */
 public class MechUnitM extends MechUnit implements UnitModification {
     private final MechUnit reference;
     public HashMap<ModificatorType, FloatSeq> modifiers = new HashMap<>(ModificatorType.total());

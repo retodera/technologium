@@ -31,7 +31,7 @@ public class Powder extends UnlockableContent implements Senseable {
     public float flammability;
     /** temperature: 0.5 is 'room' temperature, 0 is very cold, 1 is molten hot */
     public float temperature = 0.5f;
-    /** how prone to exploding this liquid is, when heated. 0 = nothing, 1 = nuke */
+    /** how prone to exploding this powder is, when heated. 0 = nothing, 1 = nuke */
     public float explosiveness;
     /** If true, this liquid is hidden in most UI. */
     public boolean hidden;

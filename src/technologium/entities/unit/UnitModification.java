@@ -6,6 +6,9 @@ import arc.util.io.Writes;
 
 import java.util.HashMap;
 
+/**Class for giving units support for modifications.
+ * @author nadocd
+ */
 public interface UnitModification {
     /// adds modification to unit
     default void add(ModificatorType mt, float value){

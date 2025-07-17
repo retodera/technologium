@@ -11,6 +11,7 @@ public class TLiquids {
 
     public static void load() {
         hydrochloricAcid = new Liquid("hydrochloric-acid", acid3) {{
+            lightColor = acid3;
             effect = TStatusEffects.corrosion;
             boilPoint = 2f;
             gasColor = color;
@@ -20,6 +21,7 @@ public class TLiquids {
         }};
 
         liquidNitrogen = new Liquid("liquid-nitrogen", purple3) {{
+            lightColor = purple3;
             coolant = true;
             heatCapacity = 1.4f;
             temperature = -2.3f;
@@ -35,6 +37,7 @@ public class TLiquids {
         }};
 
         liquidPlasma = new Liquid("liquid-plasma", plasma3) {{
+            lightColor = plasma3;
             temperature = 2.8f;
             boilPoint = 0.1f;
             gasColor = color;
@@ -42,6 +45,7 @@ public class TLiquids {
         }};
 
         lava = new Liquid("lava", lava2) {{
+            lightColor = lava3;
             temperature = 1.4f;
             boilPoint = 2f;
             gasColor = color;

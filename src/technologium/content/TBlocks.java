@@ -3,6 +3,7 @@
 package technologium.content;
 
 import arc.graphics.*;
+import arc.math.Interp;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.entities.*;
@@ -87,7 +88,7 @@ public class TBlocks {
     volcanicBoulder, volcanicSandBoulder, pegmatiteBoulder,
 
     //turrets
-    comet, constellation, meteor, strike, needle,
+    comet, constellation, meteor, strike, needle, squall, discharge,
 
     //production
     metallicPlasmaBore, miniPlasmaBore, wallCrusher, metallicDrill, advancedDrill, extractorDrill, pot, agriculturalCrane,
@@ -406,7 +407,7 @@ public class TBlocks {
             range = 80f;
             health = 380;
             recoil = 2f;
-            reload = 60f;
+            cooldownTime = reload = 60f;
             consumePower(0.25f);
             shootSound = Sounds.blaster;
             drawer = new DrawTurret("kudol-");
@@ -506,14 +507,14 @@ public class TBlocks {
             rotateSpeed = 1.8f;
             drawer = new DrawTurret("kudol-"){{
                 parts.addAll(
+                    new RegionPart("-mid"){{
+                        mirror = false;
+                    }},
                     new RegionPart("-gun"){{
                         heatProgress = PartProgress.recoil;
                         heatColor = red1;
                         progress = PartProgress.recoil;
                         moveY = -3f;
-                        mirror = false;
-                    }},
-                    new RegionPart("-top"){{
                         mirror = false;
                     }}
                 );
@@ -637,7 +638,7 @@ public class TBlocks {
                     }},
                     new RegionPart("-side"){{
                         mirror = true;
-                        progress = PartProgress.recoil;
+                        progress = PartProgress.recoil.curve(Interp.pow3Out);
                         moveX = 1f;
                         moveY = -1.7f;
                         moveRot = -30f;
@@ -1508,28 +1509,29 @@ public class TBlocks {
             liquidCapacity = 250;
             switchStyle = detailed;
             consumeLiquid(Liquids.water, 45 / 60f).boost();
+            outlineColor = darkerOutline;
             optionalIntensity = 1.5f;
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new TDrawGlowRegion("-heat"){{
-                    layer = 30.5f;
+                    layer = 30.1f;
                     color = red3;
                 }},
                 new DrawLiquidMulti(16f, 1f),
                 new DrawRegion("-rotator", 0.25f, true){{
-                    layer = 30.75f;
+                    layer = 30.2f;
                 }},
                 new TDrawGlowRegion("-rotator-heat"){{
                     rotate = true;
                     rotateSpeed = 0.25f;
                     color = neoplasm3;
-                    layer = 30.8f;
+                    layer = 30.3f;
                 }},
                 new DrawRegion("-top"){{
-                    layer = 30.9f;
+                    layer = 30.4f;
                 }},
                 new TDrawGlowRegion("-top-heat"){{
-                    layer = 31f;
+                    layer = 30.5f;
                     color = red3;
                 }}
             );
@@ -1736,7 +1738,7 @@ public class TBlocks {
             squareSprite = false;
         }};
 
-        metallicUnloader = new Unloader("metallic-unloader") {{
+        metallicUnloader = new TUnloader("metallic-unloader") {{
             requirements(Category.effect, with(darkMetal, 20, aluminium, 10));
             speed = 60 / 15f;
         }};

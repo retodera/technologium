@@ -23,7 +23,9 @@ public class TTechTrees {
                 // region production
 
                 node(metallicDrill, () -> {
-                    node(advancedDrill);
+                    node(advancedDrill, () -> {
+                        node(extractorDrill);
+                    });
                     node(metallicPlasmaBore, () -> {
                         node(miniPlasmaBore, () -> {
                         });
@@ -71,13 +73,26 @@ public class TTechTrees {
                 // region liquids
 
                 node(improvedConduit, () -> {
+                    node(liquidPump);
                     node(improvedLiquidJunction, () -> {
-                        node(improvedLiquidRouter);
+                        node(improvedLiquidRouter, () -> {
+                            node(improvedLiquidContainer, () -> {
+                                node(improvedLiquidTank);
+                            });
+                        });
                         node(improvedLiquidBridge);
                         node(improvedLiquidSorter);
-                        node(improvedLiquidContainer);
                     });
-                    node(advancedConduit);
+                    node(advancedConduit, () -> {
+                        node(advancedLiquidJunction, () -> {
+                            node(advancedLiquidRouter, () -> {
+                                node(advancedLiquidContainer, () -> {
+                                    node(advancedLiquidTank);
+                                });
+                            });
+                            node(advancedLiquidBridge);
+                        });
+                    });
                 });
 
                 // endregion
@@ -85,6 +100,7 @@ public class TTechTrees {
                 // region power
 
                 node(thermalPlate, () -> {
+                    node(cliffThermalPlate);
                     node(energeticNode, () -> {
                         node(energeticNodeLarge);
                         node(lithiumBattery, () -> {
@@ -125,6 +141,7 @@ public class TTechTrees {
                     node(longRangeRadar, () -> {});
                 });
                 node(miniMender, () -> {
+                    node(mendProjector);
                     node(miniShieldProjector);
                 });
                 node(coreBlaze, () -> {          
@@ -135,9 +152,13 @@ public class TTechTrees {
                 // region defense
 
                 node(metallicWall, () -> {
-                    node(metallicWallLarge);
+                    node(metallicWallLarge, () -> {
+                        node(metallicWallHuge);
+                    });
                     node(armoredWall, () -> {
-                        node(armoredWallLarge);
+                        node(armoredWallLarge, () -> {
+                            node(armoredWallHuge);
+                        });
                     });
                 });
 
