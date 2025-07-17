@@ -4,9 +4,9 @@
 <br>
 
 # Java mod for Mindustry. Will eventually overgrow everything.
+## Links
 ![commitb]  
 [![discordb]][discord]
-#
 ## About
 </div>
 
@@ -25,19 +25,8 @@ What will come out faster: Mindustry V8 or Technologium 1.0 (Fully Unleashed Cam
 ### Content
 Previously, there was a count of each block, unit, etc. but now, there's just too much of them. <br>
 Besides adding new content, the mod adds lots of other things, most of which can be seen in the corresponding settings category.  
-\[retodera\]: i call most those other things "fun things".
-
-### Mechanics
-The mod has alot of special items called "technologies". They are crafted from other items or technologies They exist so it would be a bit harder to make everything. The idea for that was taken from Factorio.
-
-In the future updates, there will be a [kinetic force mechanic](PLANS#kinetic-force--stress). It will work just like in Project Unity or in a minecraft mod Create. Various blocks will create and require kinetic force.
-
-### Planets
-In development:  
-Kudol: is a volcanic planet with pegmatite formations and neoplastic infection. The idea was taken from Erekir. It'll be like a tutorial to the mod itself. After completion, access to other planets will be open.
-
-Plans:  
-Venjer: at first was randomly made up, until the Factorio Space Age DLC came out. Now, Venjer will be a little copy of Gleba planet. Also, it'll be the hardest planet.
+\[retodera\]: i call most those other things "fun things". <br>
+The most important thing in the mod is PRODUCTION. Mass production, to be more exact. There will be tonns of items, ways to produce and use them. Advanced things will be very costly.
 
 <div align=center>
 
@@ -45,7 +34,7 @@ Venjer: at first was randomly made up, until the Factorio Space Age DLC came out
 ![cat]
 
 [discordb]: https://img.shields.io/discord/1320403715483762780?style=for-the-badge&label=discord
-[commitb]: https://img.shields.io/github/last-commit/retodera/technologium?style=for-the-badge&label=last%20update
+[commitb]: https://img.shields.io/github/last-commit/retodera/technologium?style=for-the-badge&label=last%20commit
 [discord]: https://discord.gg/x3D2Qbadmb
 [logo]: assets/sprites/ui/logo/tlogo.png
-[cat]: assets/sprites/cat.png
+[cat]: assets/sprites/ui/cat.png
