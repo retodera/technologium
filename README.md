@@ -47,5 +47,5 @@ Venjer: at first was randomly made up, until the Factorio Space Age DLC came out
 [discordb]: https://img.shields.io/discord/1320403715483762780?style=for-the-badge&label=discord
 [commitb]: https://img.shields.io/github/last-commit/retodera/technologium?style=for-the-badge&label=last%20update
 [discord]: https://discord.gg/x3D2Qbadmb
-[logo]: assets/sprites/logo.png
+[logo]: assets/sprites/ui/logo/tlogo.png
 [cat]: assets/sprites/cat.png
