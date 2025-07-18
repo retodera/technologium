@@ -19,7 +19,6 @@ ext{
     mindustryVersion = 'v149'
     jabelVersion = "93fde537c7"
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
-    sdkRoot = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk"
 }
 
 allprojects{
@@ -49,11 +48,11 @@ task jarAndroid{
     dependsOn "jar"
 
     doLast{
-        def platformRoot = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\platforms\\android-34"
+        def platformRoot = isWindows?"C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\platforms\\android-34":"/opt/android-studio/plugins/android/lib/";
 
         def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect{ "--classpath $it.path" }.join(" ")
 
-        def d8 = "C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\build-tools\\35.0.1\\d8-modification.bat"
+        def d8 = isWindows?"C:\\Users\\retod\\AppData\\Local\\Android\\Sdk\\build-tools\\35.0.1\\d8-modification.bat":"d8"
 
         "$d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
             .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
