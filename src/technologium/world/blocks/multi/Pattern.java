@@ -1,6 +1,9 @@
 package technologium.world.blocks.multi;
 
 import arc.math.geom.Point2;
+import mindustry.content.Blocks;
+import mindustry.gen.Building;
+import mindustry.world.Block;
 import technologium.util.Pair;
 
 /**
@@ -22,7 +25,7 @@ public class Pattern {
         this.useRotation = useRotation;
         this.data[0]=data;
         for (Pair<BlockPart, Point2> pair : this.data[0]) {
-            if(pair.first.isMain&&pair.second.equals(0,0)){
+            if(pair.first.isMain()&&pair.second.equals(0,0)){
                 main= pair.first;
             }
         }
@@ -44,19 +47,21 @@ public class Pattern {
     }
 
     /// for visual things (retodera delete if not needed)
-    public float calculatePercentage(BlockPart.BuildPart build){
-        if(!build.isMain() || build.block != this.main)return 0;
+    public float calculatePercentage(Building build){
+        if(!(build.block instanceof BlockPart bp) || !bp.isMain() || bp != this.main)return 0;
         float result=0;
         for (Pair<BlockPart, Point2> offset : data[useRotation?build.rotation:0]) {
-            if(build.nearby(offset.second.x,offset.second.y).block == offset.first)result++;
+            Block nearby = build.nearby(offset.second.x,offset.second.y).block;
+            if(nearby instanceof BlockPart bpN && bpN == offset.first)result++;
         }
         return result/data.length;
     }
 
-    public boolean matches(BlockPart.BuildPart build){
-        if(!build.isMain() || build.block != this.main)return false;
+    public boolean matches(Building build){
+        if(!(build.block instanceof BlockPart bp) || !bp.isMain() || bp != this.main)return false;
         for (Pair<BlockPart, Point2> offset : data[useRotation?build.rotation:0]) {
-            if(build.nearby(offset.second.x,offset.second.y).block != offset.first)return false;
+            Block nearby = build.nearby(offset.second.x,offset.second.y).block;
+            if (!(nearby instanceof BlockPart bpN) || bpN != offset.first) return false;
         }
         return true;
     }
