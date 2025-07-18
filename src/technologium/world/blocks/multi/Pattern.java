@@ -33,9 +33,10 @@ public class Pattern {
         }
     }
 
+    @SuppressWarnings({"DataFlowIssue", "unchecked"})
     private Pair<BlockPart,Point2>[] rotate(int val){
-        var base = data[0];
-        var rotated = new Pair[base.length];
+        Pair<BlockPart, Point2>[] base = data[0];
+        Pair<BlockPart, Point2>[] rotated = new Pair[base.length];
         for (int i = 0; i < base.length; i++) {
             rotated[i]=new Pair<>(base[i].first,base[i].second.cpy().rotate(val));
         }
