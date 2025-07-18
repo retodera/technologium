@@ -26,7 +26,6 @@ import technologium.entities.unit.*;
 import java.nio.FloatBuffer;
 import java.util.HashMap;
 
-//TODO implement other modifiers
 /**Modified MechUnit class to work with modificators.
  * @author nadocd
  */
@@ -190,11 +189,13 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.allowCommand();
     }
 
+    /// implemented
     @Override
     public boolean canBuild() {
-        return reference.canBuild();
+        return reference.canBuild()||this.<Boolean>compute(ModificatorType.forceCanBuild);
     }
 
+    /// pending
     @Override
     public boolean canDrown() {
         return reference.canDrown();
@@ -720,11 +721,13 @@ public class MechUnitM extends MechUnit implements UnitModification {
         reference.controller(next);
     }
 
+    /// pending as 'toughness'
     @Override
     public void damage(float amount) {
         reference.damage(amount);
     }
 
+    /// pending as 'toughness'
     @Override
     public void damage(float amount, boolean withEffect) {
         reference.damage(amount, withEffect);
@@ -1155,6 +1158,7 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.ammo();
     }
 
+    /// pending
     @Override
     public float armor() {
         return reference.armor();
@@ -1175,9 +1179,10 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.buildSpeedMultiplier();
     }
 
+    /// implemented
     @Override
     public float damageMultiplier() {
-        return reference.damageMultiplier();
+        return reference.damageMultiplier()*this.<Float>compute(ModificatorType.damage);
     }
 
     @Override
@@ -1245,6 +1250,7 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.lastY();
     }
 
+    /// pending
     @Override
     public float maxHealth() {
         return reference.maxHealth();
@@ -1255,6 +1261,7 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.mineTimer();
     }
 
+    /// pending
     @Override
     public float reloadMultiplier() {
         return reference.reloadMultiplier();
@@ -1280,9 +1287,10 @@ public class MechUnitM extends MechUnit implements UnitModification {
         return reference.shieldAlpha();
     }
 
+    /// implemented
     @Override
     public float speedMultiplier() {
-        return reference.speedMultiplier();
+        return reference.speedMultiplier()*this.<Float>compute(ModificatorType.speed);
     }
 
     @Override

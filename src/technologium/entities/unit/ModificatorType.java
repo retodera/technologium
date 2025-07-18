@@ -1,6 +1,5 @@
 package technologium.entities.unit;
 
-import arc.struct.FloatSeq;
 import arc.struct.Seq;
 
 /**Modifies something in a unit. The value to modify is specified by name.
@@ -8,15 +7,17 @@ import arc.struct.Seq;
  */
 public class ModificatorType {
     private static int count = 0;
+    /// all created MTs, used for checking duplicates and finding by name or id
     private static final Seq<ModificatorType> all = new Seq<>();
+    /// used for I/O
     public final int id;
     public final String name;
-    public final float multiplier;
+    public final boolean isBool;
 
-    public ModificatorType(String name, float multiplier) {
-        if(all.contains(mt->mt.name.equals(name)))throw new IllegalArgumentException("modifier '"+name+"' already exists");
+    private ModificatorType(String name, boolean isBool) {
+        if(all.contains(mt->name.equals(mt.name)))throw new IllegalArgumentException("modifier '" + name + "' already exists");
         this.name = name;
-        this.multiplier = multiplier;
+        this.isBool = isBool;
         id = count++;
         all.add(this);
     }
@@ -48,6 +49,9 @@ public class ModificatorType {
     }
 
     public static final ModificatorType
-            damageModificator1 = new ModificatorType("damage", 1.5f);
+    damage = new ModificatorType("damage", false),
+    speed = new ModificatorType("speed", false),
+    forceCanBuild = new ModificatorType("can-build", true)
+    ;
     //TODO implement other modifiers
 }

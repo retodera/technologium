@@ -3,7 +3,7 @@ package technologium.game;
 import arc.audio.Music;
 
 public class TEventType {
-    public static enum TTrigger {
+    public enum TTrigger {
         welcoming1start,
         welcoming1end,
         welcoming2start,
