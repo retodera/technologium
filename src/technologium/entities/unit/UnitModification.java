@@ -13,11 +13,11 @@ import java.util.HashMap;
  */
 public interface UnitModification {
     /// adds modification to unit
-    default void add(ModificatorType mt, float value) {
+    default void add(ModifierType mt, float value) {
         getModifiers().computeIfAbsent(mt, k -> new FloatSeq()).add(value);
     }
     /// adds boolean modification to unit
-    default void add(ModificatorType mt, boolean value) {
+    default void add(ModifierType mt, boolean value) {
         add(mt,value?1:0);
     }
 
@@ -26,7 +26,7 @@ public interface UnitModification {
      *
      * @return was value removed
      */
-    default boolean remove(ModificatorType mt, float value) {
+    default boolean remove(ModifierType mt, float value) {
         FloatSeq values = getModifiers().get(mt);
         if (values == null) return false;
         return values.removeValue(value);
@@ -37,12 +37,14 @@ public interface UnitModification {
      *
      * @return was value removed
      */
-    default boolean remove(ModificatorType mt, boolean value) {
+    default boolean remove(ModifierType mt, boolean value) {
         return remove(mt,value?1:0);
     }
 
-    /// multiplies all values corresponding to given MT
-    default <T> T compute(ModificatorType mt) {
+    /** multiplies all values corresponding to given MT
+     * in booleans {@code false} has higher priority
+     */
+    default <T> T compute(ModifierType mt) {
         Object result=null;
         FloatSeq values = getModifiers().get(mt);
         float calc = 1;
@@ -60,11 +62,11 @@ public interface UnitModification {
         return (T)(result!=null?result:mt.isBool?calc:calc != 0);
     }
 
-    /// if returns null, {@link NullPointerException} will be thrown
-    HashMap<ModificatorType, FloatSeq> getModifiers();
+    /** @implNote if returns null, {@link NullPointerException} will be thrown*/
+    HashMap<ModifierType, FloatSeq> getModifiers();
 
     /// just read method's name
-    static void writeModifiers(Writes w, HashMap<ModificatorType, FloatSeq> mds) {
+    static void writeModifiers(Writes w, HashMap<ModifierType, FloatSeq> mds) {
         //pairs' count
         w.i(mds.size());
         mds.forEach((mt, fs) -> {
@@ -76,12 +78,12 @@ public interface UnitModification {
         });
     }
 
-    /// reverse of {@link UnitModification#writeModifiers(Writes, HashMap)}
-    static HashMap<ModificatorType, FloatSeq> readModifiers(Reads r) {
+    /** reverse of {@link UnitModification#writeModifiers(Writes, HashMap)}*/
+    static HashMap<ModifierType, FloatSeq> readModifiers(Reads r) {
         int pairs = r.i();
-        HashMap<ModificatorType, FloatSeq> mds = new HashMap<>(pairs);
+        HashMap<ModifierType, FloatSeq> mds = new HashMap<>(pairs);
         for (int i = 0; i < pairs; i++) {
-            ModificatorType mt = ModificatorType.getByID(r.i());
+            ModifierType mt = ModifierType.getByID(r.i());
             int size = r.i();
             FloatSeq fs = new FloatSeq(size);
             for (int j = 0; j < size; j++) {
