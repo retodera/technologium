@@ -1,7 +1,7 @@
-<div align=center>
+<div style="font-family:'Monospace'">
+<div>
 
 # What Technologium will have in the future
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-haha, funny.
-there's no more need to contain everything planned.
+<h3>There is no future</h3>
+</div>

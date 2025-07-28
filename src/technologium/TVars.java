@@ -16,6 +16,7 @@ import arc.util.*;
 import mindustry.Vars;
 import mindustry.gen.*;
 import mindustry.type.*;
+import rhino.ImporterTopLevel;
 import technologium.audio.*;
 import technologium.core.TEventControl;
 import technologium.core.TFunny;
@@ -29,7 +30,6 @@ import static technologium.game.TEventType.TTrigger.*;
 
 public class TVars implements ApplicationListener {
     public static Calendar cal = new GregorianCalendar();
-
     public static AtlasRegion loadedLogo;
 
     public static TSettingsMenuDialog settings;
@@ -148,7 +148,7 @@ public class TVars implements ApplicationListener {
     }
 
     Music musByName(String name) {
-        if(Vars.headless) return new Music();
+        if(headless) return new Music();
         if(name == "current") return TMusic.menu;
         if(name.startsWith("t-")) {
             var fi = Technologium.tmod.root.child("music");
@@ -159,7 +159,7 @@ public class TVars implements ApplicationListener {
                 return new Music();
             }
         }
-        else return Vars.tree.loadMusic(name);
+        else return tree.loadMusic(name);
     }
     
     public static Seq<Item> fruits(boolean plantable) {
@@ -193,7 +193,7 @@ public class TVars implements ApplicationListener {
                 Core.settings.put("t-discord", false);
                 hide();
             });
-            if(Vars.mobile) buttons.row();
+            if(mobile) buttons.row();
             buttons.button("@openlink", Icon.discord, () -> {
                 if(!Core.app.openURI(tdiscordURL)){
                     ui.showErrorMessage("@linkfail");
@@ -202,7 +202,7 @@ public class TVars implements ApplicationListener {
                 Core.settings.put("t-discord", false);
                 hide();
             });
-            if(Vars.mobile) buttons.row();
+            if(mobile) buttons.row();
             buttons.button("@close", Icon.cancel, this::hide).row();
             closeOnBack();
         }}.show();
@@ -210,8 +210,8 @@ public class TVars implements ApplicationListener {
 
     // permanently borrowed from Steam Works
     public static void dev() {
-		Vars.mods.getScripts().runConsole("importPackage(Packages.rhino)");
-		Vars.mods.getScripts().runConsole(
+		mods.getScripts().runConsole("importPackage(Packages.rhino)");
+		mods.getScripts().runConsole(
 			"""
 				function importModClass(name){
 
@@ -227,32 +227,32 @@ public class TVars implements ApplicationListener {
 
 				}"""
 		);
-		Vars.mods.getScripts().runConsole("importModClass(\"technologium\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.audio\")");
-		Vars.mods.getScripts().runConsole("importModClass(\"technologium.content\")");
-		Vars.mods.getScripts().runConsole("importModClass(\"technologium.entities\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.entities.bullet\")");
-		Vars.mods.getScripts().runConsole("importModClass(\"technologium.graphics\")");
-		Vars.mods.getScripts().runConsole("importModClass(\"technologium.logic\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.type\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.type.unit\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.type.weapons\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.ui\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.ui.dialogs\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.ui.settings\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.distribution\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.environment\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.liquid\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.logic\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.power\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.production\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.storage\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.units\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.draw\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.meta\")");
-        Vars.mods.getScripts().runConsole("importModClass(\"technologium.world.weather\")");
+		mods.getScripts().runConsole("importModClass(\"technologium\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.audio\")");
+		mods.getScripts().runConsole("importModClass(\"technologium.content\")");
+		mods.getScripts().runConsole("importModClass(\"technologium.entities\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.entities.bullet\")");
+		mods.getScripts().runConsole("importModClass(\"technologium.graphics\")");
+		mods.getScripts().runConsole("importModClass(\"technologium.logic\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.type\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.type.unit\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.type.weapons\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.ui\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.ui.dialogs\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.ui.settings\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.distribution\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.environment\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.liquid\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.logic\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.power\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.production\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.storage\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.units\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.draw\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.meta\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.weather\")");
         // used a lot
-        Vars.mods.getScripts().runConsole("""
+        mods.getScripts().runConsole("""
             function tekObjectKeys(object){
                 return Object.keys(object).forEach(function (item, index, array) { print(item) });
             }

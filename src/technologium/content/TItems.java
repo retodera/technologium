@@ -1,7 +1,11 @@
 package technologium.content;
 
+import arc.Events;
 import arc.graphics.Color;
+import arc.math.Mathf;
 import arc.struct.*;
+import mindustry.Vars;
+import mindustry.game.EventType;
 import mindustry.type.Item;
 import technologium.type.Fruit;
 import technologium.type.ItemTechnology;
@@ -268,5 +272,21 @@ public class TItems {
         /* fruits */
             leptine, leptineSeed
         );
+
+        new Item("random"){
+            {
+                Events.run(EventType.Trigger.beforeGameUpdate,()->{
+                    if(Math.random()>.25)return;
+                    Item r=Vars.content.items().random();
+                    explosiveness=r.explosiveness;
+                    flammability=r.flammability;
+                    radioactivity=r.radioactivity;
+                    charge=r.charge;
+                    hidden=r.hidden;
+                    color=r.color;
+                });
+                cost=-1.0F;
+            }
+        };
     }
 }

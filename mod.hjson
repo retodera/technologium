@@ -1,6 +1,6 @@
 name: t
 java: true
-minGameVersion: 147
+minGameVersion: 150
 main: technologium.Technologium
 displayName: "[[]#00fff2]Technologium"
 description: "[accent]<RU>[[]]
@@ -13,7 +13,7 @@ description: "[accent]<RU>[[]]
 \n[[]#7f7f7f]Мод должен расти.[[]]
 \n
 \n
-[accent]<ENG>[[]]
+[accent]<EN>[[]]
 \n[[]#00fff2]Technologium[[]] will be another big mod for Mindustry. There's already so much planned, though practically none of it is finished.
 \n
 \nThe mod will contain a whole 2 solar systems, or maybe even more; lots of new mechanics, many campaigns, even more blocks, especially items, liquids, units and not only.

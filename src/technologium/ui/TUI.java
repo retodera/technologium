@@ -16,7 +16,7 @@ public class TUI {
     private long lastToast;
 
     private void scheduleToast(Runnable run){
-        long duration = (int)(3.5 * 1000);
+        long duration = 3500;
         long since = Time.timeSinceMillis(lastToast);
         if(since > duration){
             lastToast = Time.millis();

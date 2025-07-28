@@ -40,6 +40,7 @@ import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import technologium.entities.pattern.*;
+import technologium.world.blocks.unproportional.Test;
 import technologium.world.draw.*;
 import technologium.world.meta.TAttributes;
 import technologium.world.blocks.distribution.*;
@@ -1903,5 +1904,8 @@ public class TBlocks {
         // endregion
 
         // endregion
+
+        //no reference needed
+        new Test("test2x3",2,3);
     }
 }

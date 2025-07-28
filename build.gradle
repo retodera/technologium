@@ -16,7 +16,7 @@ java{
 }
 
 ext{
-    mindustryVersion = 'v149'
+    mindustryVersion = 'v150'
     jabelVersion = "93fde537c7"
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 }
