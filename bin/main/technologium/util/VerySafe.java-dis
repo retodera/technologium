@@ -1,0 +1,175 @@
+package technologium.util;
+
+import arc.func.Cons2;
+import arc.util.Log;
+import mindustry.logic.LExecutor;
+import mindustry.logic.LogicOp;
+import sun.misc.Unsafe;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+/**very safe class with very safe methods
+ * <div style="color:'#7f7f7f';">i made this because i had nothing to do</div>
+ * <p>aUtHor: NadOCd
+ */
+@SuppressWarnings("unchecked")
+public class VerySafe {
+    /**
+     * global {@link Unsafe} reference
+     */
+    public static final Unsafe unsafe;
+
+    static {try{
+        Field field = Unsafe.class.getDeclaredField("theUnsafe");
+        field.setAccessible(true);
+        unsafe= (Unsafe) field.get(null);
+    }catch (Throwable th){throw new RuntimeException(th);}}
+
+    /**preserves circular references
+     * @param recursive if false any object (except arrays) will be passed to that same method,
+     * else cloning most likely to be shallow*/
+    public static <T> T forceClone(T in,boolean recursive){try{
+        Class<T> t = (Class<T>) in.getClass();
+        T instance = (T) unsafe.allocateInstance(t);
+        for (Field field : t.getDeclaredFields()) {
+            field.setAccessible(true);
+            Class<?> cl = field.getType();
+            Object o = field.get(in);
+            if(cl.isPrimitive()) field.set(instance, o);
+            else if (o == in) {
+                field.set(instance, instance);
+            } else if (cl.isArray()) {
+                field.set(instance, ((Object[]) o).clone());
+            } else if (recursive) {
+                field.set(instance, forceClone(o,true));
+            } else {
+                field.set(instance, o);
+            }
+        }
+        return instance;
+    }catch (Throwable th){throw new RuntimeException(th);}}
+
+    /**
+     * sets value regardless of field modificators, won't throw exception if it occurs
+     * <p>nothing will be done if</p>
+     * <ul>
+     *     <li>{@code at} or {@code clazz} is null</li>
+     *     <li>{@code object} is null and field isn't static</li>
+     *     <li>field doesn't exist</li>
+     * </ul>
+     * @param value value that will be set
+     * @param at field name
+     * @param object instance to modify
+     * @return was field modified
+     */
+    public static <T> boolean set(Object value,String at, Class<T> clazz,T object){
+        if(clazz==null||at==null)return false;
+        try {
+            Field field = clazz.getField(at);
+            field.setAccessible(true);
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+            field.set(object,value);
+            return true;
+        }catch (Throwable th){
+            return false;
+        }
+    }
+    public static <T,K> T get(String at,Class<K> klass, K optional) {
+        if(at==null||klass==null)return null;
+        try{
+            Field f = klass.getDeclaredField(at);
+            f.setAccessible(true);
+            return (T) f.get(optional);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static final HashMap<Class<? extends Enum<?>>,ArrayList<String>> allocated=new HashMap<>();
+    static {
+        allocated.put(null,new ArrayList<>(0){
+            @Override
+            public boolean contains(Object o) {
+                return true;
+            }
+
+            @Override
+            public boolean add(String string) {
+                return false;
+            }
+        });
+    }
+
+    /**
+     * java in ohio, probably "very safe"
+     * @param enumClass class instance of you want to get
+     * @param name name of enum object
+     * @param id ordinal, make this whatever you want
+     * @param initializer optional initializer, can't call &lt;init&gt; on enums
+     * @param otherFields optional values for other fields (like private because you can't access them in custom &lt;init&gt;)
+     * @return instance of enum, but {@code T.values()} won't be modified, same with {@link T#valueOf(Class, String)}
+     * @param <T> type of enum
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Enum<T>> T enumInstance(Class<T> enumClass, String name, int id, Consumer<T> initializer, Map<String,?> otherFields){
+        ArrayList<String> present = allocated.computeIfAbsent(enumClass, k -> new ArrayList<>());
+        if(present.contains(name))throw new IllegalArgumentException("already exists/name:"+name+"/class:"+enumClass);
+        if(name==null)return null;
+        try {
+            try {
+                return (T) enumClass.getMethod("valueOf", Class.class, String.class).invoke(null,enumClass,name);
+            }catch (Throwable th) {
+                T inst=(T)unsafe.allocateInstance(enumClass);
+                Field ordinalF = Enum.class.getDeclaredField("ordinal");
+                Field nameF = Enum.class.getDeclaredField("name");
+                unsafe.putInt(inst,unsafe.objectFieldOffset(ordinalF),id);
+                unsafe.putObject(inst,unsafe.objectFieldOffset(nameF),name);
+                if(otherFields!=null)otherFields.forEach((field,value)->{try{
+                    Field f = enumClass.getDeclaredField(field);
+                    if(value.getClass()!=f.getType())return;
+                    f.setAccessible(true);
+                    f.set(inst,value);
+                }catch (Throwable ignore){}});
+                if(initializer!=null)initializer.accept(inst);
+                return inst;
+            }
+        }catch (Throwable th) {
+            return null;
+        }
+    }
+
+    public static final class Mindustry {
+        //region logic
+        public static void maxInstructions(int limit) {
+            if(VerySafe.<LExecutor>set(limit,"maxInstructions",LExecutor.class, null)){
+                Log.debug("LExecutor.maxInstructions + "+limit);
+            }else Log.warn("LExecutor.maxInstructions - "+limit);
+        }
+        public static void textBuffer(int limit) {
+            if(VerySafe.<LExecutor>set(limit,"maxTextBuffer",LExecutor.class, null)){
+                Log.debug("LExecutor.maxTextBuffer + "+limit);
+            }else Log.warn("LExecutor.maxTextBuffer - "+limit);
+        }
+
+        /* as soon as i'll know how to substitute methods
+        public static LogicOp LogicOp(String symbol, boolean func, Cons2<Double,Double> function){
+
+            Map<String,?> s=Map.of(
+                    "symbol",symbol,
+                    "function2" , function,
+                    "unary" , false,
+                    "func" , func
+            );
+
+        }*/
+        //endregion
+
+    }
+}

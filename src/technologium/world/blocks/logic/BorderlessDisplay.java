@@ -1,6 +1,5 @@
 package technologium.world.blocks.logic;
 
-import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.FrameBuffer;

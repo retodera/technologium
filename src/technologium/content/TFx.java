@@ -3,7 +3,6 @@ package technologium.content;
 import arc.math.*;
 import arc.math.geom.Vec2;
 import mindustry.entities.Effect;
-import mindustry.graphics.Pal;
 import technologium.graphics.TPal;
 
 import static arc.graphics.g2d.Draw.*;

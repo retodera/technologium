@@ -2,7 +2,6 @@ package technologium.content;
 
 import arc.Events;
 import arc.graphics.Color;
-import arc.math.Mathf;
 import arc.struct.*;
 import mindustry.Vars;
 import mindustry.game.EventType;
@@ -25,8 +24,8 @@ public class TItems {
         enrichedMetal, enrichedAluminium,
 
     /* advanced */ 
-        aerogel, molybdenum, rhenium,
-        iron, calcium, silicon, silica,
+        molybdenum, rhenium, iron, calcium,
+        silicon,
 
         cannedNeoplasm, trainedNeoplasm,
         
@@ -40,7 +39,7 @@ public class TItems {
         leptine, leptineSeed,
     
     /* other */
-        theimpossible, condom
+        theimpossible
     ;
 
     public static final Seq<Item> kudolItems = new Seq<>(), venjerItems = new Seq<>();
@@ -120,10 +119,6 @@ public class TItems {
 
         // region advanced
 
-        aerogel = new Item("aerogel", Color.valueOf("e0e0e0")) {{
-            cost = 2f;
-        }};
-
         molybdenum = new Item("molybdenum", purpur3) {{
             cost = 2.5f;
         }};
@@ -144,11 +139,7 @@ public class TItems {
         silicon = new Item("silicon", wnb5) {{
             cost = 2f;
         }}; 
-
-        silica = new Item("silica", wnb8) {{
-            cost = 2f;
-        }};
-                
+         
         necrohexin = new Item("necrohexin", orange3) {{
             flammability = 5f;
             explosiveness = 5f;
@@ -241,11 +232,6 @@ public class TItems {
             hidden = !debug;
         }};
 
-        condom = new Item("condom", Color.red) {{
-            cost = flammability = explosiveness = radioactivity = charge = hardness = 2147483647;
-            hidden = !debug;
-        }};
-
         // endregion
 
         kudolItems.addAll(
@@ -258,8 +244,8 @@ public class TItems {
             enrichedMetal, enrichedAluminium,
 
         /* advanced */ 
-            aerogel, molybdenum, rhenium,
-            iron, calcium, silicon, silica,
+            molybdenum, rhenium, iron, calcium,
+            silicon,
 
             cannedNeoplasm, trainedNeoplasm,
             

@@ -28,9 +28,9 @@ import static technologium.LoggingUtils.um_custom_log_why;
 
 //TODO no rotation sadly
 
-// /**
-// * {@link technologium.util.VerySafe} is safer to use than this garbage
-// */
+/**
+* {@link technologium.util.VerySafe} is safer to use than this garbage
+*/
 public class Test extends Block {
     //region trash
     public final int w;

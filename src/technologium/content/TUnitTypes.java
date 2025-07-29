@@ -16,8 +16,6 @@ import mindustry.entities.part.*;
 import mindustry.entities.part.DrawPart.*;
 
 import technologium.type.unit.*;
-import technologium.entities.pattern.*;
-import arc.func.*;
 import arc.graphics.*;
 import arc.math.*;
 
@@ -611,7 +609,7 @@ public class TUnitTypes {
                 recoilTime = 60f;
 
                 shootSound = Sounds.missile;
-                shoot = new TShootBarrel() {{
+                shoot = new ShootBarrel() {{
                     barrels = new float[] {
                         -2.25f, 1, 0,
                         0, 0, 0,
@@ -634,16 +632,14 @@ public class TUnitTypes {
                 }};
                 parts.add(new RegionPart("-mid"){{
                     recoilIndex = 1;
-                    progress = PartProgress.recoil;
-                    heatProgress = PartProgress.recoil;
+                    progress = heatProgress = PartProgress.recoil;
                     moveY = -2;
                     layerOffset = -0.01f;
                 }});
                 for(int i : Mathf.signs) {
                     parts.add(new RegionPart(i == 1 ? "-r" : "-l"){{
                         recoilIndex = i == 1 ? 2 : 0;
-                        progress = PartProgress.recoil;
-                        heatProgress = PartProgress.recoil;
+                        progress = heatProgress = PartProgress.recoil;
                         moveX = 1 * i;
                         moveY = -2;
                         moveRot = 7.5f * i;

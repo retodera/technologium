@@ -5,14 +5,13 @@ import mindustry.gen.Building;
 import mindustry.world.Block;
 import technologium.util.Pair;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * pattern of multiblock
  * @author nadocd
  */
+@SuppressWarnings("unchecked")
 public class Pattern {
     // colorful javadocs yay!
     /**
@@ -48,7 +47,6 @@ public class Pattern {
      * @param val amount of steps, step == pi/2
      * @return rotated data[0]
      */
-    @SuppressWarnings({"DataFlowIssue", "unchecked"})
     private Pair<BlockPart,Point2>[] rotate(int val){
         Pair<BlockPart, Point2>[] base = data[0];
         Pair<BlockPart, Point2>[] rotated = new Pair[base.length];

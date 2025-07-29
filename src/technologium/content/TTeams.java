@@ -1,6 +1,7 @@
 package technologium.content;
 
 import arc.graphics.Color;
+import mindustry.Vars;
 import mindustry.game.Team;
 import technologium.graphics.TPal;
 
@@ -12,6 +13,10 @@ public class TTeams {
     public static void load(){
         kaut = newTeam(28, "kaut", TPal.kaut3);
         teams = new Team[] {kaut};
+    }
+
+    public static void addLogicVars() {
+        for(Team team : teams) Vars.logicVars.put("@"+team.name, team);
     }
 
     //modify any of 256 teams' properties

@@ -1,21 +1,15 @@
 package technologium.world.blocks.power;
 
 import arc.*;
-import arc.func.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.*;
-import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.meta.*;

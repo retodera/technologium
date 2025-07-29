@@ -11,6 +11,7 @@ import java.util.HashMap;
  *
  * @author nadocd
  */
+@SuppressWarnings("unchecked")
 public interface UnitModification {
     /// adds modification to unit
     default void add(ModifierType mt, float value) {

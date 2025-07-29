@@ -11,7 +11,6 @@ import mindustry.gen.*;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.TreeBlock;
 import mindustry.world.meta.BuildVisibility;
-import technologium.type.Fruit;
 
 import static mindustry.Vars.*;
 

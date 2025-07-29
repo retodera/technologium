@@ -3,11 +3,9 @@ package technologium.content;
 import mindustry.type.*;
 import static technologium.graphics.TPal.*;
 
-import arc.graphics.Color;
-
 public class TLiquids {
     public static Liquid
-    hydrochloricAcid, liquidNitrogen, carbon, liquidPlasma, lava, ammonia, ammoniaWater, distilledWater;
+    hydrochloricAcid, liquidNitrogen, carbon, liquidPlasma, lava;
 
     public static void load() {
         hydrochloricAcid = new Liquid("hydrochloric-acid", acid3) {{
@@ -50,24 +48,6 @@ public class TLiquids {
             boilPoint = 2f;
             gasColor = color;
             incinerable = false;
-        }};
-
-        ammonia = new Liquid("ammonia", lime3) {{
-            gas = true;
-            flammability = 0.1f;
-            incinerable = false;
-        }};
-
-        ammoniaWater = new Liquid("ammonia-water", Color.valueOf("68a598")){{
-            heatCapacity = 0.5f;
-            boilPoint = 2.5f;
-            gasColor = Color.grays(0.9f);
-        }};
-
-        distilledWater = new Liquid("distilled-water", Color.valueOf("8698cd")){{
-            heatCapacity = 0.7f;
-            boilPoint = 2f;
-            gasColor = Color.grays(0.9f);
         }};
     }
 }

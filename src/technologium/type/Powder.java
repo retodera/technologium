@@ -1,19 +1,11 @@
 package technologium.type;
 
 import arc.graphics.Color;
-import arc.graphics.g2d.*;
-import arc.math.Mathf;
 import arc.math.Rand;
-import arc.struct.ObjectSet;
 import arc.util.*;
-import mindustry.content.*;
 import mindustry.ctype.*;
-import mindustry.entities.Effect;
-import mindustry.graphics.Drawf;
 import mindustry.logic.LAccess;
 import mindustry.logic.Senseable;
-import mindustry.type.*;
-import mindustry.world.Tile;
 import mindustry.world.meta.*;
 
 public class Powder extends UnlockableContent implements Senseable {

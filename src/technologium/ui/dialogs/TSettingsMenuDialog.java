@@ -53,7 +53,6 @@ public class TSettingsMenuDialog {
 
             pref(new SeparatorSetting("@t-rsettings", 2));
             pref(new TCheckSetting("t-lang", false));
-            pref(new TCheckSetting("t-mimusic", false));
             pref(new TCheckSetting("t-reactwithmods", true));
             pref(new SpaceSetting(30));
 
@@ -75,14 +74,13 @@ public class TSettingsMenuDialog {
             t.pref(new SeparatorSetting("@t-game", 2));
             t.pref(new TCheckSetting("t-distributor", true));
             t.pref(new TCheckSetting("t-yr2", false));
-            t.pref(new TCheckSetting("t-speed", false));
             t.pref(new SpaceSetting(30));
             
             t.pref(new SeparatorSetting("@t-music", 2));
-            Seq<String> musics = Seq.with("current", "t-origmenu", "t-tmenu", "t-aprilmenu", "t-whiletrue");
-            if(getPast("t-fun") && getPast("t-debug")) musics.add("t-mistake", "t-mistakee");
-            if(getPast("t-mimusic")) musics.add("t-musicmenu", "t-musicmenuupd");
+                Seq<String> musics = Seq.with("current", "t-origmenu", "t-tmenu", "t-aprilmenu", "t-whiletrue");
+            if(getPast("t-fun") && getPast("t-debug")) musics.add("t-mistake", "t-mistakee", "t-musicmenu", "t-musicmenuupd");
             t.pref(new StringSliderSetting("t-menumusic", "tmenu", musics.toArray(String.class)));
+            t.pref(new ButtonSetting("t-menumusic", () -> {}));
             t.pref(new TCheckSetting("t-muspopup", false));
             t.pref(new SpaceSetting(30));
 

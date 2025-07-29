@@ -1,29 +1,20 @@
 package technologium;
 
-import arc.Core;
-import arc.Events;
-import arc.func.Func;
-import arc.func.Prov;
-import arc.util.Log;
+import technologium.content.*;
 import mindustry.content.Liquids;
+import arc.func.*;
+import arc.util.*;
+import arc.*;
 import mindustry.game.EventType;
-import mindustry.gen.Building;
-import mindustry.gen.LogicIO;
-import mindustry.logic.LAssembler;
-import mindustry.logic.LStatement;
-import mindustry.mod.Mod;
-import mindustry.mod.Mods;
+import mindustry.gen.*;
+import mindustry.logic.*;
+import mindustry.mod.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.ConstructBlock;
-import technologium.audio.TMusic;
-import technologium.audio.TSounds;
-import technologium.content.*;
+import technologium.audio.*;
 import technologium.entities.unit.DummyUnit;
-import technologium.graphics.TEmojis;
-import technologium.graphics.TShaders;
-import technologium.logic.ConfigProjector;
-import technologium.logic.MemoryIO;
-//import technologium.util.VerySafe;
+import technologium.graphics.*;
+import technologium.logic.*;
 import technologium.world.blocks.multi.Patterns;
 import technologium.world.blocks.unproportional.Test;
 import technologium.world.meta.TAttributes;
@@ -40,7 +31,7 @@ public class Technologium extends Mod {
     }
 
     public Technologium() {
-        maxSchematicSize = 1000;
+        maxSchematicSize = 999;
         renderer.minZoom = Math.min(renderer.minZoom, 0.3f);
         renderer.maxZoom = Math.max(renderer.maxZoom, 100);
     }
@@ -65,7 +56,6 @@ public class Technologium extends Mod {
         TSectors.load();
         TTechTrees.load();
         Patterns.load();
-
     }
 
     @Override
@@ -83,6 +73,8 @@ public class Technologium extends Mod {
             MemoryIO.MemoryIOStatement::new,
             ConfigProjector.ConfigProjectorStatement::new
         ).forEach(prov -> LogicIO.allStatements.add(prov));
+
+        TTeams.addLogicVars();
 
         // disabled
         //VerySafe.Mindustry.textBuffer(690);

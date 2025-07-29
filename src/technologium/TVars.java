@@ -13,20 +13,16 @@ import arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import arc.scene.ui.Dialog;
 import arc.struct.*;
 import arc.util.*;
-import mindustry.Vars;
 import mindustry.gen.*;
 import mindustry.type.*;
-import rhino.ImporterTopLevel;
 import technologium.audio.*;
-import technologium.core.TEventControl;
-import technologium.core.TFunny;
+import technologium.core.*;
 import technologium.game.TEventType.MusicChangeEvent;
 import technologium.type.Fruit;
 import technologium.ui.TUI;
 import technologium.ui.dialogs.TSettingsMenuDialog;
 
 import static mindustry.Vars.*;
-import static technologium.game.TEventType.TTrigger.*;
 
 public class TVars implements ApplicationListener {
     public static Calendar cal = new GregorianCalendar();
@@ -50,7 +46,6 @@ public class TVars implements ApplicationListener {
     // public static boolean mindustryBday = debug || (cal.get(Calendar.MONTH) == Calendar.OCTOBER && cal.get(Calendar.DAY_OF_MONTH) >= 15 && cal.get(Calendar.DAY_OF_MONTH) <= 17);
 
     public static Seq<String> enabledMods = new Seq<>();
-    private static String modReact = "";
 
     public static void load() {
         loadedLogo = new AtlasRegion(Core.atlas.find("logo"));

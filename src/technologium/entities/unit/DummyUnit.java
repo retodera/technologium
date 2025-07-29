@@ -1,40 +1,28 @@
 package technologium.entities.unit;
 
-import arc.Events;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.geom.Position;
-import arc.math.geom.QuadTree;
-import arc.math.geom.Rect;
-import arc.math.geom.Vec2;
+import arc.math.geom.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Bits;
-import arc.util.Timer;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
+import arc.util.io.*;
 import mindustry.ai.types.CommandAI;
 import mindustry.content.Blocks;
-import mindustry.ctype.Content;
-import mindustry.ctype.UnlockableContent;
+import mindustry.ctype.*;
 import mindustry.entities.EntityCollisions;
-import mindustry.entities.units.BuildPlan;
-import mindustry.entities.units.StatusEntry;
-import mindustry.entities.units.UnitController;
-import mindustry.game.EventType;
+import mindustry.entities.units.*;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.logic.LAccess;
-import mindustry.type.Item;
-import mindustry.type.StatusEffect;
-import mindustry.type.UnitType;
-import mindustry.world.Block;
-import mindustry.world.Tile;
+import mindustry.type.*;
+import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.storage.CoreBlock;
 
 import java.nio.FloatBuffer;
 
+@SuppressWarnings("all")
 public class DummyUnit extends Unit {
     private static DummyUnit instance;
 

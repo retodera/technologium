@@ -5,41 +5,27 @@ package technologium.content;
 import arc.graphics.*;
 import arc.math.Interp;
 import arc.struct.*;
-import mindustry.*;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
-import mindustry.entities.part.DrawPart.*;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.unit.*;
 import mindustry.world.*;
-import mindustry.world.blocks.*;
-import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.logic.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.sandbox.*;
-import mindustry.world.blocks.storage.*;
 import mindustry.world.blocks.units.*;
-import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import mindustry.content.Fx;
-import mindustry.content.Liquids;
-import mindustry.content.StatusEffects;
-import technologium.entities.pattern.*;
+import mindustry.content.*;
 import technologium.world.blocks.unproportional.Test;
 import technologium.world.draw.*;
 import technologium.world.meta.TAttributes;
@@ -50,13 +36,11 @@ import technologium.world.blocks.storage.*;
 import technologium.world.blocks.production.*;
 import technologium.world.blocks.power.*;
 import technologium.world.blocks.environment.*;
-import technologium.graphics.TPal;
 import technologium.graphics.TShaders;
 import technologium.type.*;
 import multicraft.*;
 
 import static multicraft.RecipeSwitchStyle.*;
-import static mindustry.Vars.*;
 import static technologium.TVars.*;
 import static mindustry.type.ItemStack.*;
 import static technologium.graphics.TPal.*;
@@ -70,13 +54,15 @@ public class TBlocks {
 
     //environment - walls
     volcanicWall, volcanicSandWall, acidWall, neoplasticWall, neoplasticTree, neoplasticTreeBloom, pegmatiteWall,
-    darkWall, oldDarkWall, ashWall, ashTree, hotAshWall, hotAshTree,
+    darkWall, oldDarkWall, ashWall, ashTree, hotAshWall, hotAshTree, tuffWall, solidLavaWall,
 
     leptineTree, neoplasticVine,
 
     //environment - floors
     volcanicStone, volcanicSandFloor, volcanicCrater, thermalStone, acidFloor, neoplasticFloor,
-    pegmatiteStone, ash, hotAsh,
+    pegmatiteStone, ash, hotAsh, tuffFloor, solidLavaFloor,
+
+    tuffFumarole, solidLavaFumarole,
 
     neoplasticLiquid, shallowNeoplasm, hydrochloricAcidLiquid, lavaLiquid,
 
@@ -86,7 +72,7 @@ public class TBlocks {
     hematiteOre, tinWallOre, bauxiteOre,
 
     //environment - props
-    volcanicBoulder, volcanicSandBoulder, pegmatiteBoulder,
+    volcanicBoulder, volcanicSandBoulder, pegmatiteBoulder, solidLavaBoulder,
 
     //turrets
     comet, constellation, meteor, strike, needle, squall, discharge,
@@ -109,7 +95,7 @@ public class TBlocks {
 
     //crafting
     arcFurnace, arcSmelter, atmosphericCondenser, trainingCenter, acidElectrolyzer, itemConstructor, enricher, filter,
-    blockCrafter, packer, chemicalPlant, lavaExtractor,
+    blockCrafter, packer, lavaExtractor,
 
     //defense
     metallicWall, metallicWallLarge, metallicWallHuge, armoredWall, armoredWallLarge, armoredWallHuge,
@@ -153,7 +139,7 @@ public class TBlocks {
 
             emitLight = true;
             lightRadius = 20;
-            lightColor = TPal.neoplasm3.a(0.25f);
+            lightColor = neoplasm3.a(0.25f);
         }};
 
         pegmatiteWall = new StaticWall("pegmatite-wall") {{
@@ -164,13 +150,13 @@ public class TBlocks {
         neoplasticTree = new TreeBlock("neoplastic-tree") {{
             emitLight = true;
             lightRadius = 35;
-            lightColor = TPal.neoplasm3.cpy().a(0.35f);
+            lightColor = neoplasm3.cpy().a(0.35f);
         }};
 
         neoplasticTreeBloom = new TreeBlock("neoplastic-tree-bloom") {{
             emitLight = true;
             lightRadius = 45;
-            lightColor = TPal.neoplasm3.cpy().a(0.45f);
+            lightColor = neoplasm3.cpy().a(0.45f);
         }};
 
         leptineTree = new GrowingTreeBlock("leptine-tree") {{
@@ -216,7 +202,15 @@ public class TBlocks {
 
             emitLight = true;
             lightRadius = 20;
-            lightColor = TPal.neoplasm3.cpy().a(0.5f);
+            lightColor = neoplasm3.cpy().a(0.5f);
+        }};
+
+        tuffWall = new StaticWall("tuff-wall") {{
+            variants = 3;
+        }};
+
+        solidLavaWall = new StaticWall("solid-lava-wall") {{
+            variants = 3;
         }};
 
         // endregion
@@ -262,7 +256,7 @@ public class TBlocks {
 
             emitLight = true;
             lightRadius = 15;
-            lightColor = TPal.neoplasm3.cpy().a(0.15f);
+            lightColor = neoplasm3.cpy().a(0.15f);
         }};
 
         pegmatiteStone = new Floor("pegmatite-stone", 4) {{
@@ -285,7 +279,7 @@ public class TBlocks {
 
             emitLight = true;
             lightRadius = 20;
-            lightColor = TPal.neoplasm3.cpy().a(0.5f);
+            lightColor = neoplasm3.cpy().a(0.5f);
         }};
 
         shallowNeoplasm = new ShallowLiquid("shallow-neoplasm") {{
@@ -297,7 +291,7 @@ public class TBlocks {
 
             emitLight = true;
             lightRadius = 20;
-            lightColor = TPal.neoplasm3.cpy().a(0.35f);
+            lightColor = neoplasm3.cpy().a(0.35f);
         }};
 
         hydrochloricAcidLiquid = new Floor("hydrochloric-acid-liquid", 0) {{
@@ -369,6 +363,24 @@ public class TBlocks {
             lightColor = orange3.cpy().a(0.22f);
         }};
 
+        tuffFloor = new Floor("tuff-floor", 3) {{
+            wall = tuffWall;
+        }};
+
+        solidLavaFloor = new Floor("solid-lava-floor", 3) {{
+            wall = solidLavaWall;
+        }};
+
+        tuffFumarole = new SteamVent("tuff-fumarole") {{
+            parent = blendGroup = tuffFloor;
+            attributes.set(Attribute.water, 1f);
+        }};
+
+        solidLavaFumarole = new SteamVent("solid-lava-fumarole") {{
+            parent = blendGroup = solidLavaFloor;
+            attributes.set(Attribute.water, 1f);
+        }};
+
         // endregion
 
         // region environment - ores
@@ -394,6 +406,10 @@ public class TBlocks {
         }};
 
         pegmatiteBoulder = new Prop("pegmatite-boulder") {{
+            variants = 2;
+        }};
+
+        solidLavaBoulder = new Prop("solid-lava-boulder") {{
             variants = 2;
         }};
 
@@ -436,28 +452,28 @@ public class TBlocks {
             minWarmup = 0.96f;
             shootWarmupSpeed = 0.1f;
             recoils = 2;
-            shoot = new TShootAlternate(7f){{
-                offsetY = -1f;
-            }};
+            shootY = 7f;
+            shoot = new ShootAlternate(7f);
             drawer = new DrawTurret("kudol-"){{
                 parts.add(new RegionPart("-side"){{
                     mirror = true;
                     under = true;
-                    moveX = 2f;
-                    moveY = 0.75f;
+                    moveX = 3.5f;
+                    moveY = 1f;
+                    moveRot = -45f;
                     layerOffset = -0.02f;
                     turretHeatLayer = Layer.turret - 0.01f;
                     heatProgress = PartProgress.warmup;
                     heatColor = lithium3.cpy().a(0.9f);
-                    moves.add(new PartMove(PartProgress.recoil, -1f, -2f, 15));
+                    moves.add(new PartMove(PartProgress.recoil, 0, -1f, 0));
                 }},
                 new RegionPart("-mid"){{
-                    moveY = 2f;
+                    moveY = 1f;
                 }},
                 new RegionPart("-gun-l"){{
                     under = true;
-                    moveX = -1.75f;
-                    moveY = 0.25f;
+                    moveX = -2.5f;
+                    moveY = -1.5f;
                     recoilIndex = 0;
                     progress = PartProgress.warmup;
                     heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
@@ -466,8 +482,8 @@ public class TBlocks {
                 }},
                 new RegionPart("-gun-r"){{
                     under = true;
-                    moveX = 1.75f;
-                    moveY = 0.25f;
+                    moveX = 2.5f;
+                    moveY = -1.5f;
                     recoilIndex = 1;
                     progress = PartProgress.warmup;
                     heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
@@ -1292,17 +1308,6 @@ public class TBlocks {
                         fluids = LiquidStack.with(Liquids.neoplasm, 30);
                     }};
                     craftTime = 60f;
-                }},
-                // silica -> silicon
-                new Recipe() {{
-                    input = new IOEntry() {{
-                        items = with(silica, 1);
-                        power = 75/60f;
-                    }};
-                    output = new IOEntry() {{
-                        items = with(silicon, 1);
-                    }};
-                    craftTime = 180f;
                 }}
             );
         }};
@@ -1550,43 +1555,12 @@ public class TBlocks {
                 }} 
             );
         }};
-
-        chemicalPlant = new MultiCrafter("chemical-plant"){{
-            requirements(Category.crafting, with(darkMetal, 110, aluminium, 75, lithium, 40, cog, 45));
-            health = 1150;
-            size = 4;
-            rotate = false;
-            squareSprite = false;
-            drawer = new DrawMulti(
-                new DrawRegion("-bottom"),
-                new DrawLiquidMulti(0.9f){{
-                    padBottom = padLeft = 7f;
-                    padTop = 20f;
-                    padRight = 14f;
-                }},
-                new DrawDefault() // TODO Add pistons, cogs
-            );
-
-            resolvedRecipes = Seq.with(
-                new Recipe() {{
-                    input = new IOEntry() {{
-                        fluids = LiquidStack.with(carbon, 35/60f);
-                        items = with(silica, 1);
-                        power = 225 / 60f;
-                    }};
-                    output = new IOEntry() {{
-                        items = with(aerogel, 1);
-                        fluids = LiquidStack.with(ammonia, 15/60f);
-                    }};
-                    craftTime = 1200f;
-                }}
-            );
-        }};
-       
+   
         lavaExtractor = new Separator("lava-extractor") {{
             requirements(Category.crafting, with(darkMetal, 160, armorPlate, 35, molybdenum, 45, accumulator, 5));
             health = 1205;
             size = 3;
+            squareSprite = false;
             craftTime = 90f;
             liquidCapacity = 210;
             consumePower(140 / 60f);
@@ -1606,7 +1580,7 @@ public class TBlocks {
             results = with(
                 iron, 7,
                 calcium, 4,
-                silica, 2
+                silicon, 2
             );
         }};
 

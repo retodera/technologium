@@ -4,8 +4,7 @@ import arc.struct.*;
 import arc.util.io.*;
 import mindustry.gen.*;
 import mindustry.logic.LAccess;
-import technologium.entities.unit.ModifierType;
-import technologium.entities.unit.UnitModification;
+import technologium.entities.unit.*;
 
 import java.util.HashMap;
 
