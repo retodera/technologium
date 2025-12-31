@@ -6,8 +6,7 @@ import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.type.Item;
-import mindustry.type.ItemStack;
+import mindustry.type.*;
 import technologium.type.ItemTechnology;
 
 public class Recipe {
@@ -20,6 +19,8 @@ public class Recipe {
     public Color iconColor;
 
     public Effect craftEffect = Fx.none;
+    /**for {@linkplain CatMultiCrafter} */
+    public @Nullable RecipeCat category;
 
     public Recipe() {}
 
@@ -40,64 +41,64 @@ public class Recipe {
         output.cacheUnique();
     }
 
-    public boolean isConsumeItem() {
+    public boolean consumesItems() {
         return input.items.length > 0;
     }
 
-    public boolean isOutputItem() {
+    public boolean outputsItems() {
         return output.items.length > 0;
     }
 
-    public boolean isConsumeFluid() {
+    public boolean consumesLiquids() {
         return input.fluids.length > 0;
     }
 
-    public boolean isOutputFluid() {
+    public boolean outputsLiquids() {
         return output.fluids.length > 0;
     }
 
-    public boolean isConsumePower() {
+    public boolean consumesPower() {
         return input.power > 0f;
     }
 
-    public boolean isOutputPower() {
+    public boolean outputsPower() {
         return output.power > 0f;
     }
 
-    public boolean isConsumeHeat() {
+    public boolean consumesHeat() {
         return input.heat > 0f;
     }
 
-    public boolean isOutputHeat() {
+    public boolean outputsHeat() {
         return output.heat > 0f;
     }
 
-    public boolean isConsumePayload() {
+    public boolean consumesPayloads() {
         return input.payloads.length > 0;
     }
 
-    public boolean isOutputPayload() {
+    public boolean outputsPayloads() {
         return output.payloads.length > 0;
     }
 
     public boolean hasItems() {
-        return isConsumeItem() || isOutputItem();
+        return consumesItems() || outputsItems();
     }
 
-    public boolean hasFluids() {
-        return isConsumeFluid() || isOutputFluid();
+    public boolean hasLiquids() {
+        return consumesLiquids() || outputsLiquids();
     }
 
     public boolean hasPower() {
-        return isConsumePower() || isOutputPower();
+        return consumesPower() || outputsPower();
     }
 
     public boolean hasHeat() {
-        return isConsumeHeat() || isOutputHeat();
+        return consumesHeat() || outputsHeat();
     }
 
     public boolean hasPayloads() {
-        return isConsumePayload() || isOutputPayload();
+        return consumesPayloads() || outputsPayloads();
     }
 
     public int maxItemAmount() {
@@ -123,9 +124,9 @@ public class Recipe {
     @Override
     public String toString() {
         return "Recipe{" +
-                "input=" + input +
-                "output=" + output +
-                "craftTime" + craftTime +
-                "}";
+               "input=" + input +
+               "output=" + output +
+               "craftTime" + craftTime +
+               "}";
     }
 }

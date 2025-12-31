@@ -95,8 +95,8 @@ public class ItemConstructor extends MultiCrafter {
                 drawArms();
                 
                 float a = Draw.getColor().a;
-                Draw.alpha(Mathf.floor(craftingTime / getCurRecipe().craftTime * (getCurRecipe().craftTime / makeSpeed)) / (getCurRecipe().craftTime / makeSpeed));
-                Draw.rect(getCurRecipe().output.items[0].item.fullIcon, x, y, itemSize, itemSize);
+                Draw.alpha(Mathf.floor(craftingTime / curRecipe().craftTime * (curRecipe().craftTime / makeSpeed)) / (curRecipe().craftTime / makeSpeed));
+                Draw.rect(curRecipe().output.items[0].item.fullIcon, x, y, itemSize, itemSize);
                 Draw.alpha(a);
 
                 //continue drawing drawers after the DrawDefault

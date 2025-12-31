@@ -27,7 +27,7 @@ public class TTechTrees {
                         node(extractorDrill);
                     });
                     node(metallicPlasmaBore, () -> {
-                        node(miniPlasmaBore, () -> {
+                        node(advancedPlasmaBore, () -> {
                         });
                     });
                 });
@@ -53,8 +53,6 @@ public class TTechTrees {
                         node(metallicDistributor);
                         node(metallicJunction);
                         node(metallicBridgeConveyor, () -> {
-                            node(mechanicalDriver, () -> {
-                            });
                         });
                         node(metallicOverflowGate, () -> {
                             node(metallicUnderflowGate);
@@ -141,7 +139,6 @@ public class TTechTrees {
                     node(longRangeRadar, () -> {});
                 });
                 node(miniMender, () -> {
-                    node(mendProjector);
                     node(miniShieldProjector);
                 });
                 node(coreBlaze, () -> {          
@@ -184,22 +181,21 @@ public class TTechTrees {
                     node(cobra, () -> {
                     }); 
                     node(blade, () -> {
-                        node(saber, Seq.with(new Research(unitRefabricator)), () -> {
+                        node(saber, Seq.with(), () -> {
                         });
                     });
                     node(mercury, () -> {
-                        node(mars, Seq.with(new Research(unitRefabricator)), () -> {
+                        node(mars, Seq.with(), () -> {
                         });
                     });
                     node(cobra, () -> {
-                        node(python, Seq.with(new Research(unitRefabricator)), () -> { 
+                        node(python, Seq.with(), () -> { 
                         });
                     });
                     node(metallicPayloadConveyor, () -> {
                         node(largePayloadConveyor);
                     });
-                    node(unitRefabricator, Seq.with(new Research(armorPlate), new Research(water), new Research(theimpossible)), () -> {
-                    });
+                    
                 });
 
                 // endregion
@@ -238,7 +234,8 @@ public class TTechTrees {
                             });
                             nodeProduce(gold, Seq.with(new Research(enricher)), () -> {
                                 nodeProduce(goldGlass, () -> {
-                                    nodeProduce(molybdenum, () -> { 
+                                    nodeProduce(ademarium, () -> { 
+                                        nodeProduce(pyrolite, () -> {});
                                     });
                                 });
                             });
@@ -252,10 +249,14 @@ public class TTechTrees {
             // region liquids
             
             nodeProduce(neoplasm, () -> {
-                nodeProduce(water, () -> {
-                    nodeProduce(liquidNitrogen, () -> {
+                nodeProduce(scarletWater, () -> {});
+                nodeProduce(heavyWater, () -> {
+                    nodeProduce(freon, () -> {
 
                     });
+                });
+                nodeProduce(carbon, () -> {
+                    nodeProduce(sulfur, () -> {});
                 });
             });
 
@@ -276,9 +277,6 @@ public class TTechTrees {
             });
 
             // endregion
-        });
-        
-        TPlanets.venjer.techTree = nodeRoot("venjer", venjer, () -> {
         });
     }
 }

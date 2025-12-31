@@ -81,7 +81,7 @@ public abstract class RecipeSwitchStyle {
                 button.replaceImage(img);
                 button.getImageCell().scaling(Scaling.fit).size(Vars.iconLarge);
                 button.changed(() -> c.configure(finalI));
-                button.update(() -> button.setChecked(c.curRecipeIndex == finalI));
+                button.update(() -> button.setChecked(c.recipeId == finalI));
                 t.add(button).grow().margin(10f);
                 if (i != 0 && i % 3 == 0) {
                     t.row();
@@ -102,7 +102,7 @@ public abstract class RecipeSwitchStyle {
                     () -> c.configure(finalI));
                 if (recipe.iconColor != null)
                     button.setColor(recipe.iconColor);
-                button.update(() -> button.setChecked(c.curRecipeIndex == finalI));
+                button.update(() -> button.setChecked(c.recipeId == finalI));
                 t.add(button).size(50f);
                 if (i != 0 && i % 3 == 0) {
                     t.row();
@@ -130,7 +130,7 @@ public abstract class RecipeSwitchStyle {
                 bt.add(out).pad(6f);
                 button.replaceImage(bt);
                 button.changed(() -> c.configure(finalI));
-                button.update(() -> button.setChecked(c.curRecipeIndex == finalI));
+                button.update(() -> button.setChecked(c.recipeId == finalI));
                 t.add(button).grow().pad(8f).margin(10f);
             }
             table.add(t).grow();
@@ -152,7 +152,7 @@ public abstract class RecipeSwitchStyle {
                 int finalI = i;
                 ImageButton button = new ImageButton(Styles.clearTogglei);
                 button.changed(() -> c.configure(finalI));
-                button.update(() -> button.setChecked(c.curRecipeIndex == finalI));
+                button.update(() -> button.setChecked(c.recipeId == finalI));
                 button.replaceImage(t);
                 table.add(button).pad(5f).margin(10f).grow();
                 table.row();

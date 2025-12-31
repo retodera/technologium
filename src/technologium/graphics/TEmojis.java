@@ -86,12 +86,12 @@ public class TEmojis {
                 .add(new GenData(true, "mms-hmm", Core.atlas.find("t-mms-hmm")))
                 .add(new GenData(true, "mms-kk", Core.atlas.find("t-mms-kk")))
                 .add(new GenData(true, "mms-nice", Core.atlas.find("t-mms-nice")))
+                .add(new GenData(true, "skull", Core.atlas.find("t-skull")))
 
                 .add(new GenData(true, "mita", Core.atlas.find("t-mita")))
 
                 .add(new GenData(true, "beled", Core.atlas.find("t-beled"), true))
                 .add(new GenData(true, "kudol", Core.atlas.find("t-kudol"), true))
-                .add(new GenData(true, "venjer", Core.atlas.find("t-venjer"), true))
                 .each(data -> {
                     TextureRegion region = data.glyphRegion;
                     id--;

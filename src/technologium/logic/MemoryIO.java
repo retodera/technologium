@@ -81,7 +81,7 @@ public class MemoryIO {
         public String io, value, target, id;
 
         public MemoryIOStatement(){
-            io = "i/o";
+            io = "false";
             value = "value";
             target = "block1";
             id = "0";
@@ -94,7 +94,7 @@ public class MemoryIO {
         @Override
         public void build(Table table) {
             table.clearChildren();
-            table.add("mode ");
+            table.add("read ");
             field(table, io, str -> io = str);
             table.add(" -> ");
             field(table, value, str -> value = str);

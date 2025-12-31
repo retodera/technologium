@@ -44,6 +44,7 @@ public class Pot extends Block {
         super.setBars();
         addBar("growth", entity -> {
             PotBuild b = (PotBuild)entity;
+
             return new Bar(() -> {
                 if(b.crane == null) return Core.bundle.get("bar.growconnect");
                 if(b.crane.links.find(l -> l.x == entity.tileX() && l.y == entity.tileY()) == null)
@@ -56,9 +57,9 @@ public class Pot extends Block {
             () -> {
                 if(b.crane == null) return Color.red;
                 if(b.crane.links.find(l -> l.x == entity.tileX() && l.y == entity.tileY()) == null) return TPal.red3;
-                else if(b.fruit == null) return TPal.brown6;
+                else if(b.fruit == null) return TPal.hematite3;
                 else if(!b.done()) return new Color((1 - b.growPercent()) / 2, b.growPercent(), 0);
-                else return TPal.lime3;
+                else return TPal.green3;
             },
             () -> {
                 if(b.crane == null) return 1;
@@ -144,10 +145,10 @@ public class Pot extends Block {
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
-            int id = read.s();
-            prefere = content.item(id) instanceof Fruit ? (Fruit)content.item(id) : null;
-            int id1 = read.s();
-            fruit = content.item(id1) instanceof Fruit ? (Fruit)content.item(id1) : null;
+            Item i = content.item(read.s());
+            prefere = i instanceof Fruit ? (Fruit)i : null;
+            i = content.item(read.s());
+            fruit = i instanceof Fruit ? (Fruit)i : null;
             curGrowTime = read.f();
             growTime = read.f();
             cranePos = read.i();

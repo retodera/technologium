@@ -7,6 +7,7 @@ import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.struct.ObjectMap.Entry;
 import arc.util.*;
+import arc.util.io.*;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.units.BuildPlan;
@@ -24,7 +25,7 @@ import static mindustry.Vars.*;
 
 public class WallMultiCrafter extends Block {
     static int idx;
-    public TextureRegion topRegion, rotatorBottomRegion, rotatorRegion;
+    public TextureRegion topRegion, topRegion2, rotatorBottomRegion, rotatorRegion;
     public float drillTime = 150f;
     public Effect updateEffect = Fx.mineWallSmall;
     public float updateEffectChance = 0.02f;
@@ -47,6 +48,7 @@ public class WallMultiCrafter extends Block {
     public void load() {
         super.load();
         topRegion = Core.atlas.find(name + "-top");
+        topRegion2 = Core.atlas.find(name + "-top2");
         rotatorBottomRegion = Core.atlas.find(name + "-rotator-bottom");
         rotatorRegion = Core.atlas.find(name + "-rotator");
     }
@@ -227,7 +229,7 @@ public class WallMultiCrafter extends Block {
         @Override
         public void draw(){
             Draw.rect(block.region, x, y);
-            Draw.rect(topRegion, x, y, rotdeg());
+            Draw.rect(rotation < 2 ? topRegion : topRegion2, x, y, rotdeg());
             float ds = 0.6f, dx = Geometry.d4x(rotation) * ds, dy = Geometry.d4y(rotation) * ds;
 
             int bs = (rotation == 0 || rotation == 3) ? 1 : -1;
@@ -239,6 +241,24 @@ public class WallMultiCrafter extends Block {
                 Draw.rect(rotatorBottomRegion, vx, vy, totalTime * rotateSpeed * sign * bs);
                 Draw.rect(rotatorRegion, vx, vy);
             });
+        }
+
+        @Override
+        public void write(Writes write) {
+            write.i(mineItem == null ? -1 : mineItem.id);
+            write.f(warmup);
+            write.f(lastEfficiency);
+            write.f(time);
+            write.f(totalTime);
+        }
+
+        @Override
+        public void read(Reads read, byte revision) {
+            mineItem = content.item(read.i());
+            warmup = read.f();
+            lastEfficiency = read.f();
+            time = read.f();
+            totalTime = read.f();
         }
     }
 }

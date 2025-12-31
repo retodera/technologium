@@ -2,17 +2,16 @@ package technologium.content;
 
 import arc.graphics.*;
 import mindustry.graphics.g3d.*;
-import mindustry.maps.planet.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 import technologium.TVars;
 import technologium.maps.planet.KudolPlanetGenerator;
-import technologium.type.TPlanet;
+import technologium.type.*;
 
 public class TPlanets {
     public static Planet
     /* stars */ beled,
-        /* planets */ kudol, venjer, gasora, bergin;
+        /* planets */ kudol, kudolAsteroidField;
 
     public static void load() {
 
@@ -37,7 +36,6 @@ public class TPlanets {
             bloom = true;
             alwaysUnlocked = true;
             accessible = true;
-            allowWaveSimulation = false;
             allowLaunchSchematics = false;
             allowLaunchLoadout = false;
             landCloudColor = Color.valueOf("7a4118");
@@ -51,7 +49,6 @@ public class TPlanets {
             defaultEnv = Env.terrestrial | Env.scorching | Env.oxygen;
             defaultCore = TBlocks.coreTorch;
             allowLaunchToNumbered = false; //and probably won't be enabled.
-            updateLighting = false;
             ruleSetter = r -> {
                 r.waveTeam = TTeams.kaut;
                 r.placeRangeCheck = false;
@@ -62,46 +59,16 @@ public class TPlanets {
                 r.coreIncinerates = true;
                 r.onlyDepositCore = false;
             };
+            campaignRuleDefaults.fog = true;
+            campaignRuleDefaults.showSpawns = true;
+            campaignRuleDefaults.rtsAI = true;
             unlockedOnLand.add(TBlocks.coreTorch);
         }};
 
-        venjer = new TPlanet("venjer", beled, 1.6f, 3) {{
-            generator = new SerpuloPlanetGenerator(); // TODO make generator
-            meshLoader = () -> new MultiMesh(
-                new NoiseMesh(this, 42069, 6, Color.valueOf("51f2bd"), 1.65f, 7, 0.75f, 1, 0),
-                new NoiseMesh(this, 69420, 6, 1.47f, 7, 0.75f, 0.75f, 1.5f, Color.valueOf("41d941"), Color.valueOf("0b8c0b"), 7, 0.7f, 0.75f, 0.53f),
-                new NoiseMesh(this, 42069, 6, 1.45f, 7, 0.75f, 1f, 1.2f, Color.valueOf("842e2e"), Color.valueOf("5c1a1a"), 7, 0.7f, 0.75f, 0.53f)
-            );
-            cloudMeshLoader = () -> new MultiMesh(
-                new HexSkyMesh(this, 228, 0.1f, 0.14f, 7, Color.valueOf("45e645").a(0.75f), 2, 0.42f, 1f, 0.43f),
-                new HexSkyMesh(this, 1337, 0.3f, 0.15f, 7, Color.valueOf("088208").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
-            );
-            atmosphere = makeAtmosphere(this);
-            bloom = true;
-            alwaysUnlocked = TVars.debug;
-            accessible = TVars.debug;
-            allowWaveSimulation = false;
-            allowLaunchSchematics = false;
-            allowLaunchLoadout = false;
-            landCloudColor = Color.valueOf("2ee62e");
-            atmosphereColor = Color.valueOf("0b8c0b");
-            atmosphereRadIn = 0.02f;
-            atmosphereRadOut = 0.3f;
-            orbitSpacing = 30f;
-            orbitRadius = 65f;
-            icon = "venjer";
-            clearSectorOnLose = true;
-            defaultEnv = Env.terrestrial | Env.oxygen | Env.groundWater;
-            defaultCore = TBlocks.coreTorch;
-            allowLaunchToNumbered = false; // and probably won't be enabled.
-            updateLighting = true;
-            ruleSetter = r -> {
-                r.waveTeam = TTeams.kaut;
-                r.placeRangeCheck = true;
-                r.showSpawns = true;
-                r.coreDestroyClear = true;
-                r.onlyDepositCore = true;
-            };
+        kudolAsteroidField = new AsteroidField("kudol-asteroid-field", kudol, 2.5f){{
+            base = TBlocks.solidLavaWall;
+            tint = TBlocks.pegmatiteWall;
+            fieldTilt = 80;
         }};
     }
 

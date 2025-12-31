@@ -1,15 +1,15 @@
 name: t
 java: true
-minGameVersion: 150
+minGameVersion: 154
 main: technologium.Technologium
 displayName: "[[]#00fff2]Technologium"
 description: "[accent]<RU>[[]]
 \n[[]#00fff2]Technologium[[]] будет очередным большим модом для Mindustry. Уже многое запланировано, хотя практически ничто из этого не сделано.
 \n
 \nМод будет содержать в себе 2 солнечные системы, может даже больше; множество новых механик, много кампаний, ещё больше блоков, особенно предметов, жидкостей, юнитов и не только.
-\nПока что, только один человек - retodera - работает над модом. Но, если вы хороший спрайтер/маппер/кодер, вы можете помочь мне с всем этим. 
-Если это не так, вы всё ещё можете мотивировать меня, поставив звёздочку на репозитории.
-\nВы также можете присоединиться к нашему Дискорд в репозитории.
+\nПрошёл год, сформировалось что-то наподобии команды. Если вы хороший спрайтер/маппер/кодер, вы можете помочь нам с всем этим. 
+Если это не так, вы всё ещё можете мотивировать нас, поставив звёздочку на гитхабе.
+\nВы также можете присоединиться к нашему Дискорд серверу, ссылка в репозитории.
 \n[[]#7f7f7f]Мод должен расти.[[]]
 \n
 \n
@@ -17,20 +17,19 @@ description: "[accent]<RU>[[]]
 \n[[]#00fff2]Technologium[[]] will be another big mod for Mindustry. There's already so much planned, though practically none of it is finished.
 \n
 \nThe mod will contain a whole 2 solar systems, or maybe even more; lots of new mechanics, many campaigns, even more blocks, especially items, liquids, units and not only.
-\nFor now, only one person - retodera - works on the mod. But, if you're a good spriter/mapper/coder, you could help me with all of this. 
-If not, you could still motivate me by giving a star on the repository.
-\nYou also could join our shitty Discord server in the repository.
+\nA year has passed, and some kind of team has formed. If you're a good spriter/mapper/coder, you could help us with all of this. 
+If not, you could still motivate us by giving a star on GitHub.
+\nAlso, you could join our Discord server, the link is in the repo.
 \n[[]#7f7f7f]The mod must grow.[[]]"
 author: "
-[[]#ff]retodera[[]] - Основатель мода; кодер, спрайтер, маппер
-\n[[]#ffffff7f]Призрак[[]] [[]#0](ушёл)[[]] - Основатель сервера Discord
+[[]#ff]retodera[[]] - Основатель мода; кодер, спрайтер, маппер, многосторонняя личность короче
 \n[[]#2f2f75]gkugfk3[[]] - Звуковой дизайнер
-\n[[]#e5072f]Gor[[]] - Маппер, заместитель генератор идей
-\n[[]orange]xDer[[]] - Главный генератор идей
-\n[[]#ff3f3f]Kosmo[[]] - Заместитель генератора идей
-\n[[]#7f7f7f]И многие другие, которые тоже давали идеи...[[]]
+\n[[]#e5072f]Gor[[]] - Маппер, генератор идей
+\n[[]orange]xDer[[]] - ранее Главный генератор идей
+\n[[]#ff3f3f]Kosmo[[]] - генератор идей
+\n[[]#7f7f7f]Перечислять людей, дававших идеи, долго...[[]]
 
 \nИ благодарности всем, кто поставил звёздочку <3"
 subtitle: Supremacy of Ъ.
-version: v0.4.3
+version: v0.5.1
 repo: retodera/technologium

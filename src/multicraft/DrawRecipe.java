@@ -27,7 +27,7 @@ public class DrawRecipe extends DrawBlock {
     public void draw(Building build) {
         if (build instanceof MultiCrafterBuild) {
             MultiCrafterBuild crafter = (MultiCrafterBuild) build;
-            int i = crafter.curRecipeIndex;
+            int i = crafter.recipeId;
             if (0 <= i && i < drawers.length)
                 drawers[i].draw(build);
         } else {
@@ -39,7 +39,7 @@ public class DrawRecipe extends DrawBlock {
     public void drawLight(Building build) {
         if (build instanceof MultiCrafterBuild) {
             MultiCrafterBuild crafter = (MultiCrafterBuild) build;
-            int i = crafter.curRecipeIndex;
+            int i = crafter.recipeId;
             if (0 < i && i < drawers.length)
                 drawers[i].drawLight(build);
         }

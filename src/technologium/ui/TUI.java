@@ -36,7 +36,7 @@ public class TUI {
         if(state.isMenu()) return;
 
         scheduleToast(() -> {
-            Sounds.message.play();
+            Sounds.uiNotify.play();
 
             Table table = new Table(Tex.button);
             table.update(() -> {

@@ -78,7 +78,7 @@ public class Projector extends LogicDisplay {
             Draw.blend(Blending.disabled);
             Draw.draw(Draw.z(), () -> {
                 if(buffer != null){
-                    Draw.rect(Draw.wrap(buffer.getTexture()), targetX * tilesize, targetY * tilesize, size*tilesize * projSize * scaleFactor * Draw.scl*4, size*tilesize * projSize * scaleFactor * Draw.scl*4);
+                    Draw.rect(Draw.wrap(buffer.getTexture()), targetX * tilesize, targetY * tilesize, size*tilesize * projSize * scaleFactor * Draw.scl*4, -size*tilesize * projSize * scaleFactor * Draw.scl*4);
                 }
             });
             Draw.blend();

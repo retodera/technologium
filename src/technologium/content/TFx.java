@@ -27,7 +27,7 @@ public class TFx {
         });
     }),
 
-    longLaserCharge = new Effect(180, e -> {
+    longLaserCharge = new Effect(210, e -> {
         for(int i = 0; i < 4; i++) {
             color(TPal.gold3.cpy().mul(1.5f));
             stroke(e.finpow() * 3f * Mathf.clamp(e.finpowdown() * 4 - i+1, 0, 999));

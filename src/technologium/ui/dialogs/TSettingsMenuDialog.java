@@ -47,9 +47,6 @@ public class TSettingsMenuDialog {
             pref(new ButtonSetting("t-shufflespriteupd", Icon.eye, 32f, () -> shuffleSprites(), () -> getPast("t-shufflesprite")));
             pref(new TCheckSetting("t-welcoming1", true));
             pref(new DisableableCheckSetting("t-welcoming1always", false, null, () -> Core.settings.getBool("t-welcoming1")));
-            pref(new ButtonSetting("t-welcoming1show", Icon.eye, 32f, () -> TVars.funny.welcomeThePlayer(0)));
-            pref(new TCheckSetting("t-welcoming2", true));
-            pref(new ButtonSetting("t-welcoming2show", Icon.eye, 32f, () -> TVars.funny.welcomeThePlayer2(0)));
 
             pref(new SeparatorSetting("@t-rsettings", 2));
             pref(new TCheckSetting("t-lang", false));
@@ -78,7 +75,7 @@ public class TSettingsMenuDialog {
             
             t.pref(new SeparatorSetting("@t-music", 2));
                 Seq<String> musics = Seq.with("current", "t-origmenu", "t-tmenu", "t-aprilmenu", "t-whiletrue");
-            if(getPast("t-fun") && getPast("t-debug")) musics.add("t-mistake", "t-mistakee", "t-musicmenu", "t-musicmenuupd");
+            if(getPast("t-fun") && getPast("t-debug")) musics.add("t-mistake", "t-mistakee");
             t.pref(new StringSliderSetting("t-menumusic", "tmenu", musics.toArray(String.class)));
             t.pref(new ButtonSetting("t-menumusic", () -> {}));
             t.pref(new TCheckSetting("t-muspopup", false));
@@ -166,10 +163,9 @@ public class TSettingsMenuDialog {
                 if(b instanceof Router) b.buildType = () -> ((Router)b).new RouterBuild() {};
             });
 
-        if(Core.settings.getBool("t-debug")) {
+        TVars.dev(); // let it be accessible at any times, almost nobody would use the console anyways, right?
+        if(Core.settings.getBool("t-debug")) 
             PlanetDialog.debugSelect = true;
-            TVars.dev();
-        }
         else return;
 
         if(Core.settings.getBool("t-fun")) {

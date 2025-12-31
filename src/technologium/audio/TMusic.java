@@ -13,15 +13,14 @@ import technologium.Technologium;
 public class TMusic {
     public static Music
     /* menu */ tMenu, aprilMenu, mistake, mistakee,
-    whiletrue, musicMenu, musicMenuUpd,
+    whiletrue, ilovethepiano,
 
     /* loaded */ game1, game2, game3, game4, game5, game6, game7,
     game8, game9, boss1, boss2, fine, menu, editor, launch, land,
     /* original */ oggame1, oggame2, oggame3, oggame4, oggame5,
     oggame6, oggame7, oggame8, oggame9, ogboss1, ogboss2, ogfine,
     ogmenu, ogeditor, oglaunch, ogland,
-    /* technologium */ tgame3, tgame9, tboss1, tboss2, tfine,
-    roaringknight, womantea, the;
+    /* technologium */ tgame3, tgame9, tboss1, tboss2, tfine;
 
     public static Seq<Music> allMenu = new Seq<>(), allLoaded = new Seq<>(), allOG = new Seq<>(), allT = new Seq<>(), allToverride = new Seq<>();
 
@@ -31,9 +30,8 @@ public class TMusic {
         mistake = loadMusic("t-mistake");
         mistakee = loadMusic("t-mistakee");
         whiletrue = loadMusic("t-whiletrue");
-        musicMenu = loadMusic("t-musicmenu");
-        musicMenuUpd = loadMusic("t-musicmenuupd");
-        allMenu.addAll(tMenu, aprilMenu, mistake, mistakee, whiletrue, musicMenu, musicMenuUpd);
+        ilovethepiano = loadMusic("t-ilovethepiano");
+        allMenu.addAll(tMenu, aprilMenu, mistake, mistakee, whiletrue, ilovethepiano);
 
         game1 = Musics.game1;
         game2 = Musics.game2;
@@ -73,14 +71,11 @@ public class TMusic {
 
         tgame3 = loadModMusic("game3");
         tgame9 = loadModMusic("game9");
-        tboss1 = loadModMusic("boss1");
-        tboss2 = loadModMusic("boss2");
+        // tboss1 = loadModMusic("boss1");
+        // tboss2 = loadModMusic("boss2");
         tfine = loadModMusic("fine");
-        roaringknight = loadMusic("t-roaringknight");
-        womantea = loadMusic("t-womantea");
-        the = loadMusic("t-the");
-        allToverride.addAll(tgame3, tgame9, tboss1, tboss2, tfine);
-        allT.addAll(allMenu).addAll(allToverride).addAll(roaringknight, womantea, the);
+        allToverride.addAll(tgame3, tgame9, /*tboss1, tboss2,*/ tfine);
+        allT.addAll(allMenu).addAll(allToverride);
     }
 
     static Music loadMusic(String name){

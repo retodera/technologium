@@ -7,19 +7,12 @@ import mindustry.content.StatusEffects;
 import static technologium.graphics.TPal.*;
 
 public class TStatusEffects {
-    public static StatusEffect corrosion, neoplasmCovered, irradiated, veryslow;
+    public static StatusEffect neoplasmCovered, veryslow;
 
     public static void load() {
 
-        corrosion = new StatusEffect("corrosion") {{
-            color = dark5;
-            damage = 0.1f;
-            effect = Fx.none;
-            speedMultiplier = 1.4f;
-        }};
-
         neoplasmCovered = new StatusEffect("neoplasm-covered") {{
-            color = brown5;
+            color = hematite2;
             speedMultiplier = 0.7f;
             effect = Fx.muddy;
             init(() -> {
@@ -29,7 +22,7 @@ public class TStatusEffects {
         }};
 
         veryslow = new StatusEffect("veryslow"){{
-            color = dark3;
+            color = dark4;
             speedMultiplier = 0.15f;
         }};
     }

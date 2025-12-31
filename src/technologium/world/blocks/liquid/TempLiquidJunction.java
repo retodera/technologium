@@ -31,10 +31,9 @@ public class TempLiquidJunction extends LiquidJunction {
     public class TempLiquidJunctionBuild extends LiquidJunctionBuild {
         @Override
         public Building getLiquidDestination(Building source, Liquid liquid){
-            if(liquid.temperature > maxTemp) damage(damage * (liquids.current().temperature - maxTemp));
-            if(Mathf.chance(delta() * baseChance * (liquid.temperature - maxTemp))) {
+            if(liquid.temperature > maxTemp) damage(damage * (liquid.temperature - maxTemp));
+            if(Mathf.chance(delta() * baseChance * (liquid.temperature - maxTemp))) 
                 explodeEffect.at(x + Mathf.range(block.size * tilesize / 2f), y + Mathf.range(block.size * tilesize / 2f));
-            }
             return super.getLiquidDestination(source, liquid);
         }
     }

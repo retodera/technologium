@@ -8,6 +8,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.consumers.*;
 import mindustry.world.modules.*;
+import multicraft.MultiCrafter.MultiCrafterBuild;
 import multicraft.ui.*;
 
 public class ConsumeFluidDynamic extends Consume {
@@ -26,7 +27,7 @@ public class ConsumeFluidDynamic extends Consume {
     @Override
     public void update(Building build) {
         LiquidStack[] fluids = this.fluids.get(build);
-        remove(build.liquids, fluids, build.edelta());
+        remove(build.liquids, fluids, build.edelta() / ((MultiCrafterBuild)build).curRecipe().craftTime);
     }
 
     @Override
@@ -64,10 +65,8 @@ public class ConsumeFluidDynamic extends Consume {
         return build.consumeTriggerValid() || has(build.liquids, fluids) ? 1f : 0f;
     }
     public static boolean has(LiquidModule fluids, LiquidStack[] reqs) {
-        for (LiquidStack req : reqs) {
-            if (fluids.get(req.liquid) < req.amount)
-                return false;
-        }
+        for (LiquidStack req : reqs)
+            if (fluids.get(req.liquid) < 0.001f) return false;
         return true;
     }
 

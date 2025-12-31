@@ -1,7 +1,6 @@
 package technologium.world.blocks.power;
 
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Eachable;
@@ -51,7 +50,7 @@ public class DrawerPowerNode extends PowerNode {
         drawer.getRegionsToOutline(this, out);
     }
 
-    public class TPowerNodeBuild extends PowerNodeBuild {
+    public class DrawerPowerNodeBuild extends PowerNodeBuild {
         @Override
         public void created() {
             super.created();

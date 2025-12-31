@@ -16,9 +16,9 @@ public class IOEntry {
     public float heat = 0f;
     public PayloadStack[] payloads = {}; // Equivalent of empty
 
-    public ObjectSet<Item> itemsUnique = new ObjectSet<>();
-    public ObjectSet<Liquid> fluidsUnique = new ObjectSet<>();
-    public ObjectSet<UnlockableContent> payloadsUnique = new ObjectSet<>();
+    public Seq<Item> itemsUnique = new Seq<>();
+    public Seq<Liquid> fluidsUnique = new Seq<>();
+    public Seq<UnlockableContent> payloadsUnique = new Seq<>();
     @Nullable
     public Prov<TextureRegion> icon;
     @Nullable

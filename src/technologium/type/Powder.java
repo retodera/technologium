@@ -7,8 +7,10 @@ import mindustry.ctype.*;
 import mindustry.logic.LAccess;
 import mindustry.logic.Senseable;
 import mindustry.world.meta.*;
+import technologium.ctype.CustomContent;
 
-public class Powder extends UnlockableContent implements Senseable {
+//TODO
+public class Powder extends UnlockableContent implements Senseable, CustomContent {
     public static final int animationFrames = 50;
 
     protected static final Rand rand = new Rand();
@@ -77,6 +79,11 @@ public class Powder extends UnlockableContent implements Senseable {
 
     @Override
     public ContentType getContentType(){
-        return ContentType.liquid;
+        return ContentType.error;
+    }
+
+    @Override
+    public String getCustomContentType(){
+        return "powder";
     }
 }

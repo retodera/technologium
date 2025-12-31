@@ -4,9 +4,14 @@ import arc.audio.Sound;
 import mindustry.Vars;
 
 public class TSounds {
-    public static Sound welcomer, scary, vineboom;
+    public static Sound
+    napalmCharge, napalmShoot,
+    welcomer, scary, vineboom;
 
     public static void load() {
+        napalmCharge = loadSound("t-napalm-charge");
+        napalmShoot = loadSound("t-napalm-shoot");
+
         welcomer = loadSound("t-welcomer");
         scary = loadSound("t-scary");
         vineboom = loadSound("t-vineboom");

@@ -16,7 +16,7 @@ java{
 }
 
 ext{
-    mindustryVersion = 'v150'
+    mindustryVersion = 'v154'
     jabelVersion = "93fde537c7"
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 }
@@ -94,4 +94,3 @@ tasks.register('deploy', Jar) {
         }
     }
 }
-

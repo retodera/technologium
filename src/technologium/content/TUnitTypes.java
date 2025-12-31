@@ -5,20 +5,19 @@ import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.ammo.*;
 import mindustry.type.weapons.*;
 import mindustry.world.meta.BlockFlag;
 import mindustry.content.*;
-import mindustry.entities.part.*;
 import mindustry.entities.part.DrawPart.*;
-
+import technologium.audio.TSounds;
+import technologium.entities.part.TRegionPart;
+import technologium.type.TWeapon;
 import technologium.type.unit.*;
 import arc.graphics.*;
 import arc.math.*;
-
 import static mindustry.ai.UnitCommand.*;
 import static technologium.graphics.TPal.*;
 
@@ -29,13 +28,13 @@ public class TUnitTypes {
     // core units
     quant, lonter, ladon,
 
-    // kudol - sniper
+    // kudol - artillery
     cobra, python, impaler,
 
     // kudol - air assault
     mercury, mars, phobos,
 
-    // kudol - legs
+    // kudol - laser
     blade, saber, napalm,
 
     // special
@@ -79,7 +78,7 @@ public class TUnitTypes {
 
             weapons.add(new RepairBeamWeapon() {{
                 x = 0f; 
-                y = 2f;
+                y = 1.5f;
                 mirror = false;
                 showStatSprite = false;
 
@@ -97,9 +96,10 @@ public class TUnitTypes {
                 controllable = true;
 
                 reload = 20f;
-                repairSpeed = 3f;
-                laserColor = acid3;
-                healColor = acid3;
+                repairSpeed = 0.25f;
+                fractionRepairSpeed = 0.06f;
+                laserColor = gglass3;
+                healColor = gglass3;
                 beamWidth = 0.7f;
                 bullet = new BulletType() {{
                     maxRange = 40f;
@@ -145,14 +145,15 @@ public class TUnitTypes {
                 rotate = true;
                 rotateSpeed = 8f;
 
-                shootSound = Sounds.laserbeam;
+                shootSound = Sounds.beamLustre;
                 continuous = alwaysContinuous = true;
                 controllable = false;
                 autoTarget = true;
                 targetUnits = targetBuildings = true;
 
-                repairSpeed = 0.5f;
-                beamWidth = 0.9f;
+                repairSpeed = 0.32f / 2;
+                fractionRepairSpeed = 0.03f;
+                beamWidth = 0.5f;
                 bullet = new BulletType(){{
                     maxRange = 75f;
                 }};
@@ -182,7 +183,7 @@ public class TUnitTypes {
                 showStatSprite = false;
                 recoil = 0f;
                 rotate = false;
-                shootSound = Sounds.laserbeam;
+                shootSound = Sounds.beamLustre;
                 continuous = true;
                 alwaysContinuous = true;
                 mirror = false;
@@ -221,7 +222,7 @@ public class TUnitTypes {
                 new Weapon("t-saber-weapon-" + (i == 1 ? "r" : "l")) {{
                     x = 6.25f * i;
                     y = 0f;
-                    shootY = 12f;
+                    shootY = 13.25f;
                     mirror = top = false;
 
                     recoil = 2f;
@@ -232,7 +233,7 @@ public class TUnitTypes {
                     rotationLimit = 30;
 
                     shootCone = 15f;
-                    shootSound = Sounds.laserbeam;
+                    shootSound = Sounds.beamLustre;
                     continuous = alwaysContinuous = true;
 
                     bullet = new ContinuousLaserBulletType() {{
@@ -275,7 +276,7 @@ public class TUnitTypes {
 
             range = 265;
             immunities.add(StatusEffects.burning);
-            weapons.add(new Weapon("t-napalm-weapon"){{
+            weapons.add(new TWeapon("t-napalm-weapon"){{
                 x = y = 0;
                 shootY = 8;
                 showStatSprite = false;
@@ -284,16 +285,18 @@ public class TUnitTypes {
                 parentizeEffects = true;
 
                 shoot.firstShotDelay = 180;
-                reload = 720;
+                cooldownTime = reload = 720;
                 recoilTime = 360;
-                cooldownTime = 360;
+
+                chargeSound = TSounds.napalmCharge;
+                shootSound = TSounds.napalmShoot;
                 
                 bullet = new ContinuousLaserBulletType(15){{
                     chargeEffect = TFx.longLaserCharge;
                     healPercent = 0.4f;
                     length = 250;
                     width = 9;
-                    lifetime = 240;
+                    lifetime = 270;
                     colors = new Color[] {gold3.cpy().a(0.5f), gold3.cpy().mul(1.25f).a(0.75f), gold3.cpy().mul(1.5f)};
                 }};
 
@@ -301,14 +304,14 @@ public class TUnitTypes {
                     charge2 = PartProgress.charge.mul(2).add(-1).clamp().curve(Interp.pow3).add(PartProgress.recoil);
                 
                 parts.add(
-                    new RegionPart("-bodyblade"){{
+                    new TRegionPart("-bodyblade"){{
                         progress = charge1;
                         moveX = 1;
                         moveY = -1;
                         moveRot = -10;
                         mirror = true;
                     }},
-                    new RegionPart("-blade"){{
+                    new TRegionPart("-blade"){{
                         progress = charge1;
                         moveX = 1;
                         moveY = -1;
@@ -317,7 +320,7 @@ public class TUnitTypes {
                         under = true;
                         moves.add(new PartMove(charge2, -1, 7, -45));
                     }},
-                    new RegionPart("-holder"){{
+                    new TRegionPart("-holder"){{
                         progress = charge1;
                         moveX = 1;
                         moveY = -1;
@@ -328,19 +331,17 @@ public class TUnitTypes {
                     }}
                 );
                 shootStatus = TStatusEffects.veryslow;
-                shootStatusDuration = 420;
+                shootStatusDuration = 450;
             }});
         }};
 
         // endregion
 
-        // region kudol - sniper
+        // region kudol - artillery
 
         cobra = new KudolUnitType("cobra") {{
             constructor = MechUnit::create;
             aiController = GroundAI::new;
-            flying = false;
-            canBoost = false;
             health = 280;
             hitSize = 12f;
             armor = 4;
@@ -364,23 +365,26 @@ public class TUnitTypes {
                 reload = 120f;
                 cooldownTime = 90f;
                 
-                shootSound = Sounds.shootAlt;
-                bullet = new ArtilleryBulletType(4.5f, 30) {{
+                shootSound = Sounds.shootBreach;
+                bullet = new ArtilleryBulletType(4.5f, 0) {{ //damage 0 because it deals only splash damage since collides = false
                     lifetime = 40f;
+                    splashDamage = 30;
+                    splashDamageRadius = 8;
+                    collidesAir = true;
+                    despawnHit = true;
                     frontColor = gold3;
                     backColor = gold1;
-                    collidesTiles = false;
                 }};
             }});
         }};
 
         python = new KudolUnitType("python") {{
             constructor = MechUnit::create;
+            aiController = GroundAI::new;
             health = 710;
-            armor = 7;
+            armor = 5;
             hitSize = 16f;
 
-            aiController = GroundAI::new;
             speed = 0.6f;
 
             itemCapacity = 50;
@@ -401,7 +405,7 @@ public class TUnitTypes {
 
                 reload = cooldownTime = 90f;
                 recoil = 2f;
-                shootSound = Sounds.artillery;
+                shootSound = Sounds.shootArtillery;
                 bullet = new ArtilleryBulletType(3, 45) {{
                     height = 11;
                     width = 7f;
@@ -417,7 +421,7 @@ public class TUnitTypes {
 
         // endregion
 
-        // region kudol - air
+        // region kudol - air assault
 
         mercury = new KudolUnitType("mercury") {{
             constructor = UnitEntity::create;
@@ -435,13 +439,12 @@ public class TUnitTypes {
             mineSpeed = 0f;
             buildSpeed = 0;
             
-            engineSize = 0f;
-            setEnginesMirror(new UnitEngine(-3f, -7f, 2f, -90f));
+            engineSize = 2;
+            engineOffset = 8;
 
             aimDst = 10f;
             weapons.add(new Weapon("t-mercury-weapon") {{
                 x = 0;
-                y = 4.5f;
                 shootY = 0f;
                 top = false;
                 mirror = false;
@@ -452,7 +455,7 @@ public class TUnitTypes {
                 reload = 30f;
                 cooldownTime = 20f;
 
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shootAvert;
                 bullet = new BasicBulletType(3, 8, "circle-bullet") {{
                     lifetime = 25f;
                     frontColor = gold3;
@@ -488,7 +491,7 @@ public class TUnitTypes {
                 targetInterval = 7f;
                 targetSwitchInterval = 10f;
                 bullet = new BulletType() {{
-                    shootSound = Sounds.lasershoot;
+                    shootSound = Sounds.shootLaser;
                     shootEffect = Fx.sparkShoot;
                     hitEffect = Fx.pointHit;
                     maxRange = 90f;
@@ -497,7 +500,6 @@ public class TUnitTypes {
             }},
             new Weapon("t-mars-minigun") {{
                 x = 0;
-                y = 6f;
                 shootY = 0.5f;
                 layerOffset = -0.01f;
                 mirror = false;
@@ -508,7 +510,7 @@ public class TUnitTypes {
                 recoil = 1.5f;
                 reload = 60f;
 
-                shootSound = Sounds.shootAltLong;
+                shootSound = Sounds.shootDiffuse;
                 shoot = new ShootBarrel() {{
                     barrels = new float[] {
                         -1.75f, 0f, 0,
@@ -544,8 +546,9 @@ public class TUnitTypes {
             itemCapacity = 80;
             mineSpeed = 0f;
   
-            engineSize = 0f;
-            setEnginesMirror(new UnitEngine(8, -14, 3, -45), new UnitEngine(12.5f, -8.5f, 3, -45));
+            engineSize = 4;
+            engineOffset = 12;
+            setEnginesMirror(new UnitEngine(6.5f, -15, 3, -75));
 
             aimDst = 24f;
             range = 225;
@@ -556,7 +559,7 @@ public class TUnitTypes {
                 targetInterval = 7f;
                 targetSwitchInterval = 10f;
                 bullet = new BulletType() {{
-                    shootSound = Sounds.lasershoot;
+                    shootSound = Sounds.shootLaser;
                     shootEffect = Fx.sparkShoot;
                     hitEffect = Fx.pointHit;
                     maxRange = 90f;
@@ -570,7 +573,7 @@ public class TUnitTypes {
                 targetInterval = 7f;
                 targetSwitchInterval = 10f;
                 bullet = new BulletType() {{
-                    shootSound = Sounds.lasershoot;
+                    shootSound = Sounds.shootLaser;
                     shootEffect = Fx.sparkShoot;
                     hitEffect = Fx.pointHit;
                     maxRange = 90f;
@@ -586,7 +589,7 @@ public class TUnitTypes {
                 rotateSpeed = 4.5f;
 
                 reload = cooldownTime = 60;
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shootAvert;
                 bullet = new LaserBulletType(24) {{
                     buildingDamageMultiplier = 0.25f;
                     length = 80f;
@@ -608,7 +611,7 @@ public class TUnitTypes {
                 reload = 150f;
                 recoilTime = 60f;
 
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot = new ShootBarrel() {{
                     barrels = new float[] {
                         -2.25f, 1, 0,
@@ -630,14 +633,14 @@ public class TUnitTypes {
                     weaveScale = 10;
                     weaveMag = 1;
                 }};
-                parts.add(new RegionPart("-mid"){{
+                parts.add(new TRegionPart("-mid"){{
                     recoilIndex = 1;
                     progress = heatProgress = PartProgress.recoil;
                     moveY = -2;
                     layerOffset = -0.01f;
                 }});
                 for(int i : Mathf.signs) {
-                    parts.add(new RegionPart(i == 1 ? "-r" : "-l"){{
+                    parts.add(new TRegionPart(i == 1 ? "-r" : "-l"){{
                         recoilIndex = i == 1 ? 2 : 0;
                         progress = heatProgress = PartProgress.recoil;
                         moveX = 1 * i;
@@ -687,7 +690,7 @@ public class TUnitTypes {
                 reload = 15f;
                 inaccuracy = 10f;
 
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 ejectEffect = Fx.none;
                 velocityRnd = 0.5f;
                 
@@ -745,7 +748,7 @@ public class TUnitTypes {
                     smokeEffect = Fx.shootSmallSmoke;
                     ammoMultiplier = 2;
                 }};
-                shootSound = Sounds.pew;
+                shootSound = Sounds.shoot;
             }});
         }};
 

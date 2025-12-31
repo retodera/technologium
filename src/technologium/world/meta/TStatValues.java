@@ -2,8 +2,11 @@ package technologium.world.meta;
 
 import mindustry.Vars;
 import mindustry.maps.Map;
+import mindustry.type.ItemStack;
+import mindustry.ui.Styles;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
+import arc.util.*;
 
 import static mindustry.Vars.*;
 
@@ -53,5 +56,33 @@ public class TStatValues {
                 }
             });
         });
+    }
+
+    public static StatValue itemBoosters(String unit, float timePeriod, float speedBoost, float rangeBoost, float damageBoost, ItemStack[] items){
+        return table -> {
+            table.row();
+            table.table(c -> {
+                c.table(Styles.grayPanel, b -> {
+                    b.table(it -> {
+                        for(ItemStack stack : items){
+                            if(timePeriod < 0){
+                                it.add(StatValues.displayItem(stack.item, stack.amount, true)).pad(10f).padLeft(15f).left();
+                            }else{
+                                it.add(StatValues.displayItem(stack.item, stack.amount, timePeriod, true)).pad(10f).padLeft(15f).left();
+                            }
+                            it.row();
+                        }
+                    }).left();
+
+                    b.table(bt -> {
+                        bt.right().defaults().padRight(3).left();
+                        if(rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
+                        if(speedBoost != 0) bt.add("[lightgray]" + unit.replace("{0}", "[stat]" + Strings.autoFixed(speedBoost, 2) + "[lightgray]"));
+                        if(damageBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(damageBoost, 2) + "[lightgray] " + TStatUnit.timesDamage.localized()).row();
+                    }).right().top().grow().pad(10f).padRight(15f);
+                }).growX().pad(5).padBottom(-5).row();
+            }).growX().colspan(table.getColumns());
+            table.row();
+        };
     }
 }

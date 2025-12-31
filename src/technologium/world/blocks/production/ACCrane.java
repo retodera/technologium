@@ -458,8 +458,7 @@ public class ACCrane extends GenericCrafter {
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
-            int compl = read.i();
-            byte[] bytes = new byte[compl];
+            byte[] bytes = new byte[read.i()];
             read.b(bytes);
             readCompressed(bytes, false);
             rot = read.f();

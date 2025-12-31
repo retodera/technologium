@@ -19,6 +19,8 @@ import technologium.audio.*;
 import technologium.core.*;
 import technologium.game.TEventType.MusicChangeEvent;
 import technologium.type.Fruit;
+import technologium.type.Powder;
+import technologium.type.UnitSchematic;
 import technologium.ui.TUI;
 import technologium.ui.dialogs.TSettingsMenuDialog;
 
@@ -34,16 +36,14 @@ public class TVars implements ApplicationListener {
     public static TFunny funny;
     public static TEventControl events;
 
+    public static ObjectMap<String, Class<?>> customContentTypes = new ObjectMap<>();
+
     public static boolean requireReload = false;
     public static boolean debug = Core.settings.getBool("tdebug", true);
 
     public static final String tdiscordURL = "https://discord.gg/x3D2Qbadmb";
 
     public static boolean aprilFools = (cal.get(Calendar.MONTH) == Calendar.APRIL && cal.get(Calendar.DAY_OF_MONTH) == 1);
-    // for future event-only campaigns
-    // public static boolean newYear = debug || ((cal.get(Calendar.MONTH) == Calendar.DECEMBER && cal.get(Calendar.DAY_OF_MONTH) >= 27 && cal.get(Calendar.DAY_OF_MONTH) <= 31));
-    // public static boolean victoryDay = debug || (cal.get(Calendar.MONTH) == Calendar.MAY && cal.get(Calendar.DAY_OF_MONTH) >= 7 && cal.get(Calendar.DAY_OF_MONTH) <= 9);
-    // public static boolean mindustryBday = debug || (cal.get(Calendar.MONTH) == Calendar.OCTOBER && cal.get(Calendar.DAY_OF_MONTH) >= 15 && cal.get(Calendar.DAY_OF_MONTH) <= 17);
 
     public static Seq<String> enabledMods = new Seq<>();
 
@@ -56,7 +56,7 @@ public class TVars implements ApplicationListener {
         events = new TEventControl();
 
         Events.on(MusicChangeEvent.class, e -> {
-            if(state.isPlaying() && e.to != null && Core.settings.getBool("t-muspopup"))
+            if(Core.settings.getBool("t-muspopup") && state.isPlaying() && e.to != null)
                 tui.bottomToast(null, Core.bundle.format("t-muspopup", TMusic.getName(e.to)));
         });
 
@@ -66,53 +66,54 @@ public class TVars implements ApplicationListener {
             Core.settings.put("t-menuusic", "aprilmenu");
             Core.settings.put("t-logo", "funny");
         }
+
+        customContentTypes.putAll(
+            "fruit", Fruit.class,
+            "unit_schematic", UnitSchematic.class,
+            "powder", Powder.class
+        );
     }
 
-    //yay hacking
+    public static void addCustomContentType(String name, Class<?> type) {
+        customContentTypes.put(name, type);
+    }
+
+    public static Class<?> getCustomContentType(String name) {
+        return customContentTypes.get(name);
+    }
+
+    // region yay hacking
     @SuppressWarnings("unchecked")
     public static ObjectMap<String, String> getBundle() {
-        Field field;
-        ObjectMap<String, String> bundle;
         try {
-            field = I18NBundle.class.getDeclaredField("properties");
+            Field field = I18NBundle.class.getDeclaredField("properties");
             field.setAccessible(true);
-            bundle = (ObjectMap<String,String>)field.get(Core.bundle);
+            return (ObjectMap<String,String>)field.get(Core.bundle);
         }
-        catch(Exception never) {
-            return null;
-        }
-        return bundle;
+        catch(Exception never) { return null; }
     }
 
     @SuppressWarnings("unchecked")
     public static ObjectMap<String, AtlasRegion> getRegionMap() {
-        Field field;
-        ObjectMap<String, AtlasRegion> regionmap;
         try {
-            field = TextureAtlas.class.getDeclaredField("regionmap");
+            Field field = TextureAtlas.class.getDeclaredField("regionmap");
             field.setAccessible(true);
-            regionmap = (ObjectMap<String,AtlasRegion>)field.get(Core.atlas);
+            return (ObjectMap<String,AtlasRegion>)field.get(Core.atlas);
         }
-        catch(Exception never) {
-            return null;
-        }
-        return regionmap;
+        catch(Exception never) { return null; }
     }
 
     @SuppressWarnings("unchecked")
     public static HashMap<String, Object> getSettings() {
-        Field field;
-        HashMap<String, Object> values;
         try {
-            field = Settings.class.getDeclaredField("values");
+            Field field = Settings.class.getDeclaredField("values");
             field.setAccessible(true);
-            values = (HashMap<String, Object>)field.get(Core.settings);
+            return (HashMap<String, Object>)field.get(Core.settings);
         }
-        catch(Exception never) {
-            return null;
-        }
-        return values;
+        catch(Exception never) { return null; }
     }
+
+    // endregion
 
     @Override
     public void update() {
@@ -203,6 +204,10 @@ public class TVars implements ApplicationListener {
         }}.show();
     }
 
+    public static Class<?> toClass(Object obj) {
+        return (Class<?>)obj;
+    }
+
     // permanently borrowed from Steam Works
     public static void dev() {
 		mods.getScripts().runConsole("importPackage(Packages.rhino)");
@@ -240,13 +245,16 @@ public class TVars implements ApplicationListener {
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.liquid\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.logic\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.power\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.units\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.units.schematic\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.production\")");
+        mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.production.boost\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.storage\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.blocks.units\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.draw\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.meta\")");
         mods.getScripts().runConsole("importModClass(\"technologium.world.weather\")");
-        // used a lot
+        // used a lot for some reason
         mods.getScripts().runConsole("""
             function tekObjectKeys(object){
                 return Object.keys(object).forEach(function (item, index, array) { print(item) });

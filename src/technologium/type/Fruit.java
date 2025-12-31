@@ -2,11 +2,12 @@ package technologium.type;
 
 import arc.graphics.*;
 import mindustry.type.Item;
+import technologium.ctype.CustomContent;
 import technologium.world.meta.TStats;
 import mindustry.world.Block;
 import mindustry.content.Blocks;
 
-public class Fruit extends Item {
+public class Fruit extends Item implements CustomContent {
     /** yea, i dunno what to do with these for now */
     public float juiciness = 0f, seedChance = 0f;
     /** growing time in ticks */
@@ -34,5 +35,10 @@ public class Fruit extends Item {
         super.setStats();
         stats.addPercent(TStats.juiciness, juiciness);
         stats.addPercent(TStats.seedChance, seedChance);
+    }
+
+    @Override
+    public String getCustomContentType() {
+        return "fruit";
     }
 }

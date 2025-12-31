@@ -1,7 +1,7 @@
 // instead of adding a dependency, i took the whole MultiCrafter and changed it.
 // credits to the creator of the mod, liplum
-// april 13: i just checked and MultiCrafter haven't had updates for almost a year, that's sick
-// (if you don't count the .gitignore update that was 2 weeks ago)
+// 08.11.2025: the most recent update of MultiCrafter Lib was 8 months ago and it's still .gitignore.
+// other things were last updated 1, 2 and 3 years ago. they abandoned the development.
 package multicraft;
 
 import arc.*;
@@ -15,6 +15,7 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
@@ -64,22 +65,14 @@ public class MultiCrafter extends PayloadBlock {
       }
     ]
      */
-    /**
-     * For Json and Javascript to configure.
-     */
+    /** For Json and Javascript to configure. */
     public Object recipes;
-    /**
-     * The resolved recipes.
-     */
+    /** The resolved recipes. */
     @Nullable
     public Seq<Recipe> resolvedRecipes = null;
-    /**
-     * For Json and Javascript to configure.
-     */
+    /** For Json and Javascript to configure.*/
     public String menu = "transform";
-    /**
-     * The resolved menu.
-     */
+    /** The resolved menu. */
     @Nullable
     public RecipeSwitchStyle switchStyle = null;
     public Effect craftEffect = Fx.none;
@@ -87,39 +80,34 @@ public class MultiCrafter extends PayloadBlock {
     public Effect changeRecipeEffect = Fx.rotateBlock;
     public int[] fluidOutputDirections = {-1};
     public float updateEffectChance = 0.04f;
-    public float warmupSpeed = 0.019f;
+    public float warmupSpeed = 1/60f;
     /**
      * Whether stop production when the fluid is full.
      * Turn off this to ignore fluid output, for instance, the fluid is only by-product.
      */
     public boolean ignoreLiquidFullness = false;
     
-    /**
-     * If true, the crafter with multiple fluid outputs will dump excess,
-     * when there's still space for at least one fluid type.
-     */
+    /** If true, the crafter with multiple fluid outputs will dump excess, when there's still space for at least one fluid type. */
     public boolean dumpExtraFluid = true;
     public DrawBlock drawer = new DrawDefault();
 
-    protected boolean isOutputItem = false;
-    protected boolean isConsumeItem = false;
-    protected boolean isOutputFluid = false;
-    protected boolean isConsumeFluid = false;
-    protected boolean isOutputPower = false;
-    protected boolean isConsumePower = false;
-    protected boolean isOutputHeat = false;
-    protected boolean isConsumeHeat = false;
-    protected boolean isOutputPayload = false;
-    protected boolean isConsumePayload = false;
-    /**
-     * What color of heat for recipe selector.
-     */
+    protected boolean outputsItems = false;
+    protected boolean consumesItems = false;
+    protected boolean outputsLiquids = false;
+    protected boolean consumesLiquids = false;
+    protected boolean outputsPower = false;
+    protected boolean consumesPower = false;
+    protected boolean outputsHeat = false;
+    protected boolean consumesHeat = false;
+    protected boolean outputsPayloads = false;
+    protected boolean consumesPayloads = false;
+    /** What color of heat for recipe selector. */
     public Color heatColor = new Color(1f, 0.22f, 0.22f, 0.8f);
     /**
      * For {@linkplain HeatConsumer},
      * it's used to display something of block or initialize the recipe index.
      */
-    public int defaultRecipeIndex = 0;
+    public int defaultRecipeId = 0;
     /**
      * For {@linkplain HeatConsumer},
      * after heat meets this requirement, excess heat will be scaled by this number.
@@ -127,19 +115,12 @@ public class MultiCrafter extends PayloadBlock {
     public float overheatScale = 1f;
     /**
      * For {@linkplain HeatConsumer},
-     * maximum possible efficiency after overheat.
-     */
+     * maximum possible efficiency after overheat. */
     public float maxEfficiency = 1f;
-    /**
-     * For {@linkplain HeatBlock}
-     */
+    /** * For {@linkplain HeatBlock} */
     public float warmupRate = 0.15f;
-    /**
-     * Whether to show name tooltip in {@link MultiCrafterBuild#buildStats(Table)}
-     */
+    /** Whether to show name tooltip in {@link MultiCrafterBuild#buildStats(Table)} */
     protected boolean showNameTooltip = false;
-
-    // added by Technologium
 
     /** craft effect except it is shown not only when it crafted */
     public Effect staticCraftEffect = Fx.none;
@@ -147,6 +128,8 @@ public class MultiCrafter extends PayloadBlock {
     public float staticCraftEffectInterval = 30f;
     /** by how much will efficiency be multiplied */
     public float optionalIntensity = 1f;
+    /** whether the current recipe could be null / whether the id of the current recipe could be -1 */
+    public boolean nullableRecipe = false;
 
     public MultiCrafter(String name) {
         super(name);
@@ -154,12 +137,12 @@ public class MultiCrafter extends PayloadBlock {
         solid = true;
         sync = true;
         flags = EnumSet.of(BlockFlag.factory);
-        ambientSound = Sounds.machine;
+        ambientSound = Sounds.loopMachine;
         configurable = true;
         saveConfig = true;
         ambientSoundVolume = 0.03f;
-        config(Integer.class, MultiCrafterBuild::setCurRecipeIndexFromRemote);
-        Log.info("MultiCrafter[" + this.name + "] loaded.");
+        config(Integer.class, MultiCrafterBuild::setRecipeRemote);
+        configClear((MultiCrafterBuild b) -> b.recipeId = -1);
     }
 
     @Override
@@ -176,11 +159,11 @@ public class MultiCrafter extends PayloadBlock {
         // if the recipe is already set in another way, don't analyze it again.
         if (resolvedRecipes == null && recipes != null) resolvedRecipes = parser.parse(this, recipes);
         if (resolvedRecipes == null || resolvedRecipes.isEmpty())
-            throw new ArcRuntimeException(MultiCrafterParser.genName(this) + " has no recipe! It's perhaps because all recipes didn't find items, fluids or payloads they need. Check your `last_log.txt` to obtain more information.");
+            throw new ArcRuntimeException(MultiCrafterParser.genName(this) + ": hey bro i got no recipes. why? but if i do have them, they haven't got any items nor liquids. shame on you.");
         if (switchStyle == null) switchStyle = RecipeSwitchStyle.get(menu);
         decorateRecipes();
-        setupBlockByRecipes();
-        defaultRecipeIndex = Mathf.clamp(defaultRecipeIndex, 0, resolvedRecipes.size - 1);
+        setup();
+        defaultRecipeId = Mathf.clamp(defaultRecipeId, 0, resolvedRecipes.size - 1);
         recipes = null; // free the recipe Seq, it's useless now.
         setupConsumers();
         super.init();
@@ -190,29 +173,18 @@ public class MultiCrafter extends PayloadBlock {
     protected static Table hoveredInfo;
 
     public class MultiCrafterBuild extends PayloadBlockBuild<Payload> implements HeatBlock, HeatConsumer {
-        /**
-         * For {@linkplain HeatConsumer}, only enabled when the multicrafter requires heat input
-         */
+        /** For {@linkplain HeatConsumer}, only enabled when the multicrafter requires heat input */
         public float[] sideHeat = new float[4];
         /**
          * For {@linkplain HeatConsumer} and {@linkplain HeatBlock},
          * only enabled when the multicrafter requires heat as input or can output heat.
-         * Serialized
          */
         public float heat = 0f;
-        /**
-         * Serialized
-         */
         public float craftingTime;
         public float totalProgress;
-        /**
-         * Serialized
-         */
         public float warmup;
-        /**
-         * Serialized
-         */
-        public int curRecipeIndex = defaultRecipeIndex;
+        public int recipeId = defaultRecipeId;
+
         // added by Technologium
         public float sceTime;
         public float speed;
@@ -220,52 +192,76 @@ public class MultiCrafter extends PayloadBlock {
         public PayloadSeq payloads = new PayloadSeq();
         public @Nullable Vec2 commandPos;
 
-        public void setCurRecipeIndexFromRemote(int index) {
-            int newIndex = Mathf.clamp(index, 0, resolvedRecipes.size - 1);
-            if (newIndex != curRecipeIndex) {
-                curRecipeIndex = newIndex;
+        public void setRecipeRemote(int index) {
+            int newIndex = Mathf.clamp(index, nullableRecipe ? -1 : 0, resolvedRecipes.size - 1);
+            if (newIndex != recipeId) {
+                recipeId = newIndex;
                 createEffect(changeRecipeEffect);
                 craftingTime = 0f;
                 if (!Vars.headless) rebuildHoveredInfo();
             }
         }
 
-        public Recipe getCurRecipe() {
-            // Prevent out of bound
-            curRecipeIndex = Mathf.clamp(curRecipeIndex, 0, resolvedRecipes.size - 1);
-            return resolvedRecipes.get(curRecipeIndex);
+        public Recipe curRecipe() {
+            if(nullableRecipe && recipeId == -1) return null;
+            return resolvedRecipes.get(Mathf.clamp(recipeId, 0, resolvedRecipes.size - 1));
+        }
+
+        public Seq<Item> allAvailableItems() {
+            Seq<Item> allItems = new Seq<>();
+            for(Recipe r : resolvedRecipes)
+                for(Item i : r.input.itemsUnique)
+                    allItems.add(i);
+            return allItems;
+        }
+
+        public Seq<Liquid> allAvailableLiquids() {
+            Seq<Liquid> allLiquids = new Seq<>();
+            for(Recipe r : resolvedRecipes)
+                for(Liquid l : r.input.fluidsUnique)
+                    allLiquids.add(l);
+            return allLiquids;
+        }
+
+        public Seq<UnlockableContent> allAvailablePayloads() {
+            Seq<UnlockableContent> allPayloads = new Seq<>();
+            for(Recipe r : resolvedRecipes)
+                for(UnlockableContent c : r.input.payloadsUnique)
+                    allPayloads.add(c);
+            return allPayloads;
         }
 
         @Override
         public boolean acceptItem(Building source, Item item) {
+            if(curRecipe() == null) return allAvailableItems().contains(item);
             return hasItems && 
-                (getCurRecipe().input.itemsUnique.contains(item)
-                //changed by Technologium
-                //consume items from optional consumers
+                (curRecipe().input.itemsUnique.contains(item)
+                //consume liquids from optional consumers, because liplum and others didn't think about them
                 || consumesItem(item))
                 && items.get(item) < getMaximumAccepted(item);
         }
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
+            if(curRecipe() == null) return allAvailableLiquids().contains(liquid);
             return hasLiquids &&
-                (getCurRecipe().input.fluidsUnique.contains(liquid)
-                //changed by Technologium
-                //consume liquids from optional consumers
+                (curRecipe().input.fluidsUnique.contains(liquid)
+                //consume liquids from optional consumers, because liplum and others didn't think about them
                 || consumesLiquid(liquid)) &&
                 liquids.get(liquid) < liquidCapacity;
         }
 
         @Override
         public boolean acceptPayload(Building source, Payload payload) {
+            if(curRecipe() == null) return allAvailablePayloads().contains(payload.content());
             return hasPayloads && this.payload == null &&
-                    getCurRecipe().input.payloadsUnique.contains(payload.content()) &&
-                    payloads.get(payload.content()) < payloadCapacity;
+                curRecipe().input.payloadsUnique.contains(payload.content()) &&
+                payloads.get(payload.content()) < payloadCapacity;
         }
 
         @Override
         public PayloadSeq getPayloads() {
-            return this.payloads;
+            return payloads;
         }
 
         public void yeetPayload(Payload payload) {
@@ -274,65 +270,62 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public Vec2 getCommandPosition() {
-            if (getCurRecipe().isOutputPayload())
-                return this.commandPos;
+            if(curRecipe() != null && curRecipe().outputsPayloads())
+                return commandPos;
             else return null;
         }
 
         @Override
         public void onCommand(Vec2 target) {
-            if (getCurRecipe().isOutputPayload())
-                this.commandPos = target;    
+            if (curRecipe() != null && curRecipe().outputsPayloads())
+                commandPos = target;    
         }
 
         @Override
         public float edelta() {
-            Recipe cur = getCurRecipe();
-            if (cur.input.power > 0f) return efficiency *
-                    Mathf.clamp(getCurPowerStore() / cur.input.power) *
-                    delta();
-            else return efficiency * delta();
-        }
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
+            if (cur.input.power > 0f) return Mathf.clamp(powerStored() / cur.input.power) * super.edelta(); //wow, they really didn't know about existense of super
+            else return super.edelta();                                                                     //they just used efficiency * delta() when they could
+        }                                                                                                   //still use the original method - super.delta()
 
         @Override
         public void updateTile() {
-            Recipe cur = getCurRecipe();
-            float craftTimeNeed = cur.craftTime;
-            // As HeatConsumer
-            if (cur.isConsumeHeat()) heat = calculateHeat(sideHeat);
-            if (cur.isOutputHeat()) {
-                float heatOutput = cur.output.heat;
-                heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * edelta());
-            }
-            // cool down
-            if (efficiency > 0 && (!hasPower || getCurPowerStore() >= cur.input.power)) {
-                // if <= 0, instantly produced
-                if (craftTimeNeed > 0f) craftingTime += edelta() * warmup;
-                speed = Mathf.lerp(1, optionalIntensity, optionalEfficiency) * efficiency;
-                warmup = Mathf.approachDelta(warmup, warmupTarget() * speed, warmupSpeed);
-                if (hasPower) {
-                    float powerChange = (cur.output.power - cur.input.power) * delta();
-                    if (!Mathf.zero(powerChange))
-                        setCurPowerStore((getCurPowerStore() + powerChange));
-                }
-
-                //continuously output fluid based on efficiency
-                if (cur.isOutputFluid()) {
-                    float increment = getProgressIncrease(1f);
-                    for (LiquidStack output : cur.output.fluids) {
-                        Liquid fluid = output.liquid;
-                        handleLiquid(this, fluid, Math.min(output.amount * increment, liquidCapacity - liquids.get(fluid)));
+            Recipe cur = curRecipe();
+            float timeRequired = 0;
+            if(cur != null) {
+                timeRequired = cur.craftTime;
+                // As HeatConsumer
+                if (cur.consumesHeat()) heat = calculateHeat(sideHeat);
+                if (cur.outputsHeat()) 
+                    heat = Mathf.approachDelta(heat, cur.output.heat * efficiency, warmupRate * edelta());
+                // cool down
+                if (efficiency > 0 && (!hasPower || powerStored() >= cur.input.power)) {
+                    // if <= 0, instantly produced
+                    if (timeRequired > 0f) craftingTime += edelta() * warmup;
+                    speed = Mathf.lerp(1, optionalIntensity, optionalEfficiency) * efficiency;
+                    warmup = Mathf.approachDelta(warmup, warmupTarget() * speed, warmupSpeed);
+                    if (hasPower) {
+                        float powerChange = (cur.output.power - cur.input.power) * delta();
+                        if (!Mathf.zero(powerChange))
+                            setPowerStored((powerStored() + powerChange));
                     }
-                }
-                // particle fx
-                if (wasVisible && Mathf.chanceDelta(updateEffectChance)) 
-                    updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
-                // added by Technologium
-                if(wasVisible && sceTime >= staticCraftEffectInterval) {
-                    staticCraftEffect.at(x, y);
-                    sceTime = 0;
-                }
-            } else warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+
+                    //continuously output fluid based on efficiency
+                    if (cur.outputsLiquids()) 
+                        for (LiquidStack output : cur.output.fluids)                 //VVVVVVVVVVVVVV getProgressIncrease is not overriden, so i guess this was another way to call super.edelta()
+                            handleLiquid(this, output.liquid, Math.min(output.amount * super.edelta(), liquidCapacity - liquids.get(output.liquid)));
+                    // particle fx
+                    if (wasVisible && Mathf.chanceDelta(updateEffectChance)) 
+                        updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
+                    // added by Technologium
+                    if(wasVisible && sceTime >= staticCraftEffectInterval) {
+                        staticCraftEffect.at(x, y);
+                        sceTime = 0;
+                    }
+                } else warmup = Mathf.approachDelta(warmup, 0, warmupSpeed);
+            } else warmup = Mathf.approachDelta(warmup, 0, warmupSpeed);
+
             totalProgress += warmup * Time.delta;
             sceTime += warmup * Time.delta;
             
@@ -341,10 +334,9 @@ public class MultiCrafter extends PayloadBlock {
                 payload = null;
             }
 
-            if (craftTimeNeed <= 0f) {
-                if (efficiency > 0f)
-                    craft();
-            } else if (craftingTime >= craftTimeNeed)
+            if (timeRequired <= 0 && efficiency > 0)
+                craft();
+            else if (craftingTime >= timeRequired)
                 craft();
 
             updateBars();
@@ -358,19 +350,19 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public boolean shouldConsume() {
-            Recipe cur = getCurRecipe();
+            Recipe cur = curRecipe();
+            if(cur == null) return false;
             if (hasItems) for (ItemStack output : cur.output.items)
                 if (items.get(output.item) + output.amount > itemCapacity)
                     return false;
 
-            if (hasLiquids) if (cur.isOutputFluid() && !ignoreLiquidFullness) {
+            if (hasLiquids && cur.outputsLiquids() && !ignoreLiquidFullness) {
                 boolean allFull = true;
                 for (LiquidStack output : cur.output.fluids)
-                    if (liquids.get(output.liquid) >= liquidCapacity - 0.001f) {
+                    if (liquids.get(output.liquid) >= liquidCapacity - 0.001f){
                         if (!dumpExtraFluid) return false;
-                    } else
-                        allFull = false; //if there's still space left, it's not full for all fluids
-
+                    }
+                    else allFull = false; //if there's still space left, it's not full for all fluids
                 //if there is no space left for any fluid, it can't reproduce
                 if (allFull) return false;
             }
@@ -382,91 +374,75 @@ public class MultiCrafter extends PayloadBlock {
 
         public void craft() {
             consume();
-            Recipe cur = getCurRecipe();
-            if (cur.isOutputItem())
+            Recipe cur = curRecipe();
+            if(cur == null) return;
+            if (cur.outputsItems())
                 for (ItemStack output : cur.output.items) for (int i = 0; i < output.amount; i++) offload(output.item);
 
-            if (wasVisible) createCraftEffect();
+            if (wasVisible) createEffect(curRecipe().craftEffect != Fx.none ? curRecipe().craftEffect : craftEffect);;
             if (cur.craftTime > 0f)
                 craftingTime %= cur.craftTime;
             else
                 craftingTime = 0f;
         }
 
-        public void createCraftEffect() {
-            Recipe cur = getCurRecipe();
-            Effect curFx = cur.craftEffect;
-            Effect fx = curFx != Fx.none ? curFx : craftEffect;
-            createEffect(fx);
-        }
-
         public void dumpOutputs() {
-            Recipe cur = getCurRecipe();
-            if (timer(timerDump, dumpTime / timeScale)) {
-                if (cur.isOutputItem())
-                    for (ItemStack output : cur.output.items) dump(output.item);
+            Recipe cur = curRecipe();
+            if(cur == null) return;
+            if (cur.outputsItems())
+                for (ItemStack output : cur.output.items) dump(output.item);
 
-                if (cur.isOutputPayload()) {
-                    for (PayloadStack output : cur.output.payloads) {
-                        Payload payloadOutput = null;
-                        if (output.item instanceof Block)
-                            payloadOutput = new BuildPayload((Block) output.item, this.team);
-                        else if (output.item instanceof UnitType)
-                            payloadOutput = new UnitPayload(((UnitType) output.item).create(this.team));
-                        
-                        if (payloadOutput != null)
-                            dumpPayload(payloadOutput);
-                    }
+            if (cur.outputsPayloads()) {
+                for (PayloadStack output : cur.output.payloads) {
+                    Payload payloadOutput = null;
+                    if (output.item instanceof Block)
+                        payloadOutput = new BuildPayload((Block) output.item, this.team);
+                    else if (output.item instanceof UnitType)
+                        payloadOutput = new UnitPayload(((UnitType) output.item).create(this.team));
+                    
+                    if (payloadOutput != null)
+                        dumpPayload(payloadOutput);
                 }
             }
 
-            if (cur.isOutputFluid()) {
+            if (cur.outputsLiquids()) {
                 LiquidStack[] fluids = cur.output.fluids;
-                for (int i = 0; i < fluids.length; i++) {
-                    int dir = fluidOutputDirections.length > i ? fluidOutputDirections[i] : -1;
-                    dumpLiquid(fluids[i].liquid, 2f, dir);
-                }
+                for (int i = 0; i < fluids.length; i++) 
+                    dumpLiquid(fluids[i].liquid, 2f, fluidOutputDirections.length > i ? fluidOutputDirections[i] : -1);
             }            
         }
 
-        /**
-         * As {@linkplain HeatBlock}
-         */
+        /** As {@linkplain HeatBlock }*/
         @Override
         public float heat() {
             return heat;
         }
 
-        /**
-         * As {@linkplain HeatBlock}
-         */
+        /** As {@linkplain HeatBlock} */
         @Override
         public float heatFrac() {
-            Recipe cur = getCurRecipe();
-            if (isOutputHeat && cur.isOutputHeat()) return heat / cur.output.heat;
-            else if (isConsumeHeat && cur.isConsumeHeat()) return heat / cur.input.heat;
+            Recipe cur = curRecipe();
+            if(cur != null && outputsHeat && cur.outputsHeat()) return heat / cur.output.heat;
+            else if (consumesHeat && cur.consumesHeat()) return heat / cur.input.heat;
             return 0f;
         }
 
-        /**
-         * As {@linkplain HeatConsumer}
-         * Only for visual effects
-         */
+        /** As {@linkplain HeatConsumer}
+         * Only for visual effects */
         @Override
         public float[] sideHeat() {
             return sideHeat;
         }
 
-        /**
-         * As {@linkplain HeatConsumer}
-         * Only for visual effects
-         */
+        /** As {@linkplain HeatConsumer}
+         * Only for visual effects */
         @Override
         public float heatRequirement() {
-            Recipe cur = getCurRecipe();
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
             // When As HeatConsumer
-            if (isConsumeHeat && cur.isConsumeHeat()) return cur.input.heat;
-            return 0f;
+            if (consumesHeat && cur.consumesHeat()) return cur.input.heat;
+            return 0;
         }
 
         @Override
@@ -478,23 +454,20 @@ public class MultiCrafter extends PayloadBlock {
                 Building build = this.nearby(edge.x, edge.y);
                 if (build != null && build.team == this.team && build instanceof HeatBlock) {
                     HeatBlock heater = (HeatBlock) build;
-                    // Only calculate heat if the block is a heater or a multicrafter heat output
-                    if (heater instanceof MultiCrafterBuild) {
-                        MultiCrafterBuild multi = (MultiCrafterBuild) heater;
-                        if (multi.getCurRecipe().isOutputHeat())
-                            return this.calculateHeat(sideHeat, (IntSet) null);
+                    if (heater instanceof MultiCrafterBuild b && b.curRecipe() != null) {
+                        if (b.curRecipe().outputsHeat()) return this.calculateHeat(sideHeat, (IntSet) null);
                     } else return this.calculateHeat(sideHeat, (IntSet) null);
                 }
             }
 
-            return 0.0f;
+            return 0;
         }
 
         @Override
         public float getPowerProduction() {
-            Recipe cur = getCurRecipe();
-
-            if (isOutputPower && cur.isOutputPower()) return cur.output.power * efficiency;
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
+            if (outputsPower && cur.outputsPower()) return cur.output.power * efficiency;
             else return 0f;
         }
 
@@ -503,12 +476,12 @@ public class MultiCrafter extends PayloadBlock {
             switchStyle.build(MultiCrafter.this, this, table);
         }
 
-        public float getCurPowerStore() {
+        public float powerStored() {
             if (power == null) return 0f;
             return power.status * powerCapacity;
         }
 
-        public void setCurPowerStore(float powerStore) {
+        public void setPowerStored(float powerStore) {
             if (power == null) return;
             power.status = Mathf.clamp(powerStore / powerCapacity);
         }
@@ -526,7 +499,7 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public Object config() {
-            return curRecipeIndex;
+            return recipeId;
         }
 
         @Override
@@ -548,12 +521,12 @@ public class MultiCrafter extends PayloadBlock {
             super.write(write);
             write.f(craftingTime);
             write.f(warmup);
-            write.i(curRecipeIndex);
+            write.i(recipeId);
             write.f(heat);
-
-            if(getCurRecipe().isConsumePayload())
+            if(curRecipe() == null) return;
+            if(curRecipe().consumesPayloads())
                 payloads.write(write);
-            if (getCurRecipe().isOutputPayload())
+            if (curRecipe().outputsPayloads())
                 TypeIO.writeVecNullable(write, commandPos);
         }
 
@@ -562,19 +535,20 @@ public class MultiCrafter extends PayloadBlock {
             super.read(read, revision);
             craftingTime = read.f();
             warmup = read.f();
-            curRecipeIndex = Mathf.clamp(read.i(), 0, resolvedRecipes.size - 1);
+            recipeId = Mathf.clamp(read.i(), 0, resolvedRecipes.size - 1);
             heat = read.f();
-
-            if(getCurRecipe().isConsumePayload())
+            if(curRecipe() == null) return;
+            if(curRecipe().consumesPayloads())
                 payloads.read(read);
-            if (revision >= 1 && getCurRecipe().isOutputPayload())
+            if (revision >= 1 && curRecipe().outputsPayloads())
                 commandPos = TypeIO.readVecNullable(read);
         }
 
         public float warmupTarget() {
-            Recipe cur = getCurRecipe();
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
             // When As HeatConsumer
-            if (isConsumeHeat && cur.isConsumeHeat()) return Mathf.clamp(heat / cur.input.heat);
+            if (consumesHeat && cur.consumesHeat()) return Mathf.clamp(heat / cur.input.heat);
             else return 1f;
         }
 
@@ -597,10 +571,11 @@ public class MultiCrafter extends PayloadBlock {
         }
 
         public float efficiencyScale() {
-            Recipe cur = getCurRecipe();
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
             float heatRequirement = cur.input.heat;
             float over = Math.max(heat - heatRequirement, 0f);
-            return isConsumeHeat && cur.isConsumeHeat() ? Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) : 1f;
+            return consumesHeat && cur.consumesHeat() ? Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) : 1f;
         }
 
         @Override
@@ -610,7 +585,8 @@ public class MultiCrafter extends PayloadBlock {
 
         @Override
         public float progress() {
-            Recipe cur = getCurRecipe();
+            Recipe cur = curRecipe();
+            if(cur == null) return 0;
             return Mathf.clamp(cur.craftTime > 0f ? craftingTime / cur.craftTime : 1f);
         }
 
@@ -632,9 +608,7 @@ public class MultiCrafter extends PayloadBlock {
                     info.clear();                                // if(Vars.ui.hudfrag.blockfrag.hover() == this) will.
                     display(info);
                 }
-            } catch (Exception ignored) {
-                // Maybe null pointer or cast exception
-            }
+            } catch (Exception ignored) {}
         }
 
         public void createEffect(Effect effect) {
@@ -765,13 +739,13 @@ public class MultiCrafter extends PayloadBlock {
 
         if (hasPower)
             addBar("power", (MultiCrafterBuild b) -> new Bar(
-                    b.getCurRecipe().isOutputPower() ? Core.bundle.format("bar.poweroutput", Strings.fixed(b.getPowerProduction() * 60f * b.timeScale(), 1)) : "bar.power",
+                    b.curRecipe() != null && b.curRecipe().outputsPower() ? Core.bundle.format("bar.poweroutput", Strings.fixed(b.getPowerProduction() * 60f * b.timeScale(), 1)) : "bar.power",
                     Pal.powerBar,
                     () -> b.efficiency
             ));
-        if (isConsumeHeat || isOutputHeat)
+        if (consumesHeat || outputsHeat)
             addBar("heat", (MultiCrafterBuild b) -> new Bar(
-                    b.getCurRecipe().isConsumeHeat() ? Core.bundle.format("bar.heatpercent", (int) (b.heat + 0.01f), (int) (b.efficiencyScale() * 100 + 0.01f)) : "bar.heat",
+                    b.curRecipe() != null && b.curRecipe().consumesHeat() ? Core.bundle.format("bar.heatpercent", (int) (b.heat + 0.01f), (int) (b.efficiencyScale() * 100 + 0.01f)) : "bar.heat",
                     Pal.lightOrange,
                     b::heatFrac
             ));
@@ -810,12 +784,12 @@ public class MultiCrafter extends PayloadBlock {
 
     @Override
     public boolean outputsItems() {
-        return isOutputItem;
+        return outputsItems;
     }
 
     @Override
     public void drawOverlay(float x, float y, int rotation) {
-        Recipe firstRecipe = resolvedRecipes.get(defaultRecipeIndex);
+        Recipe firstRecipe = resolvedRecipes.get(defaultRecipeId);
         LiquidStack[] fluids = firstRecipe.output.fluids;
         for (int i = 0; i < fluids.length; i++) {
             int dir = fluidOutputDirections.length > i ? fluidOutputDirections[i] : -1;
@@ -835,7 +809,7 @@ public class MultiCrafter extends PayloadBlock {
             recipe.cacheUnique();
     }
 
-    protected void setupBlockByRecipes() {
+    protected void setup() {
         int maxItemAmount = 0;
         float maxFluidAmount = 0f;
         float maxPower = 0f;
@@ -844,7 +818,7 @@ public class MultiCrafter extends PayloadBlock {
 
         for (Recipe recipe : resolvedRecipes) {
             hasItems |= recipe.hasItems();
-            hasLiquids |= recipe.hasFluids();
+            hasLiquids |= recipe.hasLiquids();
             conductivePower = hasPower |= recipe.hasPower();
             hasHeat |= recipe.hasHeat();
             hasPayloads |= recipe.hasPayloads();
@@ -855,23 +829,23 @@ public class MultiCrafter extends PayloadBlock {
             maxHeat = Math.max(recipe.maxHeat(), maxHeat);
             maxPayloadAmount = Math.max(recipe.maxPayloadAmount(), maxPayloadAmount);
 
-                             isOutputItem |= recipe.isOutputItem();
-            acceptsItems =   isConsumeItem |= recipe.isConsumeItem();
-            outputsLiquid =  isOutputFluid |= recipe.isOutputFluid();
-                             isConsumeFluid |= recipe.isConsumeFluid();
-            outputsPower =   isOutputPower |= recipe.isOutputPower();
-            consumesPower =  isConsumePower |= recipe.isConsumePower();
-                             isOutputHeat |= recipe.isOutputHeat();
-                             isConsumeHeat |= recipe.isConsumeHeat();
-            outputsPayload = isOutputPayload |= recipe.isOutputPayload();
-            acceptsPayload = isConsumePayload |= recipe.isConsumePayload();
+                             outputsItems |= recipe.outputsItems();
+            acceptsItems =   consumesItems |= recipe.consumesItems();
+            outputsLiquid =  outputsLiquids |= recipe.outputsLiquids();
+                             consumesLiquids |= recipe.consumesLiquids();
+            outputsPower =   outputsPower |= recipe.outputsPower();
+            consumesPower =  consumesPower |= recipe.consumesPower();
+                             outputsHeat |= recipe.outputsHeat();
+                             consumesHeat |= recipe.consumesHeat();
+            outputsPayload = outputsPayloads |= recipe.outputsPayloads();
+            acceptsPayload = consumesPayloads |= recipe.consumesPayloads();
         }
 
         itemCapacity = Math.max((int) (maxItemAmount * itemCapacityMultiplier), itemCapacity);
         liquidCapacity = Math.max((int) (maxFluidAmount * 60f * fluidCapacityMultiplier), liquidCapacity);
         powerCapacity = Math.max(maxPower * 60f * powerCapacityMultiplier, powerCapacity);
         payloadCapacity = Math.max((int) (maxPayloadAmount * payloadCapacityMultiplier), payloadCapacity);
-        if (isOutputHeat) {
+        if (outputsHeat) {
             rotate = true;
             rotateDraw = false;
             canOverdrive = false;
@@ -880,17 +854,17 @@ public class MultiCrafter extends PayloadBlock {
     }
 
     protected void setupConsumers() {
-        if (isConsumeItem) consume(new ConsumeItemDynamic(
-            (MultiCrafterBuild b) -> b.getCurRecipe().input.items
+        if (consumesItems) consume(new ConsumeItemDynamic(
+            (MultiCrafterBuild b) -> b.curRecipe() == null ? ItemStack.empty : b.curRecipe().input.items
         ));
-        if (isConsumeFluid) consume(new ConsumeFluidDynamic(
-            (MultiCrafterBuild b) -> b.getCurRecipe().input.fluids
+        if (consumesLiquids) consume(new ConsumeFluidDynamic(
+            (MultiCrafterBuild b) -> b.curRecipe() == null ? LiquidStack.empty : b.curRecipe().input.fluids
         ));
-        if (isConsumePower) consume(new ConsumePowerDynamic(b ->
-            ((MultiCrafterBuild) b).getCurRecipe().input.power
+        if (consumesPower) consume(new ConsumePowerDynamic(
+            b -> ((MultiCrafterBuild)b).curRecipe() == null ? 0 :((MultiCrafterBuild)b).curRecipe().input.power
         ));
-        if (isConsumePayload) consume(new CustomConsumePayloadDynamic(
-            (MultiCrafterBuild b) -> b.getCurRecipe().input.payloads
+        if (consumesPayloads) consume(new CustomConsumePayloadDynamic(
+            (MultiCrafterBuild b) -> b.curRecipe() == null ? new PayloadStack[]{} : b.curRecipe().input.payloads
         ));
     }
 }

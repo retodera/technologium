@@ -2,8 +2,7 @@ package technologium.content;
 
 import arc.graphics.*;
 import arc.util.*;
-import mindustry.content.Fx;
-import mindustry.content.Liquids;
+import mindustry.content.*;
 import mindustry.entities.Puddles;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -64,7 +63,7 @@ public class TWeathers {
                 shootEffect = hitEffect = despawnEffect = Fx.none;
                 interaction = (build) -> {
                     if(build.block.hasLiquids && build.liquids != null && build.liquids.get(Liquids.water) > 0) 
-                        Puddles.deposit(build.tile, Liquids.neoplasm, 8);
+                        Puddles.deposit(build.tile, TLiquids.mutatedNeoplasm, 8);
                 };
             }};
         }};
